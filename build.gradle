@@ -27,10 +27,6 @@ tasks.withType(JavaCompile) {
 application {
   mainModule = 'org.example.labimangija'
   mainClass = 'org.example.labimangija.MainApp'
-  applicationDefaultJvmArgs = [
-          "--module-path", "/path/to/javafx-sdk/lib",
-          "--add-modules", "javafx.controls,javafx.fxml"
-  ]
 }
 
 javafx {

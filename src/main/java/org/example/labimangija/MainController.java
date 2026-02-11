@@ -44,6 +44,11 @@ public class MainController {
         AnchorPane.setRightAnchor(placeholder, 0.0);
     }
 
+    @FXML
+    private void handleGraphAlgorithms(ActionEvent event) {
+        loadViewFromResource("/org/example/graphgrader/Programm.fxml");
+    }
+
     private void loadView(String fxmlName) {
         try {
             URL resource = getClass().getResource(fxmlName);
@@ -51,7 +56,25 @@ public class MainController {
                 System.err.println("FXML faili ei leitud: " + fxmlName);
                 return;
             }
-            AnchorPane view = FXMLLoader.load(resource);
+            javafx.scene.Parent view = FXMLLoader.load(resource);
+            contentHolder.getChildren().setAll(view);
+            AnchorPane.setTopAnchor(view, 0.0);
+            AnchorPane.setBottomAnchor(view, 0.0);
+            AnchorPane.setLeftAnchor(view, 0.0);
+            AnchorPane.setRightAnchor(view, 0.0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadViewFromResource(String resourcePath) {
+        try {
+            URL resource = getClass().getResource(resourcePath);
+            if (resource == null) {
+                System.err.println("FXML faili ei leitud: " + resourcePath);
+                return;
+            }
+            javafx.scene.Parent view = FXMLLoader.load(resource);
             contentHolder.getChildren().setAll(view);
             AnchorPane.setTopAnchor(view, 0.0);
             AnchorPane.setBottomAnchor(view, 0.0);
@@ -62,3 +85,4 @@ public class MainController {
         }
     }
 }
+
