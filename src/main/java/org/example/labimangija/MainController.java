@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,7 +47,21 @@ public class MainController {
 
     @FXML
     private void handleGraphAlgorithms(ActionEvent event) {
-        loadViewFromResource("/org/example/graphgrader/Programm.fxml");
+        loadViewFromResource("/org/example/labimangija/graphgrader/Programm.fxml");
+        ensureWindowSize(1120, 760);
+    }
+
+    private void ensureWindowSize(double minWidth, double minHeight) {
+        if (contentHolder.getScene() == null || !(contentHolder.getScene().getWindow() instanceof Stage stage)) {
+            return;
+        }
+
+        if (stage.getWidth() < minWidth) {
+            stage.setWidth(minWidth);
+        }
+        if (stage.getHeight() < minHeight) {
+            stage.setHeight(minHeight);
+        }
     }
 
     private void loadView(String fxmlName) {

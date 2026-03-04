@@ -11,7 +11,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labimangija/main-view.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 1120, 760);
         stage.setTitle("Läbimängija");
         stage.setScene(scene);
         stage.show();
@@ -21,3 +21,4 @@ public class MainApp extends Application {
         launch(args);
     }
 }
+
