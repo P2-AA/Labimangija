@@ -6,7 +6,10 @@ module org.example.labimangija {
     requires org.kordamp.ikonli.javafx;
 
     opens org.example.labimangija to javafx.fxml;
+    opens org.example.labimangija.algorithmgrader to javafx.fxml;
+    opens org.example.labimangija.algorithmgrader.Controllers to javafx.fxml;
     opens org.example.labimangija.graphgrader to javafx.fxml;
     opens org.example.labimangija.graphgrader.Kontrollerid to javafx.fxml;
+    opens org.example.labimangija.hashgrader to javafx.fxml;
     exports org.example.labimangija;
 }

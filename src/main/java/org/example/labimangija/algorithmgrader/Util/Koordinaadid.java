@@ -1,0 +1,14 @@
+package org.example.labimangija.algorithmgrader.Util;
+
+import org.example.labimangija.algorithmgrader.Kahendpuu.*;
+
+import java.util.*;
+public class Koordinaadid {
+    public static final int tipuRaadius = 20;
+    public static final int JUURE_X = 445-tipuRaadius/2;
+    public static final int JUURE_Y = 25;
+
+    public static final int pesaX = 40;
+    public static final int pesaY = 50;
+    public static  final int pesaRaadius = 15;
+}

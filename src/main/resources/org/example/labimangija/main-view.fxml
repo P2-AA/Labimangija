@@ -16,10 +16,9 @@
                 <VBox spacing="6" style="-fx-padding: 6; -fx-border-color: lightgray; -fx-border-width: 1;">
                     <Label text = "Algoritmid" style="-fx-font-weight: bold;"/>
                     <Button text = "Graafialgoritmid" onAction="#handleGraphAlgorithms" maxWidth="Infinity"/>
-                    <Button text = "Kahendpuu" maxWidth="Infinity"/>
-                    <Button text = "Kuhjaalgoritmid" maxWidth="Infinity"/>
+                    <Button text = "Kahendpuu ja kuhjaalgoritmid" onAction="#handleAlgorithmGrader" maxWidth="Infinity"/>
                     <Button text = "Massiivialgoritmid" maxWidth="Infinity"/>
-                    <Button text = "Paisktabelid" maxWidth="Infinity"/>
+                    <Button text = "Paisktabelid" onAction="#handleHashTables" maxWidth="Infinity"/>
                 </VBox>
                 <VBox spacing="6" style="-fx-padding:6; -fx-border-color: lightgray; -fx-border-width: 1;">
                     <Label text="Seaded" style="-fx-font-weight: bold;"/>

@@ -51,6 +51,18 @@ public class MainController {
         ensureWindowSize(1120, 760);
     }
 
+    @FXML
+    private void handleAlgorithmGrader(ActionEvent event) {
+        loadViewFromResource("/org/example/labimangija/algorithmgrader/hello-view.fxml");
+        ensureWindowSize(1120, 760);
+    }
+
+    @FXML
+    private void handleHashTables(ActionEvent event) {
+        loadViewFromResource("/org/example/labimangija/hashgrader/hashgrader-view.fxml");
+        ensureWindowSize(1120, 760);
+    }
+
     private void ensureWindowSize(double minWidth, double minHeight) {
         if (contentHolder.getScene() == null || !(contentHolder.getScene().getWindow() instanceof Stage stage)) {
             return;
