@@ -11,3 +11,6 @@ Infoakendes tekst poolik
 Tekstifailidest lahti saamine
 
 Kirjalikus osas kirjeldada probleeme
+
+Tabide nimetused korrektseks
+Graafilised liidesed paisktabelitele ja massiivialgoritmidele!!!
