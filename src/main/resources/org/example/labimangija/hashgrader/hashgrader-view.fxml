@@ -1,36 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.example.labimangija.hashgrader.HashGraderController"
-      spacing="10" style="-fx-padding: 16; -fx-background-color: #1e1e1e;">
-    <children>
-        <Label text="Paisktabelid" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white;"/>
-        <TextArea fx:id="terminalArea"
-                  editable="false"
-                  wrapText="true"
-                  VBox.vgrow="ALWAYS"
-                  style="-fx-control-inner-background: #1e1e1e; -fx-font-family: 'Consolas'; -fx-highlight-fill: #3a3d41; -fx-highlight-text-fill: white; -fx-text-fill: #d4d4d4;"/>
-        <HBox spacing="10">
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.labimangija.hashgrader.HashGraderController"
+            prefHeight="720.0"
+            prefWidth="1080.0">
+    <center>
+        <VBox spacing="16" BorderPane.alignment="CENTER" style="-fx-padding: 10;">
             <children>
-                <TextField fx:id="inputField"
-                           onAction="#handleSubmit"
-                           promptText="Sisesta käsk"
-                           HBox.hgrow="ALWAYS"
-                           style="-fx-font-family: 'Consolas';"/>
-                <Button text="Sisesta" onAction="#handleSubmit"/>
+                <TabPane fx:id="taskTabPane" tabClosingPolicy="UNAVAILABLE" prefHeight="42.0">
+                    <tabs>
+                        <Tab fx:id="lisamineTab" text="Lisamine"/>
+                        <Tab fx:id="eemaldamineTab" text="Eemaldamine"/>
+                        <Tab fx:id="kimbuTab" text="Kimbumeetod"/>
+                        <Tab fx:id="positsiooniTab" text="Positsioonimeetod"/>
+                    </tabs>
+                </TabPane>
+                <GridPane hgap="16" vgap="16" VBox.vgrow="ALWAYS">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="63"/>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="37"/>
+                    </columnConstraints>
+
+                    <VBox spacing="12" style="-fx-padding:6; -fx-border-color: lightgray; -fx-border-width: 1;" GridPane.columnIndex="0">
+                        <children>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <children>
+                                    <Label text="Seis"
+                                           style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                                    <Button text="Ava valitud ülesanne" onAction="#handleStartTask"/>
+                                </children>
+                            </HBox>
+                            <TextArea fx:id="terminalArea"
+                                      editable="false"
+                                      wrapText="true"
+                                      VBox.vgrow="ALWAYS"
+                                      style="-fx-font-family: 'Consolas'; -fx-font-size: 13;"/>
+                        </children>
+                    </VBox>
+
+                    <VBox spacing="14" style="-fx-padding:6; -fx-border-color: lightgray; -fx-border-width: 1;" GridPane.columnIndex="1">
+                        <children>
+                            <Label text="Tegevused"
+                                   style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+
+                            <VBox spacing="8">
+                                <children>
+                                    <Label text="Algseadistus" style="-fx-font-size: 14; -fx-font-weight: bold;"/>
+                                    <Label fx:id="setupHelpLabel" wrapText="true"/>
+                                    <TextField fx:id="setupField"
+                                               onAction="#handleSetupSubmit"
+                                               promptText="Sisesta algväärtused"/>
+                                    <Button fx:id="setupButton" text="Salvesta algseadistus" onAction="#handleSetupSubmit"/>
+                                </children>
+                            </VBox>
+
+                            <Separator/>
+
+                            <VBox spacing="8">
+                                <children>
+                                    <Label text="Sammud" style="-fx-font-size: 14; -fx-font-weight: bold;"/>
+                                    <Label text="i = massiivi indeks, r = rida, k = koht (valikuline)" wrapText="true"/>
+                                    <HBox spacing="8">
+                                        <children>
+                                            <TextField fx:id="indexField" promptText="i" HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="rowField" promptText="r" HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="slotField" promptText="k" HBox.hgrow="ALWAYS"/>
+                                        </children>
+                                    </HBox>
+                                    <HBox spacing="8">
+                                        <children>
+                                            <Button fx:id="insertButton" text="Sisesta" onAction="#handleInsert"/>
+                                            <Button fx:id="removeButton" text="Eemalda" onAction="#handleRemove"/>
+                                            <Button fx:id="undoButton" text="Võta tagasi" onAction="#handleUndo"/>
+                                            <Button fx:id="finishButton" text="Lõpeta" onAction="#handleFinish"/>
+                                        </children>
+                                    </HBox>
+                                </children>
+                            </VBox>
+
+                            <Separator/>
+
+                            <VBox spacing="8">
+                                <children>
+                                    <Label text="Staatus" style="-fx-font-size: 14; -fx-font-weight: bold;"/>
+                                    <Label fx:id="statusLabel"
+                                           wrapText="true"
+                                           style="-fx-padding: 10; -fx-border-color: lightgray; -fx-border-width: 1;"/>
+                                </children>
+                            </VBox>
+                        </children>
+                    </VBox>
+                </GridPane>
             </children>
-        </HBox>
-        <Label fx:id="statusLabel" wrapText="true" style="-fx-text-fill: #f1f1f1;"/>
-    </children>
+        </VBox>
+    </center>
     <padding>
-        <Insets top="16" right="16" bottom="16" left="16"/>
+        <Insets top="0" right="0" bottom="0" left="0"/>
     </padding>
-</VBox>
+</BorderPane>

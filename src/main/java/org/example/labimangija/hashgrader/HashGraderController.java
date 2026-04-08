@@ -3,11 +3,14 @@ package org.example.labimangija.hashgrader;
 import java.io.IOException;
 import java.util.Locale;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.example.labimangija.hashgrader.samm.EemaldamiseSamm;
-import org.example.labimangija.hashgrader.samm.LõpetamiseSamm;
+import org.example.labimangija.hashgrader.samm.LopetamiseSamm;
 import org.example.labimangija.hashgrader.samm.PaisktabeliLoomiseSamm;
 import org.example.labimangija.hashgrader.samm.SisestamiseSamm;
 import org.example.labimangija.hashgrader.ylesanne.EemaldamiseYlesanne;
@@ -27,79 +30,198 @@ public class HashGraderController {
     }
 
     @FXML
+    private TabPane taskTabPane;
+
+    @FXML
+    private Tab lisamineTab;
+
+    @FXML
+    private Tab eemaldamineTab;
+
+    @FXML
+    private Tab kimbuTab;
+
+    @FXML
+    private Tab positsiooniTab;
+
+    @FXML
     private TextArea terminalArea;
 
     @FXML
-    private TextField inputField;
+    private TextField setupField;
+
+    @FXML
+    private TextField indexField;
+
+    @FXML
+    private TextField rowField;
+
+    @FXML
+    private TextField slotField;
+
+    @FXML
+    private Label setupHelpLabel;
 
     @FXML
     private Label statusLabel;
 
-    private Läbimäng läbimäng;
+    @FXML
+    private Button setupButton;
+
+    @FXML
+    private Button insertButton;
+
+    @FXML
+    private Button removeButton;
+
+    @FXML
+    private Button undoButton;
+
+    @FXML
+    private Button finishButton;
+
+    private Labimang labimang;
     private Olek olek;
     private String aktiivneTyyp;
     private String viimaneTeade;
 
     @FXML
     private void initialize() {
+        taskTabPane.getSelectionModel().selectedItemProperty().addListener((obs, vana, uus) -> uuendaVaadet());
         taastaAlgseis();
     }
 
     @FXML
-    private void handleSubmit() {
-        String sisend = inputField.getText() == null ? "" : inputField.getText().trim();
-        inputField.clear();
-
+    private void handleStartTask() {
         try {
-            switch (olek) {
-                case YLESANDE_VALIK -> tootleYlesandeValik(sisend);
-                case ALGSEADISTUS -> tootleAlgseadistus(sisend);
-                case KASUD -> tootleKask(sisend);
-            }
+            alustaValitudYlesanne();
         } catch (IOException e) {
             viimaneTeade = "Ülesande laadimine ebaõnnestus: " + e.getMessage();
             taastaAlgseis();
-        } catch (IllegalArgumentException e) {
-            viimaneTeade = e.getMessage();
         }
-
         uuendaVaadet();
     }
 
-    private void tootleYlesandeValik(String sisend) throws IOException {
-        if (sisend.isEmpty()) {
-            throw new IllegalArgumentException("Sisesta ülesande tüüp: l, e, k või p.");
-        }
+    @FXML
+    private void handleResetTask() {
+        taastaAlgseis();
+    }
 
-        String valik = sisend.toLowerCase(Locale.ROOT);
-        if (!valik.matches("[lekpx]")) {
-            throw new IllegalArgumentException("Tundmatu ülesande tüüp. Kasuta l, e, k, p või x.");
+    @FXML
+    private void handleSetupSubmit() {
+        try {
+            if (olek != Olek.ALGSEADISTUS) {
+                throw new IllegalArgumentException("Algseadistust pole praegu vaja.");
+            }
+            tootleAlgseadistus(getTrimmedText(setupField));
+            setupField.clear();
+        } catch (IllegalArgumentException e) {
+            viimaneTeade = e.getMessage();
         }
-        if ("x".equals(valik)) {
-            taastaAlgseis();
-            viimaneTeade = "Sulgemiskäsku ei kasutata rakenduse sees. Vali l, e, k või p.";
-            return;
-        }
+        uuendaVaadet();
+    }
 
-        aktiivneTyyp = valik;
-        läbimäng = new Läbimäng();
-        läbimäng.setHindaja(new Hindaja());
+    @FXML
+    private void handleInsert() {
+        try {
+            kontrolliKasudLubatud();
+            sisesta(koostaKasuOsad("s"));
+            puhastaSammuValjad();
+        } catch (IllegalArgumentException e) {
+            viimaneTeade = e.getMessage();
+        }
+        uuendaVaadet();
+    }
+
+    @FXML
+    private void handleRemove() {
+        try {
+            kontrolliKasudLubatud();
+            eemalda(koostaKasuOsad("e"));
+            puhastaSammuValjad();
+        } catch (IllegalArgumentException e) {
+            viimaneTeade = e.getMessage();
+        }
+        uuendaVaadet();
+    }
+
+    @FXML
+    private void handleUndo() {
+        try {
+            kontrolliKasudLubatud();
+            votaTagasi(new String[] {"u"});
+        } catch (IllegalArgumentException e) {
+            viimaneTeade = e.getMessage();
+        }
+        uuendaVaadet();
+    }
+
+    @FXML
+    private void handleFinish() {
+        try {
+            kontrolliKasudLubatud();
+            lopeta();
+        } catch (IllegalArgumentException e) {
+            viimaneTeade = e.getMessage();
+        }
+        uuendaVaadet();
+    }
+
+    private void alustaValitudYlesanne() throws IOException {
+        aktiivneTyyp = getSelectedTaskType();
+        labimang = new Labimang();
+        labimang.setHindaja(new Hindaja());
 
         switch (aktiivneTyyp) {
-            case "l" -> läbimäng.setYlesanne(new LisamiseYlesanne(LISAMINE_EEMALDAMINE));
-            case "e" -> läbimäng.setYlesanne(new EemaldamiseYlesanne(LISAMINE_EEMALDAMINE));
-            case "k" -> läbimäng.setYlesanne(new KimbuYlesanne(KIMBU_MEETOD));
-            case "p" -> läbimäng.setYlesanne(new PositsiooniYlesanne(POSITSIOONI_MEETOD));
-            default -> throw new IllegalStateException("Toetamata ülesande tüüp: " + aktiivneTyyp);
+            case "l" -> labimang.setYlesanne(new LisamiseYlesanne(LISAMINE_EEMALDAMINE));
+            case "e" -> labimang.setYlesanne(new EemaldamiseYlesanne(LISAMINE_EEMALDAMINE));
+            case "k" -> labimang.setYlesanne(new KimbuYlesanne(KIMBU_MEETOD));
+            case "p" -> labimang.setYlesanne(new PositsiooniYlesanne(POSITSIOONI_MEETOD));
+            default -> throw new IllegalStateException("Toetamata ylesande tyyp: " + aktiivneTyyp);
         }
 
-        if ("k".equals(aktiivneTyyp) || "p".equals(aktiivneTyyp)) {
-            olek = Olek.ALGSEADISTUS;
-            viimaneTeade = null;
-        } else {
-            olek = Olek.KASUD;
-            viimaneTeade = null;
+        olek = ("k".equals(aktiivneTyyp) || "p".equals(aktiivneTyyp)) ? Olek.ALGSEADISTUS : Olek.KASUD;
+        viimaneTeade = null;
+        setupField.clear();
+        puhastaSammuValjad();
+    }
+
+    private void kontrolliKasudLubatud() {
+        if (olek == Olek.YLESANDE_VALIK) {
+            throw new IllegalArgumentException("Ava enne valitud ülesanne.");
         }
+        if (olek == Olek.ALGSEADISTUS) {
+            throw new IllegalArgumentException("Salvesta enne algseadistus.");
+        }
+    }
+
+    private String[] koostaKasuOsad(String kask) {
+        String i = getTrimmedText(indexField);
+        String r = getTrimmedText(rowField);
+        String k = getTrimmedText(slotField);
+
+        if (i.isEmpty() || r.isEmpty()) {
+            throw new IllegalArgumentException("Sisesta väljad i ja r.");
+        }
+
+        return k.isEmpty() ? new String[] {kask, i, r} : new String[] {kask, i, r, k};
+    }
+
+    private String getSelectedTaskType() {
+        Tab selectedTab = taskTabPane.getSelectionModel().getSelectedItem();
+        if (selectedTab == lisamineTab) {
+            return "l";
+        }
+        if (selectedTab == eemaldamineTab) {
+            return "e";
+        }
+        if (selectedTab == kimbuTab) {
+            return "k";
+        }
+        if (selectedTab == positsiooniTab) {
+            return "p";
+        }
+        throw new IllegalStateException("Ülesande vaade puudub.");
     }
 
     private void tootleAlgseadistus(String sisend) {
@@ -108,7 +230,7 @@ public class HashGraderController {
         }
 
         String[] osad = sisend.split("\\s+");
-        boolean õnnestus;
+        boolean onnestus;
 
         if ("p".equals(aktiivneTyyp)) {
             if (osad.length != 1) {
@@ -118,7 +240,7 @@ public class HashGraderController {
             if (pikkus <= 0) {
                 throw new IllegalArgumentException("Paisktabeli pikkus peab olema suurem kui 0.");
             }
-            õnnestus = läbimäng.astu(new PaisktabeliLoomiseSamm(pikkus));
+            onnestus = labimang.astu(new PaisktabeliLoomiseSamm(pikkus));
         } else if ("k".equals(aktiivneTyyp)) {
             if (osad.length != 3) {
                 throw new IllegalArgumentException("Kimbumeetodi jaoks sisesta kolm väärtust kujul: a b m.");
@@ -132,12 +254,12 @@ public class HashGraderController {
             if (a == b) {
                 throw new IllegalArgumentException("a ja b ei tohi olla võrdsed.");
             }
-            õnnestus = läbimäng.astu(new PaisktabeliLoomiseSamm(a, b, m));
+            onnestus = labimang.astu(new PaisktabeliLoomiseSamm(a, b, m));
         } else {
             throw new IllegalStateException("Algseadistust oodati vales olekus.");
         }
 
-        if (!õnnestus) {
+        if (!onnestus) {
             throw new IllegalArgumentException("Paisktabeli loomine ebaõnnestus antud väärtustega.");
         }
 
@@ -145,27 +267,12 @@ public class HashGraderController {
         viimaneTeade = "Algseadistus salvestati.";
     }
 
-    private void tootleKask(String sisend) {
-        if (sisend.isEmpty()) {
-            throw new IllegalArgumentException("Sisesta käsk.");
-        }
-
-        String[] osad = sisend.split("\\s+");
-        switch (osad[0].toLowerCase(Locale.ROOT)) {
-            case "l" -> lõpeta();
-            case "s" -> sisesta(osad);
-            case "e" -> eemalda(osad);
-            case "u" -> võtaTagasi(osad);
-            default -> throw new IllegalArgumentException("Tundmatu käsk. Kasuta l, s, e või u.");
-        }
-    }
-
-    private void lõpeta() {
-        if (!läbimäng.astu(new LõpetamiseSamm())) {
+    private void lopeta() {
+        if (!labimang.astu(new LopetamiseSamm())) {
             throw new IllegalArgumentException("Algoritmi lõpetamine ebaõnnestus.");
         }
 
-        viimaneTeade = "Hinne: " + String.format(Locale.US, "%.2f", läbimäng.getPunktid()) + "%";
+        viimaneTeade = "Hinne: " + String.format(Locale.US, "%.2f", labimang.getPunktid()) + "%";
         taastaAlgseis();
     }
 
@@ -181,8 +288,8 @@ public class HashGraderController {
             throw new IllegalArgumentException("i, r ja k peavad olema mittenegatiivsed.");
         }
 
-        boolean õnnestus = läbimäng.astu(new SisestamiseSamm<>(i, r, k));
-        viimaneTeade = õnnestus ? "Sisestamise samm salvestati." : "Sisestamine ebaõnnestus.";
+        boolean onnestus = labimang.astu(new SisestamiseSamm<>(i, r, k));
+        viimaneTeade = onnestus ? "Sisestamise samm salvestati." : "Sisestamine ebaõnnestus.";
     }
 
     private void eemalda(String[] osad) {
@@ -197,17 +304,17 @@ public class HashGraderController {
             throw new IllegalArgumentException("i, r ja k peavad olema mittenegatiivsed.");
         }
 
-        boolean õnnestus = läbimäng.astu(new EemaldamiseSamm<>(i, r, k));
-        viimaneTeade = õnnestus ? "Eemaldamise samm salvestati." : "Eemaldamine ebaõnnestus.";
+        boolean onnestus = labimang.astu(new EemaldamiseSamm<>(i, r, k));
+        viimaneTeade = onnestus ? "Eemaldamise samm salvestati." : "Eemaldamine ebaõnnestus.";
     }
 
-    private void võtaTagasi(String[] osad) {
+    private void votaTagasi(String[] osad) {
         if (osad.length != 1) {
             throw new IllegalArgumentException("Tagasivõtmise käsk on lihtsalt: u");
         }
 
-        boolean tühiAjalugu = läbimäng.tagasi();
-        if (tühiAjalugu) {
+        boolean tyhiAjalugu = labimang.tagasi();
+        if (tyhiAjalugu) {
             viimaneTeade = "Kõik sammud said tagasi võetud.";
             taastaAlgseis();
         } else {
@@ -215,76 +322,118 @@ public class HashGraderController {
         }
     }
 
-    private int parseInt(String väärtus, String veateade) {
+    private int parseInt(String vaartus, String veateade) {
         try {
-            return Integer.parseInt(väärtus);
+            return Integer.parseInt(vaartus);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(veateade);
         }
     }
 
-    private float parseFloat(String väärtus, String veateade) {
+    private float parseFloat(String vaartus, String veateade) {
         try {
-            return Float.parseFloat(väärtus);
+            return Float.parseFloat(vaartus);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(veateade);
         }
+    }
+
+    private String getTrimmedText(TextField textField) {
+        return textField.getText() == null ? "" : textField.getText().trim();
+    }
+
+    private void puhastaSammuValjad() {
+        indexField.clear();
+        rowField.clear();
+        slotField.clear();
     }
 
     private void taastaAlgseis() {
-        läbimäng = null;
+        labimang = null;
         aktiivneTyyp = null;
         olek = Olek.YLESANDE_VALIK;
+        setupField.clear();
+        puhastaSammuValjad();
         uuendaVaadet();
     }
 
     private void uuendaVaadet() {
         terminalArea.setText(koostaEkraan());
-        statusLabel.setText(viimaneTeade == null ? " " : viimaneTeade);
-        inputField.requestFocus();
+        statusLabel.setText(viimaneTeade == null ? "Valmis alustama." : viimaneTeade);
+
+        boolean setupVisible = olek == Olek.ALGSEADISTUS;
+        setupField.setDisable(!setupVisible);
+        setupButton.setDisable(!setupVisible);
+
+        boolean commandsEnabled = olek == Olek.KASUD;
+        insertButton.setDisable(!commandsEnabled);
+        removeButton.setDisable(!commandsEnabled);
+        undoButton.setDisable(!commandsEnabled);
+        finishButton.setDisable(!commandsEnabled);
+        indexField.setDisable(!commandsEnabled);
+        rowField.setDisable(!commandsEnabled);
+        slotField.setDisable(!commandsEnabled);
+
+        setupHelpLabel.setText(koostaAlgseadistuseAbi());
+
+        if (setupVisible) {
+            setupField.requestFocus();
+        } else if (commandsEnabled) {
+            indexField.requestFocus();
+        }
+    }
+
+    private String koostaAlgseadistuseAbi() {
+        String valitudTyyp = getSelectedTaskType();
+        return switch (valitudTyyp) {
+            case "k" -> "Kimbumeetod vajab kolmikut a b m.";
+            case "p" -> "Positsioonimeetod vajab paisktabeli pikkust.";
+            default -> "Lisamine ja eemaldamine ei vaja eraldi algseadistust.";
+        };
     }
 
     private String koostaEkraan() {
         StringBuilder sb = new StringBuilder();
 
-        if (läbimäng != null) {
-            sb.append(läbimäng.ylesandeKirjeldus()).append("\n");
+        if (labimang != null) {
+            sb.append(labimang.ylesandeKirjeldus()).append("\n");
             sb.append("-----------------------------------------------------------\n\n");
         } else {
-            sb.append("ALGUS\n\n");
+            // sb.append("Valitud sakk: ").append(tabPealkiri(getSelectedTaskType())).append("\n\n");
+            sb.append("Ava valitud ülesanne, et alustada.");
         }
 
-        switch (olek) {
-            case YLESANDE_VALIK -> {
-                sb.append("""
-                        l - lisamine
-                        e - eemaldamine
-                        k - kimbumeetod
-                        p - positsioonimeetod
-                        x - välju
-                        """);
-                sb.append("\nVali ülesande tüüp: ");
+        if (olek == Olek.ALGSEADISTUS) {
+            if ("p".equals(aktiivneTyyp)) {
+                sb.append("Sisesta paisktabeli pikkus.\n");
+            } else {
+                sb.append("Sisesta a b m (eraldatud tühikutega).\n");
             }
-            case ALGSEADISTUS -> {
-                if ("p".equals(aktiivneTyyp)) {
-                    sb.append("Sisesta paisktabeli pikkus: ");
-                } else {
-                    sb.append("Sisesta a b m (eraldatud tühikutega): ");
-                }
-            }
-            case KASUD -> {
-                sb.append("töödeldav alamjärjend: ").append(läbimäng.getAbijärjend()).append("\n");
-                sb.append("paisktabel:\n").append(läbimäng.getPaisktabel()).append("\n");
-                sb.append("""
-                        Vali käsk:
-                        l - algoritm lõpetab
-                        s <i> <r> (<k>) - sisesta element massiivist indeksilt i paisktabelisse reale r (kohale k)
-                        e <i> <r> (<k>) - eemalda paisktabelist realt r (kohalt k) element ja pane see massiivi indeksile i
-                        u - võta samm tagasi
-                        """);
-            }
+        }
+
+        if (olek == Olek.KASUD && labimang != null) {
+            sb.append("töödeldav alamjärjend: ").append(labimang.getAbijarjend()).append("\n");
+            sb.append("paisktabel:\n").append(labimang.getPaisktabel()).append("\n\n");
+            
+            /*
+            sb.append("Toimingud:\n");
+            sb.append("Sisesta: vii element massiivist paisktabelisse.\n");
+            sb.append("Eemalda: too element paisktabelist tagasi massiivi.\n");
+            sb.append("Vota tagasi: tuhista viimane samm.\n");
+            sb.append("Lopeta: hinda lahendus ja alusta uuesti.\n");
+            */
         }
 
         return sb.toString().trim();
+    }
+
+    private String tabPealkiri(String tyyp) {
+        return switch (tyyp) {
+            case "l" -> "Lisamine";
+            case "e" -> "Eemaldamine";
+            case "k" -> "Kimbumeetod";
+            case "p" -> "Positsioonimeetod";
+            default -> "HashGrader";
+        };
     }
 }

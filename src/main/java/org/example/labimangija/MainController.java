@@ -63,6 +63,12 @@ public class MainController {
         ensureWindowSize(1120, 760);
     }
 
+    @FXML
+    private void handleArrayAlgorithms(ActionEvent event) {
+        loadViewFromResource("/org/example/labimangija/arraygrader/arraygrader-view.fxml");
+        ensureWindowSize(1120, 760);
+    }
+
     private void ensureWindowSize(double minWidth, double minHeight) {
         if (contentHolder.getScene() == null || !(contentHolder.getScene().getWindow() instanceof Stage stage)) {
             return;
