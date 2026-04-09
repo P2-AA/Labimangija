@@ -14,3 +14,7 @@ Kirjalikus osas kirjeldada probleeme
 
 Tabide nimetused korrektseks
 Graafilised liidesed paisktabelitele ja massiivialgoritmidele!!!
+
+Massiivialgoritmide reziimid ära kaotada
+Uuri ProGuardi tööd / testi
+Readme
