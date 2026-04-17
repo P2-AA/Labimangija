@@ -11,13 +11,17 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Stream;
 
 public class GraafiValija {
     public static String valiSuvaline(String kaust) {
         Path kaustaTee = Path.of(kaust);
         if (!Files.isDirectory(kaustaTee)) return null;
         try {
-            List<Path> p = Files.list(kaustaTee).filter(Files::isRegularFile).toList();
+            List<Path> p;
+            try (Stream<Path> kaustaFailid = Files.list(kaustaTee)) {
+                p = kaustaFailid.filter(Files::isRegularFile).toList();
+            }
             if (p.isEmpty()) return null;
             Random r = new Random();
             return p.get(r.nextInt(p.size())).toString();
@@ -32,12 +36,14 @@ public class GraafiValija {
 
         ButtonType genereeri = new ButtonType("Genereeri");
         ButtonType valiFail = new ButtonType("Vali fail");
+        ButtonType suvalineFail = new ButtonType("Suvaline olemasolev");
         ButtonType katkesta = new ButtonType("Katkesta", ButtonBar.ButtonData.CANCEL_CLOSE);
-        dialog.getButtonTypes().setAll(genereeri, valiFail, katkesta);
+        dialog.getButtonTypes().setAll(genereeri, valiFail, suvalineFail, katkesta);
 
         Optional<ButtonType> valik = dialog.showAndWait();
         if (valik.isEmpty() || valik.get() == katkesta) return null;
         if (valik.get() == genereeri) return GraafiGenereerija.genereeriFail(tyyp, kaust);
+        if (valik.get() == suvalineFail) return valiSuvaline(kaust);
         return valiFail(kaust);
     }
 
@@ -53,4 +59,3 @@ public class GraafiValija {
         return valitud.getAbsolutePath();
     }
 }
-

@@ -15,9 +15,9 @@ public class ArrayGraderLogija {
 
     private final Path fail;
 
-    public ArrayGraderLogija(String algoritm, String reziim) {
+    public ArrayGraderLogija(String algoritm, String labimang) {
         String ajatempel = new SimpleDateFormat("ddMMyy-HHmmss.SSS").format(new Date());
-        String failinimi = normaliseeri(algoritm) + "_" + normaliseeri(reziim) + "_" + ajatempel + ".txt";
+        String failinimi = normaliseeri(algoritm) + "_" + normaliseeri(labimang) + "_" + ajatempel + ".txt";
 
         try {
             Files.createDirectories(LOG_DIR);

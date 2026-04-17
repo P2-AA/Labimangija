@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import org.example.labimangija.arraygrader.ArrayGraderLogija;
-import org.example.labimangija.arraygrader.MassiiviTööriistad;
-import org.example.labimangija.arraygrader.labimanguhindaja.Hindamistulemus;
 import org.example.labimangija.arraygrader.massiiviseis.MassiiviSeis;
 import org.example.labimangija.arraygrader.massiiviseis.ValikuKiirmeetodiMassiiviSeis;
 import org.example.labimangija.arraygrader.massiivioperatsioon.LäbimänguLõpetamine;
@@ -31,69 +29,46 @@ public class ArrayGraderEngine {
         }
     }
 
-    public enum Reziim {
-        HARJUTAMINE("Harjutamine"),
-        KONTROLLTOO("Kontrolltöö"),
-        NAIDE("Näide");
-
-        private final String pealkiri;
-
-        Reziim(String pealkiri) {
-            this.pealkiri = pealkiri;
-        }
-
-        public String getPealkiri() {
-            return pealkiri;
-        }
-    }
-
     private static final int MASSIIVI_PIKKUS = 5;
     private static final int MAX_JUHUSLIK_VAARTUS = 20;
 
     private final Random random = new Random();
 
     private Algoritm algoritm = Algoritm.MULLIMEETOD;
-    private Reziim reziim = Reziim.HARJUTAMINE;
     private Kasutajaliides kasutajaliides;
     private List<Massiivioperatsioon> kaigud = new ArrayList<>();
-    private String viimaneTeade = "Vali algoritm ja režiim ning alusta uut läbimängu.";
+    private String viimaneTeade = "Vali algoritm ja alusta uut läbimängu.";
     private boolean lopetatud;
     private ArrayGraderLogija logija;
+    private String sisendiKirjeldus = "Juhuslik massiiv";
 
-    public void alusta(Algoritm uusAlgoritm, Reziim uusReziim) {
+    public void alusta(Algoritm uusAlgoritm) {
+        alusta(uusAlgoritm, looMassiiv(), "Juhuslik massiiv");
+    }
+
+    public void alusta(Algoritm uusAlgoritm, int[] massiiv, String uusSisendiKirjeldus) {
         algoritm = uusAlgoritm;
-        reziim = uusReziim;
         kasutajaliides = looKasutajaliides(uusAlgoritm);
         kaigud = new ArrayList<>();
         lopetatud = false;
-        logija = new ArrayGraderLogija(uusAlgoritm.getPealkiri(), uusReziim.getPealkiri());
+        sisendiKirjeldus = uusSisendiKirjeldus == null ? "Sisend" : uusSisendiKirjeldus;
+        logija = new ArrayGraderLogija(uusAlgoritm.getPealkiri(), "Harjutamine");
 
-        Massiivioperatsioon algus = kasutajaliides.läbimänguAlustamiseOperatsioon(looMassiiv());
+        Massiivioperatsioon algus = kasutajaliides.läbimänguAlustamiseOperatsioon(Arrays.copyOf(massiiv, massiiv.length));
         kaigud.add(algus);
         logiAlgus();
 
-        if (reziim == Reziim.NAIDE) {
-            kaigud = MassiiviTööriistad.kopeeriKäigudJajätkaLäbimängu(new ArrayList<>(), algus);
-            lopetatud = true;
-            viimaneTeade = "Näitelahendus genereeriti.";
-            logija.logi("NÄITE REZIIMI TÄISLAHENDUS");
-            logiKaigud();
-        } else {
-            viimaneTeade = "Läbimäng algas.";
-        }
+        viimaneTeade = "Läbimäng algas.";
         logiStaatus();
     }
 
     public void executeCommand(String command) {
         String sisend = command == null ? "" : command.trim();
         if (sisend.isEmpty()) {
-            throw new IllegalArgumentException("Sisesta käsk.");
+            throw new IllegalArgumentException("Vali tegevus.");
         }
         if (!onAktiivne()) {
             throw new IllegalArgumentException("Alusta enne uut läbimängu.");
-        }
-        if (reziim == Reziim.NAIDE) {
-            throw new IllegalArgumentException("Näiterežiimis ei saa käike sisestada.");
         }
         if (lopetatud) {
             throw new IllegalArgumentException("Läbimäng on juba lõpetatud. Alusta uut läbimängu.");
@@ -115,14 +90,14 @@ public class ArrayGraderEngine {
     public String render() {
         StringBuilder sb = new StringBuilder();
         sb.append(algoritm.getPealkiri()).append("\n");
-        sb.append("Režiim: ").append(reziim.getPealkiri()).append("\n\n");
 
         if (!onAktiivne()) {
             sb.append("Läbimäng pole veel alanud.\n");
-            sb.append("Vali ülevalt algoritm, vali režiim ja vajuta \"Alusta\".");
+            sb.append("Vali ülevalt algoritm ja vajuta \"Alusta\".");
             return sb.toString();
         }
 
+        sb.append("Sisend: ").append(sisendiKirjeldus).append("\n\n");
         sb.append(kirjeldus()).append("\n\n");
         sb.append("Praegune seis: ").append(getPraeguneKaik().getSeis()).append("\n");
 
@@ -133,13 +108,6 @@ public class ArrayGraderEngine {
         sb.append("\nKäikude ajalugu:\n");
         for (int i = 0; i < kaigud.size(); i++) {
             sb.append(i).append(". ").append(kaigud.get(i)).append("\n");
-        }
-
-        if (reziim != Reziim.NAIDE) {
-            sb.append("\nVõimalikud käsud:\n");
-            for (String rida : abiRead()) {
-                sb.append(rida).append("\n");
-            }
         }
 
         return sb.toString().trim();
@@ -154,7 +122,7 @@ public class ArrayGraderEngine {
     }
 
     public boolean onMuudetav() {
-        return onAktiivne() && reziim != Reziim.NAIDE && !lopetatud;
+        return onAktiivne() && !lopetatud;
     }
 
     public boolean supportsPiste() {
@@ -179,18 +147,16 @@ public class ArrayGraderEngine {
             throw new IllegalArgumentException(e.getMessage());
         }
 
-        if (reziim == Reziim.HARJUTAMINE) {
-            Massiivioperatsioon oigeKaik = eelmineKaik.järgmineÕigeKäik();
-            if (!uusKaik.equals(oigeKaik)) {
-                viimaneTeade = "Vale käik. Õige järgmine käik oleks olnud: " + oigeKaik;
-                logija.logi("VALE KÄSK: " + uusKaik);
-                logija.logi("ÕIGE JARGMINE KÄSK: " + oigeKaik);
-                return;
-            }
+        Massiivioperatsioon oigeKaik = eelmineKaik.järgmineÕigeKäik();
+        if (!uusKaik.equals(oigeKaik)) {
+            viimaneTeade = "Vale käik. Õige järgmine käik oleks olnud: " + oigeKaik;
+            logija.logi("VALE KÄSK: " + uusKaik);
+            logija.logi("ÕIGE JARGMINE KÄSK: " + oigeKaik);
+            return;
         }
 
         kaigud.add(uusKaik);
-        viimaneTeade = reziim == Reziim.HARJUTAMINE ? "Õige käik." : "Käik salvestati.";
+        viimaneTeade = "Õige käik.";
         logija.logi("SAMM: " + uusKaik);
     }
 
@@ -209,29 +175,18 @@ public class ArrayGraderEngine {
     private void lopeta() {
         Massiivioperatsioon loppKaik = new LäbimänguLõpetamine(getPraeguneKaik().getSeis());
 
-        if (reziim == Reziim.HARJUTAMINE) {
-            Massiivioperatsioon oigeKaik = getPraeguneKaik().järgmineÕigeKäik();
-            if (!loppKaik.equals(oigeKaik)) {
-                viimaneTeade = "Praegu ei saa veel lõpetada. Õige järgmine käik oleks: " + oigeKaik;
-                logija.logi("LÕPETAMINE LÜKATI TAGASI");
-                logija.logi("ÕIGE JARGMINE KÄSK: " + oigeKaik);
-                return;
-            }
-
-            kaigud.add(loppKaik);
-            lopetatud = true;
-            viimaneTeade = "Palju õnne! Harjutus sai korrektselt lõpetatud.";
-            logija.logi("LÕPP: harjutus sai korrektselt lõpetatud.");
-            logiKaigud();
+        Massiivioperatsioon oigeKaik = getPraeguneKaik().järgmineÕigeKäik();
+        if (!loppKaik.equals(oigeKaik)) {
+            viimaneTeade = "Praegu ei saa veel lõpetada. Õige järgmine käik oleks: " + oigeKaik;
+            logija.logi("LÕPETAMINE LÜKATI TAGASI");
+            logija.logi("ÕIGE JARGMINE KÄSK: " + oigeKaik);
             return;
         }
 
         kaigud.add(loppKaik);
         lopetatud = true;
-
-        Hindamistulemus tulemus = kasutajaliides.läbimänguHindaja().hinda(kaigud);
-        viimaneTeade = "Tulemus: " + tulemus;
-        logija.logi("LÕPPHINNANG: " + tulemus);
+        viimaneTeade = "Palju õnne! Harjutus sai korrektselt lõpetatud.";
+        logija.logi("LÕPP: harjutus sai korrektselt lõpetatud.");
         logiKaigud();
     }
 
@@ -272,27 +227,11 @@ public class ArrayGraderEngine {
         };
     }
 
-    private List<String> abiRead() {
-        List<String> read = new ArrayList<>();
-        read.add("tööala <algusindeks> <lõpuindeks> - muudab tööala, lõpuindeks on tööalast välja arvatud");
-        if (supportsPiste()) {
-            read.add("piste <algusindeks> <lõpuindeks> - teeb massiivil piste");
-        }
-        if (supportsVaheta()) {
-            read.add("vaheta <indeks1> <indeks2> - vahetab kaks elementi");
-        }
-        if (supportsJaota()) {
-            read.add("jaota a b _ c d - kirjuta uus jaotus, alakriips märgib lahkmekohta");
-        }
-        read.add("tagasi - võtab viimase käigu tagasi");
-        read.add("lõpeta - lõpetab läbimängu");
-        return read;
-    }
-
     private void logiAlgus() {
         logija.logi("ALGUS");
         logija.logi("Algoritm: " + algoritm.getPealkiri());
-        logija.logi("Reziim: " + reziim.getPealkiri());
+        logija.logi("Läbimäng: Harjutamine");
+        logija.logi("Sisend: " + sisendiKirjeldus);
         logija.logi(kirjeldus());
     }
 

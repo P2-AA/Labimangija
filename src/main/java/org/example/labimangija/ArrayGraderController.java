@@ -1,15 +1,14 @@
 package org.example.labimangija;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.example.labimangija.arraygrader.kasutajaliides.ArrayGraderEngine;
+import org.example.labimangija.arraygrader.kasutajaliides.ArraySisendiValija;
 
 public class ArrayGraderController {
     private final ArrayGraderEngine engine = new ArrayGraderEngine();
@@ -28,9 +27,6 @@ public class ArrayGraderController {
 
     @FXML
     private Tab valikuKiirmeetodTab;
-
-    @FXML
-    private ChoiceBox<ArrayGraderEngine.Reziim> modeChoiceBox;
 
     @FXML
     private TextArea terminalArea;
@@ -54,9 +50,6 @@ public class ArrayGraderController {
     private TextField partitionField;
 
     @FXML
-    private TextField commandField;
-
-    @FXML
     private Button pisteButton;
 
     @FXML
@@ -67,26 +60,18 @@ public class ArrayGraderController {
 
     @FXML
     private void initialize() {
-        modeChoiceBox.setItems(FXCollections.observableArrayList(ArrayGraderEngine.Reziim.values()));
-        modeChoiceBox.setConverter(new javafx.util.StringConverter<>() {
-            @Override
-            public String toString(ArrayGraderEngine.Reziim object) {
-                return object == null ? "" : object.getPealkiri();
-            }
-
-            @Override
-            public ArrayGraderEngine.Reziim fromString(String string) {
-                return null;
-            }
-        });
-        modeChoiceBox.getSelectionModel().select(ArrayGraderEngine.Reziim.HARJUTAMINE);
         algorithmTabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> uuendaVaadet());
         uuendaVaadet();
     }
 
     @FXML
     private void handleStart() {
-        engine.alusta(getSelectedAlgorithm(), modeChoiceBox.getValue());
+        ArrayGraderEngine.Algoritm algoritm = getSelectedAlgorithm();
+        ArraySisendiValija.Sisend sisend = ArraySisendiValija.valiSisend(algoritm);
+        if (sisend == null) {
+            return;
+        }
+        engine.alusta(algoritm, sisend.massiiv(), sisend.kirjeldus());
         puhastaSisendiValjad();
         uuendaVaadet();
     }
@@ -125,15 +110,9 @@ public class ArrayGraderController {
         executeCommand("lõpeta");
     }
 
-    @FXML
-    private void handleSubmitCommand() {
-        executeCommand(loe(commandField, "Sisesta käsk."));
-    }
-
     private void executeCommand(String command) {
         try {
             engine.executeCommand(command);
-            commandField.clear();
         } catch (IllegalArgumentException e) {
             statusLabel.setText(e.getMessage());
         }
@@ -150,7 +129,6 @@ public class ArrayGraderController {
         firstIndexField.setDisable(!editable);
         secondIndexField.setDisable(!editable);
         partitionField.setDisable(!editable || !engine.supportsJaota());
-        commandField.setDisable(!editable);
 
         pisteButton.setDisable(!editable || !engine.supportsPiste());
         swapButton.setDisable(!editable || !engine.supportsVaheta());
@@ -163,7 +141,6 @@ public class ArrayGraderController {
         firstIndexField.clear();
         secondIndexField.clear();
         partitionField.clear();
-        commandField.clear();
     }
 
     private String loe(TextField field, String veateade) {

@@ -12,7 +12,8 @@ public final class ResourceReader {
     }
 
     public static List<String> readLines(String path) throws IOException {
-        Path filePath = Path.of(System.getProperty("user.dir"), path);
+        Path inputPath = Path.of(path);
+        Path filePath = inputPath.isAbsolute() ? inputPath : Path.of(System.getProperty("user.dir"), path);
         if (Files.exists(filePath)) {
             return Files.readAllLines(filePath, StandardCharsets.UTF_8);
         }

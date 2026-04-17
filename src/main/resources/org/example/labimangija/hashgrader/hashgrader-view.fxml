@@ -41,9 +41,7 @@
                         <children>
                             <HBox alignment="CENTER_LEFT" spacing="10">
                                 <children>
-                                    <Label text="Seis"
-                                           style="-fx-font-size: 18; -fx-font-weight: bold;"/>
-                                    <Button text="Ava valitud ülesanne" onAction="#handleStartTask"/>
+                                    <Button text="Alusta" onAction="#handleStartTask"/>
                                 </children>
                             </HBox>
                             <TextArea fx:id="terminalArea"

@@ -19,10 +19,6 @@ import org.example.labimangija.hashgrader.ylesanne.LisamiseYlesanne;
 import org.example.labimangija.hashgrader.ylesanne.PositsiooniYlesanne;
 
 public class HashGraderController {
-    private static final String LISAMINE_EEMALDAMINE = "sisendid/lisamineEemaldamine/sisend.txt";
-    private static final String KIMBU_MEETOD = "sisendid/kimbumeetod/sisend.txt";
-    private static final String POSITSIOONI_MEETOD = "sisendid/positsioonimeetod/sisend.txt";
-
     private enum Olek {
         YLESANDE_VALIK,
         ALGSEADISTUS,
@@ -168,15 +164,22 @@ public class HashGraderController {
     }
 
     private void alustaValitudYlesanne() throws IOException {
-        aktiivneTyyp = getSelectedTaskType();
+        String valitudTyyp = getSelectedTaskType();
+        String sisendiFail = HashSisendiValija.valiSisend(valitudTyyp);
+        if (sisendiFail == null) {
+            viimaneTeade = "Ülesande alustamine katkestati.";
+            return;
+        }
+
+        aktiivneTyyp = valitudTyyp;
         labimang = new Labimang();
         labimang.setHindaja(new Hindaja());
 
         switch (aktiivneTyyp) {
-            case "l" -> labimang.setYlesanne(new LisamiseYlesanne(LISAMINE_EEMALDAMINE));
-            case "e" -> labimang.setYlesanne(new EemaldamiseYlesanne(LISAMINE_EEMALDAMINE));
-            case "k" -> labimang.setYlesanne(new KimbuYlesanne(KIMBU_MEETOD));
-            case "p" -> labimang.setYlesanne(new PositsiooniYlesanne(POSITSIOONI_MEETOD));
+            case "l" -> labimang.setYlesanne(new LisamiseYlesanne(sisendiFail));
+            case "e" -> labimang.setYlesanne(new EemaldamiseYlesanne(sisendiFail));
+            case "k" -> labimang.setYlesanne(new KimbuYlesanne(sisendiFail));
+            case "p" -> labimang.setYlesanne(new PositsiooniYlesanne(sisendiFail));
             default -> throw new IllegalStateException("Toetamata ylesande tyyp: " + aktiivneTyyp);
         }
 

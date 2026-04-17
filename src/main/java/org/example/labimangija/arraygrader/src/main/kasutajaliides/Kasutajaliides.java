@@ -1,6 +1,5 @@
 package org.example.labimangija.arraygrader.kasutajaliides;
 
-import org.example.labimangija.arraygrader.MassiiviTööriistad;
 import org.example.labimangija.arraygrader.labimanguhindaja.LäbimänguHindaja;
 import org.example.labimangija.arraygrader.massiiviseis.MassiiviSeis;
 import org.example.labimangija.arraygrader.massiivioperatsioon.LäbimänguAlustamine;
@@ -47,24 +46,8 @@ public abstract class Kasutajaliides {
         }
 
 
-        lahendusviisiKüsimine:
-        while (true) {
-            System.out.print("Millist lahendusviisi soovid? [harjutamine/kontrolltöö/näide]: ");
-            String sisend = skänner.nextLine();
-            System.out.println();
-            switch (sisend) {
-                case "harjutamine":
-                    kasutajaliides.algoritmiLäbimänguHarjutamine();
-                    break lahendusviisiKüsimine;
-                case "kontrolltöö":
-                    kasutajaliides.algoritmiLäbimängKontrolltöö();
-                    break lahendusviisiKüsimine;
-                case "näide":
-                    kasutajaliides.kuvaAlgoritmiKorrektneLäbimäng();
-                    break lahendusviisiKüsimine;
-            }
-            System.out.println("Vigane sisend.");
-        }
+        System.out.println();
+        kasutajaliides.algoritmiLäbimänguHarjutamine();
 
 
         while (true) {
@@ -163,64 +146,12 @@ public abstract class Kasutajaliides {
         }
     }
 
-    private void algoritmiLäbimängKontrolltöö() {
-        List<Massiivioperatsioon> käigud = new ArrayList<>();
-        int[] massiiv = looUusMassiiv();
-        läbimänguAlustamiseSõnum(massiiv);
-        käigud.add(läbimänguAlustamiseOperatsioon(massiiv));
-        System.out.println("Massiiv algab indeksilt 0. Võimalikud käigud: ");
-        kuvaVõimalikudOperatsioonid();
-        System.out.println("-----------");
-
-        Massiivioperatsioon viimatineKäik = käigud.get(0);
-        while (!(viimatineKäik instanceof LäbimänguLõpetamine)) {
-            viimatineKäik = loeKasutajaltKäik(käigud);
-            if (viimatineKäik != null) {
-                System.out.println(viimatineKäik);
-                käigud.add(viimatineKäik);
-            }
-        }
-
-        System.out.println("-----------");
-        System.out.println("Tehtud käigud: ");
-        Massiivioperatsioon praeguneKäik = käigud.get(0);
-        System.out.println(praeguneKäik);
-        boolean leitudOlulineViga = false;
-        for (int i = 1; i < käigud.size(); i++) {
-            Massiivioperatsioon õigeKäik = praeguneKäik.järgmineÕigeKäik();
-            praeguneKäik = käigud.get(i);
-
-            System.out.print(i + ". " + praeguneKäik);
-            if (!praeguneKäik.equals(õigeKäik) && !leitudOlulineViga) {
-                System.out.print(" Vale käik. Õige oleks olnud " + õigeKäik);
-                if (!praeguneKäik.läbimänguOnVõimalikJätkata()) {
-                    leitudOlulineViga = true;
-                    if (i < käigud.size() - 1) {
-                        System.out.print("\nSee on oluline viga, edasist lahenduskäiku ei hinnata. Järgmised käigud olid: ");
-                    }
-                }
-            }
-            System.out.println();
-        }
-        System.out.println("-----------");
-        System.out.println("Tulemus: " + läbimänguHindaja().hinda(käigud));
-
-    }
-
     private int[] looUusMassiiv() {
         int[] massiiv = new int[massiivisElemente];
         for (int j = 0; j < massiiv.length; j++) {
             massiiv[j] = random.nextInt(maxJuhuslikVäärtus);
         }
         return massiiv;
-    }
-
-    private void kuvaAlgoritmiKorrektneLäbimäng() {
-        Massiivioperatsioon läbimänguAlustamine = läbimänguAlustamiseOperatsioon(looUusMassiiv());
-        List<Massiivioperatsioon> käigud = MassiiviTööriistad.kopeeriKäigudJajätkaLäbimängu(new ArrayList<>(), läbimänguAlustamine);
-        for (Massiivioperatsioon käik : käigud) {
-            System.out.println(käik);
-        }
     }
 
 }
