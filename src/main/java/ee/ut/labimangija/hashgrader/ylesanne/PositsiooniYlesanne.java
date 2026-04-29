@@ -1,0 +1,169 @@
+package ee.ut.labimangija.hashgrader.ylesanne;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import ee.ut.labimangija.hashgrader.Hinnang;
+import ee.ut.labimangija.hashgrader.Läbimäng;
+import ee.ut.labimangija.hashgrader.Paisktabel;
+import ee.ut.labimangija.hashgrader.ResourceReader;
+import ee.ut.labimangija.hashgrader.samm.EemaldamiseSamm;
+import ee.ut.labimangija.hashgrader.samm.LõpetamiseSamm;
+import ee.ut.labimangija.hashgrader.samm.PaisktabeliLoomiseSamm;
+import ee.ut.labimangija.hashgrader.samm.Samm;
+import ee.ut.labimangija.hashgrader.samm.SisestamiseSamm;
+
+import static ee.ut.labimangija.hashgrader.Hindaja.Olek.EEMALDAMINE;
+import static ee.ut.labimangija.hashgrader.Hindaja.Olek.LISAMINE;
+import static ee.ut.labimangija.hashgrader.Hindaja.Olek.LÕPP;
+import static ee.ut.labimangija.hashgrader.Hindaja.Olek.RASKE_LISAMINE;
+import static ee.ut.labimangija.hashgrader.Hindaja.Olek.TABELI_LOOMINE;
+
+public class PositsiooniYlesanne extends Ylesanne<Integer> {
+    private ArrayList<Integer> sisend;
+    private int kompesamm;
+    private int maxElem;
+    private int järk;
+    private boolean sisestamine;
+
+    public PositsiooniYlesanne(String failiTee) throws IOException {
+        loeSisend(failiTee);
+    }
+
+    public int paiskfunktsioon(int arv) {
+        return (int) (arv / Math.pow(10, järk)) % 10;
+    }
+
+    @Override
+    public void loeSisend(String failiTee) throws IOException {
+        List<String> read = ResourceReader.readLines(failiTee);
+        String rida = read.get(new Random().nextInt(read.size()));
+
+        sisend = new ArrayList<>();
+        maxElem = Integer.MIN_VALUE;
+        for (String s : rida.split(" ")) {
+            int elem = Integer.parseInt(s.replaceAll("[\\[\\]]", ""));
+            if (maxElem < elem) {
+                maxElem = elem;
+            }
+            sisend.add(elem);
+        }
+        kompesamm = 0;
+    }
+
+    @Override
+    public Paisktabel<Integer> getPaisktabel() {
+        return new Paisktabel<>(kompesamm);
+    }
+
+    @Override
+    public ArrayList<Integer> getAbijärjend() {
+        return new ArrayList<>(sisend);
+    }
+
+    @Override
+    public void setPaisktabeliParameetrid(float minElem, float maxElem, int elementideArv) {
+    }
+
+    @Override
+    public ArrayList<Hinnang> leiaÕigeLäbimäng() {
+        ArrayList<Hinnang> õigeLäbimäng = new ArrayList<>();
+        Paisktabel<Integer> p = new Paisktabel<>(0, 10);
+        õigeLäbimäng.add(new Hinnang(new PaisktabeliLoomiseSamm(10), TABELI_LOOMINE, null, true));
+
+        järk = 0;
+        while ((maxElem / Math.pow(10, järk)) > 1) {
+            for (int arv : sisend) {
+                int räsi = paiskfunktsioon(arv);
+                int koht = p.get(räsi).size();
+                p.sisesta(räsi, koht, arv);
+
+                if (koht > 0) {
+                    õigeLäbimäng.add(new Hinnang(new SisestamiseSamm<Integer>(0, räsi, koht), RASKE_LISAMINE, null, true));
+                } else {
+                    õigeLäbimäng.add(new Hinnang(new SisestamiseSamm<Integer>(0, räsi, koht), LISAMINE, null, true));
+                }
+            }
+
+            sisend.clear();
+            for (int i = 0; i < p.size(); i++) {
+                while (p.get(i).size() > 0) {
+                    sisend.add(p.get(i, 0));
+                    p.eemalda(i, 0);
+                    õigeLäbimäng.add(new Hinnang(new EemaldamiseSamm<Integer>(sisend.size() - 1, i, 0), EEMALDAMINE, null, true));
+                }
+            }
+
+            järk++;
+        }
+
+        õigeLäbimäng.add(new Hinnang(new LõpetamiseSamm(), LÕPP, null, true));
+        järk = 0;
+        sisestamine = true;
+        return õigeLäbimäng;
+    }
+
+    @Override
+    public String ylesandeKirjeldus() {
+        return "Järjestada ahel positsioonimeetodil: " + sisend;
+    }
+
+    @Override
+    public void astu(Läbimäng<Integer> läbimäng, Hinnang hinnang) {
+        if (läbimäng.getAbijärjend().size() == 0 && sisestamine) {
+            sisestamine = false;
+        }
+        if (läbimäng.getAbijärjend().size() == sisend.size() && !sisestamine) {
+            sisestamine = true;
+            järk++;
+        }
+    }
+
+    @Override
+    public void tagasi(Läbimäng<Integer> läbimäng, Hinnang hinnang) {
+        if (läbimäng.getAbijärjend().size() == 1 && !sisestamine
+                && (hinnang.olek == LISAMINE || hinnang.olek == RASKE_LISAMINE)) {
+            sisestamine = true;
+        }
+        if (läbimäng.getAbijärjend().size() == sisend.size() - 1
+                && sisestamine && hinnang.olek == EEMALDAMINE) {
+            sisestamine = false;
+            järk--;
+        }
+    }
+
+    @Override
+    public Hinnang hindaSammu(Samm samm, ArrayList<Integer> abijärjend, Paisktabel<Integer> paisktabel) {
+        Samm õigeSamm = new LõpetamiseSamm();
+
+        if (paisktabel.size() == 0) {
+            õigeSamm = new PaisktabeliLoomiseSamm(abijärjend.size());
+            return new Hinnang(õigeSamm, TABELI_LOOMINE, samm, õigeSamm.equals(samm));
+        }
+
+        if ((maxElem / Math.pow(10, järk)) > 1) {
+            if (abijärjend.size() > 0 && sisestamine) {
+                int arv = abijärjend.get(0);
+                int räsi = paiskfunktsioon(arv);
+                int koht = paisktabel.get(räsi).size();
+                õigeSamm = new SisestamiseSamm<Integer>(0, räsi, koht);
+
+                if (koht == 0) {
+                    return new Hinnang(õigeSamm, LISAMINE, samm, õigeSamm.equals(samm));
+                }
+                return new Hinnang(õigeSamm, RASKE_LISAMINE, samm, õigeSamm.equals(samm));
+            }
+
+            for (int i = 0; i < paisktabel.size(); i++) {
+                if (paisktabel.get(i).size() > 0) {
+                    õigeSamm = new EemaldamiseSamm<Integer>(abijärjend.size(), i, 0);
+                    return new Hinnang(õigeSamm, EEMALDAMINE, samm, õigeSamm.equals(samm));
+                }
+            }
+        }
+
+        return new Hinnang(õigeSamm, LÕPP, samm, õigeSamm.equals(samm));
+    }
+}
+

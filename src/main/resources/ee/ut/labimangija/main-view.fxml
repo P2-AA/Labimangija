@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ee.ut.labimangija.ui.MainController">
+    <left>
+        <VBox fx:id="kulgriba" spacing="8" prefWidth="200" style="-fx-padding:10;">
+            <Label text="Navigeerimine" style="-fx-font-weight:bold;"/>
+            <Button text="Peida / Näita" onAction="#toggleKulgriba" maxWidth="Infinity"/>
+            <VBox fx:id="navAccordion" VBox.vgrow="NEVER">
+                <VBox spacing="6" style="-fx-padding:6; -fx-border-color: lightgray; -fx-border-width: 1;">
+                    <Label text="Tegevused" style="-fx-font-weight: bold;"/>
+                    <Button text="Pealeht" onAction="#handleHome" maxWidth="Infinity"/>
+                    <Button text="Rakendusest" onAction="#handleAbout" maxWidth="Infinity"/>
+                </VBox>
+                <VBox spacing="6" style="-fx-padding: 6; -fx-border-color: lightgray; -fx-border-width: 1;">
+                    <Label text = "Algoritmid" style="-fx-font-weight: bold;"/>
+                    <Button text = "Graafialgoritmid" onAction="#handleGraphAlgorithms" maxWidth="Infinity"/>
+                    <Button text="Kahendpuu ja&#10;kuhjaalgoritmid" onAction="#handleAlgorithmGrader" maxWidth="Infinity" wrapText="true" prefHeight="44.0" textAlignment="CENTER"/>
+                    <Button text = "Massiivialgoritmid" onAction="#handleArrayAlgorithms" maxWidth="Infinity"/>
+                    <Button text = "Paisktabelid" onAction="#handleHashTables" maxWidth="Infinity"/>
+                </VBox>
+                <VBox spacing="6" style="-fx-padding:6; -fx-border-color: lightgray; -fx-border-width: 1;">
+                    <Label text="Seaded" style="-fx-font-weight: bold;"/>
+                    <Button text="Rakenduse seaded" onAction="#handlePreferences" maxWidth="Infinity"/>
+                </VBox>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <AnchorPane fx:id="contentHolder"/>
+    </center>
+</BorderPane>

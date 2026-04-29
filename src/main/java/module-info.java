@@ -1,13 +1,16 @@
-module org.example.labimangija {
+module ee.ut.labimangija {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.prefs;
 
     requires org.controlsfx.controls;
     requires org.kordamp.ikonli.javafx;
 
-    opens org.example.labimangija to javafx.fxml;
-    opens org.example.labimangija.algorithmgrader.Controllers to javafx.fxml;
-    opens org.example.labimangija.graphgrader.Kontrollerid to javafx.fxml;
-    opens org.example.labimangija.hashgrader to javafx.fxml;
-    exports org.example.labimangija;
+    opens ee.ut.labimangija to javafx.fxml;
+    opens ee.ut.labimangija.ui to javafx.fxml;
+    opens ee.ut.labimangija.algorithmgrader.Controllers to javafx.fxml;
+    opens ee.ut.labimangija.graphgrader.Kontrollerid to javafx.fxml;
+    opens ee.ut.labimangija.hashgrader to javafx.fxml;
+    exports ee.ut.labimangija;
 }
+

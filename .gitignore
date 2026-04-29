@@ -5,6 +5,7 @@ build/
 !**/src/test/**/build/
 
 /labimangud/
+/sisendid/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
