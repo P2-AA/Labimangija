@@ -1,1 +1,0 @@
-AVL-puu järjend: [77, 53, 82, 29, 64, 80, 99, 6, 39, 60, 76, 85, 33, 52]      Eemaldatavad elemendid: [29, 77]
