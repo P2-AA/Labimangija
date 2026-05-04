@@ -22,6 +22,7 @@ import static ee.ut.labimangija.hashgrader.Hindaja.Olek.TABELI_LOOMINE;
 
 public class KimbuYlesanne extends Ylesanne<Float> {
     private ArrayList<Float> sisend;
+    private ArrayList<Float> algneSisend;
     private int kompesamm;
     private int elementideArv;
     private float minElem;
@@ -36,7 +37,28 @@ public class KimbuYlesanne extends Ylesanne<Float> {
     }
 
     public int paiskfunktsioon(float arv) {
-        return (int) Math.floor((arv - tudengiMinElem) / (tudengiMaxElem - tudengiMinElem) * tudengiElementideArv);
+        return paiskfunktsioon(arv, tudengiMinElem, tudengiMaxElem, tudengiElementideArv);
+    }
+
+    private int paiskfunktsioon(float arv, float minElem, float maxElem, int elementideArv) {
+        return (int) Math.floor((arv - minElem) / (maxElem - minElem) * elementideArv);
+    }
+
+    private boolean kasRasiOnPaisktabelis(int rasi, int paisktabeliPikkus) {
+        return rasi >= 0 && rasi < paisktabeliPikkus;
+    }
+
+    private boolean kasSobivadPaisktabeliParameetrid(float minElem, float maxElem, int elementideArv) {
+        if (elementideArv <= 0 || maxElem <= minElem) {
+            return false;
+        }
+        for (Float arv : algneSisend) {
+            int rasi = paiskfunktsioon(arv, minElem, maxElem, elementideArv);
+            if (!kasRasiOnPaisktabelis(rasi, elementideArv)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -59,6 +81,8 @@ public class KimbuYlesanne extends Ylesanne<Float> {
             sisend.add(arv);
         }
 
+        algneSisend = new ArrayList<>(sisend);
+
         maxElem = (float) Math.ceil(maxElem);
         setPaisktabeliParameetrid(minElem, maxElem, sisend.size());
         kompesamm = 0;
@@ -71,11 +95,14 @@ public class KimbuYlesanne extends Ylesanne<Float> {
 
     @Override
     public ArrayList<Float> getAbijärjend() {
-        return new ArrayList<>(sisend);
+        return new ArrayList<>(algneSisend);
     }
 
     @Override
     public void setPaisktabeliParameetrid(float minElem, float maxElem, int elementideArv) {
+        if (!kasSobivadPaisktabeliParameetrid(minElem, maxElem, elementideArv)) {
+            throw new IllegalArgumentException("Algseadistus peab paigutama kõik elemendid paisktabeli vahemikku 0 kuni m-1.");
+        }
         this.tudengiMinElem = minElem;
         this.tudengiMaxElem = maxElem;
         this.tudengiElementideArv = elementideArv;
@@ -123,7 +150,7 @@ public class KimbuYlesanne extends Ylesanne<Float> {
 
     @Override
     public String ylesandeKirjeldus() {
-        return "Järjestada ahel kimbumeetodil: " + sisend;
+        return "Järjesta ahel kimbumeetodil: " + algneSisend;
     }
 
     @Override
@@ -153,6 +180,9 @@ public class KimbuYlesanne extends Ylesanne<Float> {
         if (abijärjend.size() > 0 && sisestamine) {
             float arv = abijärjend.get(0);
             int räsi = paiskfunktsioon(arv);
+            if (!kasRasiOnPaisktabelis(räsi, paisktabel.size())) {
+                return new Hinnang(new SisestamiseSamm<Float>(0, räsi, 0), LISAMINE, samm, false);
+            }
             int i;
             for (i = 0; i < paisktabel.get(räsi).size(); i++) {
                 if (arv <= paisktabel.get(räsi, i)) {

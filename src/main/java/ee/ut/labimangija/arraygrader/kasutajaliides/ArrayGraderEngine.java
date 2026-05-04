@@ -149,7 +149,7 @@ public class ArrayGraderEngine {
 
         Massiivioperatsioon oigeKaik = eelmineKaik.järgmineÕigeKäik();
         if (!uusKaik.equals(oigeKaik)) {
-            viimaneTeade = "Vale käik. Õige järgmine käik oleks olnud: " + oigeKaik;
+            viimaneTeade = "Vale käik.";
             logija.logi("VALE KÄSK: " + uusKaik);
             logija.logi("ÕIGE JARGMINE KÄSK: " + oigeKaik);
             return;
@@ -177,7 +177,7 @@ public class ArrayGraderEngine {
 
         Massiivioperatsioon oigeKaik = getPraeguneKaik().järgmineÕigeKäik();
         if (!loppKaik.equals(oigeKaik)) {
-            viimaneTeade = "Praegu ei saa veel lõpetada. Õige järgmine käik oleks: " + oigeKaik;
+            viimaneTeade = "Praegu ei saa veel lõpetada.";
             logija.logi("LÕPETAMINE LÜKATI TAGASI");
             logija.logi("ÕIGE JARGMINE KÄSK: " + oigeKaik);
             return;
