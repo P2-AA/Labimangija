@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Stack;
 import ee.ut.labimangija.hashgrader.samm.Samm;
 import ee.ut.labimangija.hashgrader.ylesanne.Ylesanne;
+import ee.ut.labimangija.hashgrader.ylesanne.LisamiseYlesanne;
+import ee.ut.labimangija.hashgrader.ylesanne.EemaldamiseYlesanne;
+import ee.ut.labimangija.hashgrader.ylesanne.KimbuYlesanne;
+import ee.ut.labimangija.hashgrader.ylesanne.PositsiooniYlesanne;
 
 public class Läbimäng<T> {
 
@@ -22,7 +26,7 @@ public class Läbimäng<T> {
         this.paisktabel = ylesanne.getPaisktabel();
         this.abijärjend = ylesanne.getAbijärjend();
         this.õigeLäbimäng = ylesanne.leiaÕigeLäbimäng();
-        this.logija = new Logija();
+        this.logija = new Logija(algoritmiNimi(ylesanne));
         logija.logi(ylesanne.ylesandeKirjeldus());
     }
 
@@ -44,6 +48,14 @@ public class Läbimäng<T> {
 
     public float getPunktid() {
         return punktid;
+    }
+
+    public String algoritmiNimi(Ylesanne<T> ylesanne) {
+        if (ylesanne instanceof LisamiseYlesanne) return "Lisamine";
+        if (ylesanne instanceof EemaldamiseYlesanne) return "Eemaldamine";
+        if (ylesanne instanceof KimbuYlesanne) return "Kimbumeetod";
+        if (ylesanne instanceof PositsiooniYlesanne) return "Positsioonimeetod";
+        return "HashGrader";
     }
 
     public boolean astu(Samm samm) {

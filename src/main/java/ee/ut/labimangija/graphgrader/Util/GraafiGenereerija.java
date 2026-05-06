@@ -48,7 +48,7 @@ public class GraafiGenereerija {
             Files.write(fail, sisu);
             return fail.toAbsolutePath().toString();
         } catch (IOException e) {
-            Teavitaja.teavita("Genereerimine ebaonnestus: " + e.getMessage(), "Viga");
+            Teavitaja.teavita("Genereerimine ebaõnnestus: " + e.getMessage(), "Viga");
             return null;
         }
     }
@@ -118,7 +118,7 @@ public class GraafiGenereerija {
             }
             return new Parameetrid(n, m, min, max);
         } catch (NumberFormatException e) {
-            Teavitaja.teavita("Parameetrid peavad olema taisarvud.", "Viga");
+            Teavitaja.teavita("Parameetrid peavad olema täisarvud.", "Viga");
             return null;
         }
     }

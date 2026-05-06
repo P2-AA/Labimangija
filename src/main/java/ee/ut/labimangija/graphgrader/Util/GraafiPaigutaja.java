@@ -45,6 +45,9 @@ public final class GraafiPaigutaja {
     public static void lisaLiigutamine(TippGraafil tipp, Text tekst, Pane ala, Runnable uuenda) {
         tekst.setX(tipp.getCenterX() - 3);
         tekst.setY(tipp.getCenterY() + 3);
+        
+        // Parandab tippude liigutamist, et tekst ei segaks klikke tippude peal
+        tekst.setMouseTransparent(true);
 
         tipp.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
             double uusX = piiridesse(e.getX(), PADDING, ala.getWidth() - PADDING);

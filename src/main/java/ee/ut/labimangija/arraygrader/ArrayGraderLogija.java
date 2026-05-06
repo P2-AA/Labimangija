@@ -25,7 +25,7 @@ public class ArrayGraderLogija {
         try {
             Files.createDirectories(LOG_DIR);
         } catch (IOException e) {
-            throw new IllegalStateException("Arraygraderi logikataloogi loomine ebaõnnestus", e);
+            throw new IllegalStateException("Kahendpuu ja kuhjaalgoritmide logikataloogi loomine ebaõnnestus", e);
         }
 
         fail = LOG_DIR.resolve(failinimi);
@@ -50,7 +50,7 @@ public class ArrayGraderLogija {
             }
             pw.println(sisu);
         } catch (IOException e) {
-            throw new RuntimeException("Arraygraderi logimine ebaõnnestus", e);
+            throw new RuntimeException("Kahendpuu ja kuhjaalgoritmide logimine ebaõnnestus", e);
         }
     }
 

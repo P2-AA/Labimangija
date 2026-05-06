@@ -17,14 +17,14 @@ public class Logija {
     private final Path fail;
     private boolean paisKirjutatud;
 
-    public Logija() {
+    public Logija(String algoritm) {
         SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy-hhmmss.SSS");
         try {
             Files.createDirectories(LOG_DIR);
         } catch (IOException e) {
-            throw new IllegalStateException("Logikataloogi loomine ebaõnnestus", e);
+            throw new IllegalStateException("Paisktabelite logikataloogi loomine ebaõnnestus", e);
         }
-        fail = LOG_DIR.resolve(sdf.format(new Date()) + ".txt");
+        fail = LOG_DIR.resolve(algoritm + "_" + sdf.format(new Date()) + ".txt");
     }
 
     public void logi(String sisu) {
@@ -42,7 +42,7 @@ public class Logija {
             }
             pw.println(sisu);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Paisktabelite logimine ebaõnnestus", e);
         }
     }
 }

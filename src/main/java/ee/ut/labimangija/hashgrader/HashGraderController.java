@@ -12,7 +12,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import ee.ut.labimangija.hashgrader.samm.EemaldamiseSamm;
-import ee.ut.labimangija.hashgrader.samm.LopetamiseSamm;
+import ee.ut.labimangija.hashgrader.samm.LõpetamiseSamm;
 import ee.ut.labimangija.hashgrader.samm.PaisktabeliLoomiseSamm;
 import ee.ut.labimangija.hashgrader.samm.SisestamiseSamm;
 import ee.ut.labimangija.hashgrader.ylesanne.EemaldamiseYlesanne;
@@ -292,7 +292,7 @@ public class HashGraderController {
     }
 
     private void lopeta() {
-        if (!labimang.astu(new LopetamiseSamm())) {
+        if (!labimang.astu(new LõpetamiseSamm())) {
             throw new IllegalArgumentException("Algoritmi lõpetamine ebaõnnestus.");
         }
 
@@ -461,5 +461,4 @@ public class HashGraderController {
         };
     }
 }
-
 

@@ -9,11 +9,13 @@
             <Label text="Navigeerimine" style="-fx-font-weight:bold;"/>
             <Button text="Peida / Näita" onAction="#toggleKulgriba" maxWidth="Infinity"/>
             <VBox fx:id="navAccordion" VBox.vgrow="NEVER">
+                <!-- Siin on pealehe ja infolehe nupud navigeerimisreal  -->
                 <VBox spacing="6" style="-fx-padding:6; -fx-border-color: lightgray; -fx-border-width: 1;">
                     <Label text="Tegevused" style="-fx-font-weight: bold;"/>
                     <Button text="Pealeht" onAction="#handleHome" maxWidth="Infinity"/>
                     <Button text="Rakendusest" onAction="#handleAbout" maxWidth="Infinity"/>
                 </VBox>
+                <!-- See on rakenduse navigatsiooniriba -->
                 <VBox spacing="6" style="-fx-padding: 6; -fx-border-color: lightgray; -fx-border-width: 1;">
                     <Label text = "Algoritmid" style="-fx-font-weight: bold;"/>
                     <Button text = "Graafialgoritmid" onAction="#handleGraphAlgorithms" maxWidth="Infinity"/>
@@ -21,10 +23,12 @@
                     <Button text = "Massiivialgoritmid" onAction="#handleArrayAlgorithms" maxWidth="Infinity"/>
                     <Button text = "Paisktabelid" onAction="#handleHashTables" maxWidth="Infinity"/>
                 </VBox>
-                <VBox spacing="6" style="-fx-padding:6; -fx-border-color: lightgray; -fx-border-width: 1;">
-                    <Label text="Seaded" style="-fx-font-weight: bold;"/>
-                    <Button text="Rakenduse seaded" onAction="#handlePreferences" maxWidth="Infinity"/>
-                </VBox>
+                <!-- Seda saab kasutada rakenduse seadete loomise jaoks
+                    <VBox spacing="6" style="-fx-padding:6; -fx-border-color: lightgray; -fx-border-width: 1;">
+                        <Label text="Seaded" style="-fx-font-weight: bold;"/>
+                        <Button text="Rakenduse seaded" onAction="#handlePreferences" maxWidth="Infinity"/>
+                    </VBox> 
+                -->
             </VBox>
         </VBox>
     </left>

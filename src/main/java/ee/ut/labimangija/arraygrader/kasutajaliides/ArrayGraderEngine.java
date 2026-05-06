@@ -41,6 +41,7 @@ public class ArrayGraderEngine {
     private boolean lopetatud;
     private ArrayGraderLogija logija;
     private String sisendiKirjeldus = "Juhuslik massiiv";
+    private int vigadeArv;
 
     public void alusta(Algoritm uusAlgoritm) {
         alusta(uusAlgoritm, looMassiiv(), "Juhuslik massiiv");
@@ -53,6 +54,7 @@ public class ArrayGraderEngine {
         lopetatud = false;
         sisendiKirjeldus = uusSisendiKirjeldus == null ? "Sisend" : uusSisendiKirjeldus;
         logija = new ArrayGraderLogija(uusAlgoritm.getPealkiri(), "Harjutamine");
+        vigadeArv = 0;
 
         Massiivioperatsioon algus = kasutajaliides.läbimänguAlustamiseOperatsioon(Arrays.copyOf(massiiv, massiiv.length));
         kaigud.add(algus);
@@ -149,6 +151,7 @@ public class ArrayGraderEngine {
 
         Massiivioperatsioon oigeKaik = eelmineKaik.järgmineÕigeKäik();
         if (!uusKaik.equals(oigeKaik)) {
+            vigadeArv++;
             viimaneTeade = "Vale käik.";
             logija.logi("VALE KÄSK: " + uusKaik);
             logija.logi("ÕIGE JARGMINE KÄSK: " + oigeKaik);
@@ -185,8 +188,9 @@ public class ArrayGraderEngine {
 
         kaigud.add(loppKaik);
         lopetatud = true;
-        viimaneTeade = "Palju õnne! Harjutus sai korrektselt lõpetatud.";
-        logija.logi("LÕPP: harjutus sai korrektselt lõpetatud.");
+        viimaneTeade = "Palju õnne! Harjutus sai lõpetatud. Vigu: " + vigadeArv;
+        logija.logi("LÕPP: harjutus sai lõpetatud.");
+        logija.logi("VIGADE ARV: " + vigadeArv);
         logiKaigud();
     }
 

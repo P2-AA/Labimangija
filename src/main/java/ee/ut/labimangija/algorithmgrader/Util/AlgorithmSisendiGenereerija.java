@@ -68,7 +68,7 @@ public final class AlgorithmSisendiGenereerija {
             Files.writeString(fail, sisu + System.lineSeparator(), StandardCharsets.UTF_8);
             return fail.toAbsolutePath().toString();
         } catch (Exception e) {
-            AlgorithmSisendiValija.naitaViga("Genereerimine ebaonnestus: " + e.getMessage());
+            AlgorithmSisendiValija.naitaViga("Genereerimine ebaõnnestus: " + e.getMessage());
             return null;
         }
     }
@@ -77,7 +77,7 @@ public final class AlgorithmSisendiGenereerija {
         Parameetrid vaike = vaikeParameetrid(tyyp);
 
         Dialog<Parameetrid> dialog = new Dialog<>();
-        dialog.setTitle("Algorithmgraderi sisendi genereerimine");
+        dialog.setTitle("Kuhja ja kahendpuu sisendi genereerimine");
         dialog.setHeaderText("Sisesta genereeritava sisendi parameetrid.");
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
@@ -94,8 +94,8 @@ public final class AlgorithmSisendiGenereerija {
         if (vajabTegevusteArvu(tyyp)) {
             rida = lisaRida(grid, rida, tegevuseSilt(tyyp), tegevusiField);
         }
-        rida = lisaRida(grid, rida, "Min vaartus", minField);
-        lisaRida(grid, rida, "Max vaartus", maxField);
+        rida = lisaRida(grid, rida, "Min väärtus", minField);
+        lisaRida(grid, rida, "Max väärtus", maxField);
         dialog.getDialogPane().setContent(grid);
 
         dialog.setResultConverter(button -> {
@@ -110,7 +110,7 @@ public final class AlgorithmSisendiGenereerija {
                         Integer.parseInt(maxField.getText().trim())
                 );
             } catch (NumberFormatException e) {
-                AlgorithmSisendiValija.naitaViga("Koik parameetrid peavad olema taisarvud.");
+                AlgorithmSisendiValija.naitaViga("Kõik parameetrid peavad olema täisarvud.");
                 return null;
             }
         });
@@ -166,19 +166,19 @@ public final class AlgorithmSisendiGenereerija {
             return "Elementide arv peab olema positiivne.";
         }
         if (p.max() <= p.min()) {
-            return "Max vaartus peab olema min vaartusest suurem.";
+            return "Max väärtus peab olema min väärtusest suurem.";
         }
         int vahemik = p.max() - p.min() + 1;
         if (vahemik < p.elemente()) {
-            return "Antud vahemik ei sisalda piisavalt erinevaid vaartusi.";
+            return "Antud vahemik ei sisalda piisavalt erinevaid väärtusi.";
         }
         if (vajabTegevusteArvu(tyyp) && p.tegevusi() < 1) {
-            return "Tegevuste arv peab olema vahemalt 1.";
+            return "Tegevuste arv peab olema vähemalt 1.";
         }
         if ((tyyp == AlgorithmSisendiValija.Tyyp.BST_EEMALDAMINE
                 || tyyp == AlgorithmSisendiValija.Tyyp.AVL_EEMALDAMINE)
                 && p.tegevusi() >= p.elemente()) {
-            return "Eemaldatavate arv peab olema vaiksem kui elementide arv.";
+            return "Eemaldatavate arv peab olema väiksem kui elementide arv.";
         }
         if (tyyp == AlgorithmSisendiValija.Tyyp.AVL_LISAMINE && vahemik < p.elemente() + p.tegevusi()) {
             return "AVL lisamise jaoks peab vahemikus olema ruumi nii puule kui lisatavatele elementidele.";
@@ -193,7 +193,7 @@ public final class AlgorithmSisendiGenereerija {
     private static String genereeriBstEemaldamine(Parameetrid p) {
         List<Integer> puu = juhuslikudErinevadArvud(p.elemente(), p.min(), p.max());
         List<Integer> eemaldatavad = juhuslikAlamhulk(puu, p.tegevusi());
-        return "Kahendotsimispuu jarjend: " + vormindaMassiiv(puu)
+        return "Kahendotsimispuu järjend: " + vormindaMassiiv(puu)
                 + "      Eemaldatavad elemendid: " + vormindaMassiiv(eemaldatavad);
     }
 
@@ -203,7 +203,7 @@ public final class AlgorithmSisendiGenereerija {
         List<Integer> alus = new ArrayList<>(koik.subList(0, p.elemente()));
         List<Integer> lisatavad = new ArrayList<>(koik.subList(p.elemente(), koik.size()));
         Collections.shuffle(lisatavad, RANDOM);
-        return "AVL-puu jarjend: " + vormindaMassiiv(alus)
+        return "AVL-puu järjend: " + vormindaMassiiv(alus)
                 + "      Lisatavad elemendid: " + vormindaMassiiv(lisatavad);
     }
 
@@ -213,7 +213,7 @@ public final class AlgorithmSisendiGenereerija {
         IntNode juur = tasakaalustatudPuu(sorteeritud, 0, sorteeritud.size() - 1);
         List<Integer> puuJarjend = tasemeJarjekord(juur);
         List<Integer> eemaldatavad = juhuslikAlamhulk(puuJarjend, p.tegevusi());
-        return "AVL-puu jarjend: " + vormindaMassiiv(puuJarjend)
+        return "AVL-puu järjend: " + vormindaMassiiv(puuJarjend)
                 + "      Eemaldatavad elemendid: " + vormindaMassiiv(eemaldatavad);
     }
 

@@ -223,7 +223,7 @@ public class EeldusGraafKontroller {
     private void kysiLoppu() {
         boolean korras = false;
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Kogu projekti (graafi) varaseim lopuaeg?");
+        dialog.setTitle("Kogu projekti (graafi) varaseim lõpuaeg?");
         Optional<String> sisend = dialog.showAndWait();
         while (!korras) {
             while (sisend.isEmpty()) sisend = dialog.showAndWait();
@@ -304,7 +304,7 @@ public class EeldusGraafKontroller {
     private void kysiTopSort() {
         boolean korras = false;
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Topoloogiline jarjestus?");
+        dialog.setTitle("Topoloogiline järjestus?");
         Optional<String> sisend = dialog.showAndWait();
         while (!korras) {
             if (sisend.isEmpty()) {
@@ -316,7 +316,7 @@ public class EeldusGraafKontroller {
             String sisendiSisu = sisend.get();
             String error = sobib(sisendiSisu);
             if (error != null) {
-                String kontrolliTulemus = "Sisestus ei ole sobiv topoloogiline jarjestus";
+                String kontrolliTulemus = "Sisestus ei ole sobiv topoloogiline järjestus";
                 Teavitaja.teavita(kontrolliTulemus, "Viga");
                 sammud.add(samm + "\t: Küsin topolooglist järjestust. VIGA");
                 vead.add(samm++ + "\t: " + kontrolliTulemus);
