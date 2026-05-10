@@ -4,6 +4,8 @@ import ee.ut.labimangija.common.AppPaths;
 import ee.ut.labimangija.ui.SisendiAllikaDialoog;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -51,6 +53,16 @@ public class HashSisendiValija {
     }
 
     static void naitaViga(String teade) {
-        new Alert(Alert.AlertType.ERROR, teade, ButtonType.OK).showAndWait();
+        Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK);
+        alert.setTitle("Viga");
+        alert.setHeaderText("Viga");
+
+        Label sisu = new Label(teade);
+        sisu.setWrapText(true);
+        alert.getDialogPane().setContent(sisu);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.getDialogPane().setPrefWidth(560);
+
+        alert.showAndWait();
     }
 }

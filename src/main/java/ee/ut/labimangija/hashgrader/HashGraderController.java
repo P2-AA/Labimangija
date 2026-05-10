@@ -82,6 +82,7 @@ public class HashGraderController {
     private Olek olek;
     private String aktiivneTyyp;
     private String viimaneTeade;
+    private String lukustatudAlgseadistus;
 
     @FXML
     private void initialize() {
@@ -116,8 +117,14 @@ public class HashGraderController {
             if (olek != Olek.ALGSEADISTUS) {
                 throw new IllegalArgumentException("Algseadistust pole praegu vaja.");
             }
-            tootleAlgseadistus(getTrimmedText(setupField));
-            setupField.clear();
+            String sisend = getTrimmedText(setupField);
+            tootleAlgseadistus(sisend);
+            if ("k".equals(aktiivneTyyp)) {
+                lukustatudAlgseadistus = sisend;
+                setupField.setText(lukustatudAlgseadistus);
+            } else {
+                setupField.clear();
+            }
         } catch (IllegalArgumentException e) {
             viimaneTeade = e.getMessage();
         }
@@ -152,7 +159,7 @@ public class HashGraderController {
     private void handleUndo() {
         try {
             kontrolliKasudLubatud();
-            votaTagasi(new String[] {"u"});
+            votaTagasi(new String[] { "u" });
         } catch (IllegalArgumentException e) {
             viimaneTeade = e.getMessage();
         }
@@ -192,6 +199,7 @@ public class HashGraderController {
 
         olek = ("k".equals(aktiivneTyyp) || "p".equals(aktiivneTyyp)) ? Olek.ALGSEADISTUS : Olek.KASUD;
         viimaneTeade = null;
+        lukustatudAlgseadistus = null;
         setupField.clear();
         puhastaSammuValjad();
     }
@@ -206,7 +214,8 @@ public class HashGraderController {
     }
 
     private String[] koostaKasuOsad(String kask) {
-        String i = getTrimmedText(indexField);
+        String valitudTyyp = getSelectedTaskType();
+        String i = ("l".equals(valitudTyyp) || "e".equals(valitudTyyp)) ? "0" : getTrimmedText(indexField);
         String r = getTrimmedText(rowField);
         String k = getTrimmedText(slotField);
 
@@ -214,7 +223,7 @@ public class HashGraderController {
             throw new IllegalArgumentException("Sisesta väljad i ja r.");
         }
 
-        return k.isEmpty() ? new String[] {kask, i, r} : new String[] {kask, i, r, k};
+        return k.isEmpty() ? new String[] { kask, i, r } : new String[] { kask, i, r, k };
     }
 
     private String getSelectedTaskType() {
@@ -375,6 +384,7 @@ public class HashGraderController {
     private void taastaAlgseis() {
         labimang = null;
         aktiivneTyyp = null;
+        lukustatudAlgseadistus = null;
         olek = Olek.YLESANDE_VALIK;
         setupField.clear();
         puhastaSammuValjad();
@@ -384,19 +394,31 @@ public class HashGraderController {
     private void uuendaVaadet() {
         terminalArea.setText(koostaEkraan());
         statusLabel.setText(viimaneTeade == null ? "Valmis alustama." : viimaneTeade);
+        String valitudTyyp = getSelectedTaskType();
 
         boolean setupVisible = olek == Olek.ALGSEADISTUS;
         setupField.setDisable(!setupVisible);
         setupButton.setDisable(!setupVisible);
+        if (!setupVisible && "k".equals(aktiivneTyyp) && lukustatudAlgseadistus != null) {
+            setupField.setText(lukustatudAlgseadistus);
+        }
 
         boolean commandsEnabled = olek == Olek.KASUD;
-        insertButton.setDisable(!commandsEnabled);
-        removeButton.setDisable(!commandsEnabled);
+        boolean lisamineSakk = "l".equals(valitudTyyp);
+        boolean eemaldamineSakk = "e".equals(valitudTyyp);
+        insertButton.setDisable(!commandsEnabled || eemaldamineSakk);
+        removeButton.setDisable(!commandsEnabled || lisamineSakk);
         undoButton.setDisable(!commandsEnabled);
         finishButton.setDisable(!commandsEnabled);
-        indexField.setDisable(!commandsEnabled);
+        indexField.setDisable(!commandsEnabled || lisamineSakk || eemaldamineSakk);
         rowField.setDisable(!commandsEnabled);
         slotField.setDisable(!commandsEnabled);
+
+        if (lisamineSakk || eemaldamineSakk) {
+            indexField.setText("0");
+        } else if (!commandsEnabled) {
+            indexField.clear();
+        }
 
         setupHelpLabel.setText(koostaAlgseadistuseAbi());
 
@@ -423,29 +445,31 @@ public class HashGraderController {
             sb.append(labimang.ylesandeKirjeldus()).append("\n");
             sb.append("-----------------------------------------------------------\n\n");
         } else {
-            // sb.append("Valitud sakk: ").append(tabPealkiri(getSelectedTaskType())).append("\n\n");
-            sb.append("Ava valitud ülesanne, et alustada.");
+            // sb.append("Valitud sakk:
+            // ").append(tabPealkiri(getSelectedTaskType())).append("\n\n");
+            sb.append("Vali ülevalt algoritm ja vajuta \"Alusta\".");
         }
 
         if (olek == Olek.ALGSEADISTUS) {
             if ("p".equals(aktiivneTyyp)) {
                 sb.append("Sisesta paisktabeli pikkus.\n");
             } else {
-                sb.append("Sisesta a b m (eraldatud tühikutega).\n");
+                sb.append(
+                        "Sisesta a = minimaalne element, b = maksimaalne element ja\nm = kimpude arv (eraldatud tühikutega).\n");
             }
         }
 
         if (olek == Olek.KASUD && labimang != null) {
             sb.append("töödeldav alamjärjend: ").append(labimang.getAbijärjend()).append("\n");
             sb.append("paisktabel:\n").append(labimang.getPaisktabel()).append("\n\n");
-            
+
             /*
-            sb.append("Toimingud:\n");
-            sb.append("Sisesta: vii element massiivist paisktabelisse.\n");
-            sb.append("Eemalda: too element paisktabelist tagasi massiivi.\n");
-            sb.append("Vota tagasi: tuhista viimane samm.\n");
-            sb.append("Lopeta: hinda lahendus ja alusta uuesti.\n");
-            */
+             * sb.append("Toimingud:\n");
+             * sb.append("Sisesta: vii element massiivist paisktabelisse.\n");
+             * sb.append("Eemalda: too element paisktabelist tagasi massiivi.\n");
+             * sb.append("Vota tagasi: tuhista viimane samm.\n");
+             * sb.append("Lopeta: hinda lahendus ja alusta uuesti.\n");
+             */
         }
 
         return sb.toString().trim();
@@ -461,4 +485,3 @@ public class HashGraderController {
         };
     }
 }
-

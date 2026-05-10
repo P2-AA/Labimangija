@@ -78,9 +78,24 @@ public class Paisktabel<T> {
     public String toString() {
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < tabel.size(); i++) {
-            str.append(i).append(":").append(tabel.get(i)).append("\n");
+            str.append(i).append(":");
+            if (!tabel.get(i).isEmpty()) {
+                str.append(vormindaAhel(tabel.get(i)));
+            }
+            str.append("\n");
         }
         return str.toString();
+    }
+
+    private String vormindaAhel(ArrayList<T> ahel) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < ahel.size(); i++) {
+            if (i > 0) {
+                sb.append(" ");
+            }
+            sb.append(ahel.get(i));
+        }
+        return sb.toString();
     }
 
     public T get(int r, int k) {

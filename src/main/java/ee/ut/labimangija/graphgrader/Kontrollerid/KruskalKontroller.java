@@ -8,8 +8,9 @@ import ee.ut.labimangija.graphgrader.Util.KaarteKuhi;
 import ee.ut.labimangija.graphgrader.Util.Logija;
 import ee.ut.labimangija.graphgrader.Util.Teavitaja;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -47,14 +48,17 @@ public class KruskalKontroller {
     }
 
     public void laeGraaf(MouseEvent ignored) throws IOException {
-        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud_kaalutud", GraafiGenereerija.Tyyp.SIDUS_KAALUTUD);
-        if (failitee == null) return;
+        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud_kaalutud",
+                GraafiGenereerija.Tyyp.SIDUS_KAALUTUD);
+        if (failitee == null)
+            return;
         taastaYlesanne();
         g = new Graaf(failitee, false);
         naitaGraafi();
         laeNupp.setVisible(false);
         esindajad = new Tipp[g.tipud.size()];
-        for (int i = 0; i < g.tipud.size(); i++) esindajad[i] = g.tipud.get(i);
+        for (int i = 0; i < g.tipud.size(); i++)
+            esindajad[i] = g.tipud.get(i);
         lukustaNupp.setVisible(true);
         andmestruktuur.setDisable(true);
     }
@@ -67,7 +71,9 @@ public class KruskalKontroller {
             praeguneTipp.tippGraafil = tippEkraanil;
             praeguneTipp.setToodeldud();
             graafiElement.getChildren().add(lisaTipuLiigutaja(tippEkraanil));
-            for (Kaar k : praeguneTipp.kaared) if (k.algus.tähis.compareTo(k.lopp.tähis) < 0) kuhi.lisa(k);
+            for (Kaar k : praeguneTipp.kaared)
+                if (k.algus.tähis.compareTo(k.lopp.tähis) < 0)
+                    kuhi.lisa(k);
         }
         uuenda();
     }
@@ -97,7 +103,8 @@ public class KruskalKontroller {
     public void lukustaGraaf(MouseEvent ignored) {
         lukustaNupp.setVisible(false);
         andmestruktuur.setDisable(false);
-        for (Tipp t : g.tipud) t.tippGraafil.addEventFilter(MouseEvent.MOUSE_DRAGGED, MouseEvent::consume);
+        for (Tipp t : g.tipud)
+            t.tippGraafil.addEventFilter(MouseEvent.MOUSE_DRAGGED, MouseEvent::consume);
         kuvaStruktuurid();
     }
 
@@ -112,8 +119,7 @@ public class KruskalKontroller {
                 Arrow kaar = new Arrow(
                         k.algus.tippGraafil.getCenterX(), k.algus.tippGraafil.getCenterY(),
                         k.lopp.tippGraafil.getCenterX(), k.lopp.tippGraafil.getCenterY(),
-                        true, true, k
-                );
+                        true, true, k);
                 k.arrow = kaar;
                 kaared.add(kaar);
 
@@ -129,13 +135,14 @@ public class KruskalKontroller {
     public void votaAndmestruktuurist(MouseEvent ignored) {
         if (kuhi.onTyhi()) {
             Logija.logi(vead, g, sammud, "Kruskal", true, false);
-            Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()), "Info");
+            Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()),
+                    "Info");
             laeNupp.setVisible(true);
             andmestruktuur.setDisable(true);
             return;
         }
         Kaar min = kuhi.min();
-        sammud.add(samm++ + "\t: Võtsin järjekorrast järgmise kaare " + min + ". KORRAS");
+        sammud.add(samm++ + "\t: Võtsin järjekorrast jägmise kaare " + min + ". KORRAS");
         kuvaStruktuurid();
 
         teeKaaredVarviliseks(min, Color.ORANGE);
@@ -148,8 +155,10 @@ public class KruskalKontroller {
             vastus = kysiSisendit();
         }
         sammud.add(samm++ + "\t: Küsin kaare " + min + " toesesse kuulmist. KORRAS");
-        if (kasKuulub) teeKaaredVarviliseks(min, Color.GREEN);
-        else teeKaaredVarviliseks(min, Color.RED);
+        if (kasKuulub)
+            teeKaaredVarviliseks(min, Color.GREEN);
+        else
+            teeKaaredVarviliseks(min, Color.RED);
     }
 
     public void teeKaaredVarviliseks(Kaar k1, Color c) {
@@ -165,7 +174,8 @@ public class KruskalKontroller {
     private boolean leiaKuuluvus(Kaar k) {
         Tipp a = leiaEsindaja(k.algus), b = leiaEsindaja(k.lopp);
 
-        if (a != b) esindajad[a.tähis.charAt(0) - 'A'] = b;
+        if (a != b)
+            esindajad[a.tähis.charAt(0) - 'A'] = b;
         return a != b;
     }
 
@@ -179,26 +189,24 @@ public class KruskalKontroller {
     }
 
     public boolean kysiSisendit() {
-        List<String> pos = List.of("jah", "ja", "j", "1"), neg = List.of("ei", "e", "0");
-        boolean korras = false;
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Kas kuulub?");
-        Optional<String> sisend = dialog.showAndWait();
-        boolean tulemus = false;
-        while (!korras) {
-            while (sisend.isEmpty()) sisend = dialog.showAndWait();
-            String sisendiSisu = sisend.get().toLowerCase();
-            if (pos.contains(sisendiSisu) || neg.contains(sisendiSisu)) {
-                korras = true;
-                tulemus = pos.contains(sisendiSisu);
-            } else {
-                Teavitaja.teavita("Sisesta 'jah', 'ja', 'j', '1' või 'ei', 'e', '0'", "Info");
-                sisend = Optional.empty();
+        Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
+        dialog.setTitle("Sisend");
+        dialog.setHeaderText("Kas valitud kaar kuulub toesesse?");
+
+        ButtonType jah = new ButtonType("Jah");
+        ButtonType ei = new ButtonType("Ei");
+        dialog.getButtonTypes().setAll(jah, ei);
+
+        while (true) {
+            Optional<ButtonType> valik = dialog.showAndWait();
+            if (valik.isPresent()) {
+                if (valik.get() == jah)
+                    return true;
+                if (valik.get() == ei)
+                    return false;
             }
+            Teavitaja.teavita("Vali palun 'Jah' või 'Ei'.", "Info");
         }
-        return tulemus;
     }
 
 }
-
-

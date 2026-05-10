@@ -129,6 +129,12 @@ public class PrimKontroller {
                 Kaar esimene = null, teine = null;
                 for (Kaar kaar : praegune.kaared) if (kaar.lopp == tipp.tipp) esimene = kaar;
                 for (Kaar kaar : tipp.tipp.kaared) if (kaar.lopp == praegune) teine = kaar;
+                if (esimene == null || teine == null) {
+                    sammud.add(samm + "\t: Lisan serva " + praegune.tähis + "-" + tipp.tipp.tähis + " järjekorda. VIGA");
+                    vead.add(samm++ + "\t: Tipp " + tipp.tipp.tähis + " ei ole praeguse tipu " + praegune.tähis + " järglane.");
+                    Teavitaja.teavita("Valitud tipp ei ole aktiivse tipu järglane.", "Viga");
+                    return;
+                }
                 if (tipp.tipp.seis == TipuSeis.ANDMESTRUKTUURIS || tipp.tipp.seis == TipuSeis.AVASTAMATA) {
                     if (kuhi.sisaldab(esimene) || kuhi.sisaldab(teine)) {
                         sammud.add(samm + "\t: Lisan serva " + esimene + " järjekorda. VIGA");
@@ -139,7 +145,6 @@ public class PrimKontroller {
                     sammud.add(samm++ + "\t: Lisan serva " + esimene + " järjekorda. KORRAS");
                     kuhi.lisa(esimene);
                     tipp.tipp.setAndmestruktuuris();
-                    if (esimene == null || teine == null) return;
                     esimene.arrow.setFill(Color.ORANGE);
                     teine.arrow.setFill(Color.ORANGE);
                     ootel.add(esimene);

@@ -7,4 +7,3 @@ Tekstifailidest lahti saamine
 Kirjalikus osas kirjeldada probleeme
 
 Uuri ProGuardi tööd / testi
-

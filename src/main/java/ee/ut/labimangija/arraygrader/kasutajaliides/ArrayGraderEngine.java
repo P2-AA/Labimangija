@@ -56,7 +56,8 @@ public class ArrayGraderEngine {
         logija = new ArrayGraderLogija(uusAlgoritm.getPealkiri(), "Harjutamine");
         vigadeArv = 0;
 
-        Massiivioperatsioon algus = kasutajaliides.läbimänguAlustamiseOperatsioon(Arrays.copyOf(massiiv, massiiv.length));
+        Massiivioperatsioon algus = kasutajaliides
+                .läbimänguAlustamiseOperatsioon(Arrays.copyOf(massiiv, massiiv.length));
         kaigud.add(algus);
         logiAlgus();
 
@@ -91,10 +92,8 @@ public class ArrayGraderEngine {
 
     public String render() {
         StringBuilder sb = new StringBuilder();
-        sb.append(algoritm.getPealkiri()).append("\n");
 
         if (!onAktiivne()) {
-            sb.append("Läbimäng pole veel alanud.\n");
             sb.append("Vali ülevalt algoritm ja vajuta \"Alusta\".");
             return sb.toString();
         }
@@ -219,15 +218,16 @@ public class ArrayGraderEngine {
         int[] massiiv = getPraeguneKaik().getSeis().getMassiiv();
         return switch (algoritm) {
             case MULLIMEETOD ->
-                    "Alustame mullimeetodi läbimängu massiivil " + Arrays.toString(massiiv)
-                            + ". Kasutame varianti, " + "\n" +"kus massiiv loetakse sorteerituks, kui ühtegi vahetust ei tehta.";
+                "Alustame mullimeetodi läbimängu massiivil " + Arrays.toString(massiiv)
+                        + ". Kasutame varianti, " + "\n"
+                        + "kus massiiv loetakse sorteerituks, kui ühtegi vahetust ei tehta.";
             case PISTEMEETOD ->
-                    "Alustame pistemeetodi läbimängu massiivil " + Arrays.toString(massiiv) + ".";
+                "Alustame pistemeetodi läbimängu massiivil " + Arrays.toString(massiiv) + ".";
             case VALIKUMEETOD ->
-                    "Alustame valikumeetodi läbimängu massiivil " + Arrays.toString(massiiv) + ".";
+                "Alustame valikumeetodi läbimängu massiivil " + Arrays.toString(massiiv) + ".";
             case VALIKU_KIIRMEETOD ->
-                    "Alustame valiku kiirmeetodi läbimängu massiivil " + Arrays.toString(massiiv)
-                            + ", tuua esimesed 3 elementi massiivi algusesse.";
+                "Alustame valiku kiirmeetodi läbimängu massiivil " + Arrays.toString(massiiv)
+                        + ", tuua esimesed 3 elementi massiivi algusesse.";
         };
     }
 
@@ -256,4 +256,3 @@ public class ArrayGraderEngine {
         logija.logi("==================================================");
     }
 }
-

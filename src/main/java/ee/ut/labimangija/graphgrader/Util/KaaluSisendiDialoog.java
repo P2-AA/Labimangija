@@ -9,9 +9,18 @@ public final class KaaluSisendiDialoog {
     }
 
     public static Optional<String> kuva() {
+        return kuva(null);
+    }
+
+    public static Optional<String> kuva(String lisainfo) {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Sisend");
-        dialog.setHeaderText("Mis on tippude vaheline kaal?");
+        String pohi = "Mis on kaare lõpptipu kaugus?";
+        if (lisainfo == null || lisainfo.isBlank()) {
+            dialog.setHeaderText(pohi);
+        } else {
+            dialog.setHeaderText(pohi + "\n" + lisainfo);
+        }
         dialog.setContentText("");
         return dialog.showAndWait().map(String::trim);
     }

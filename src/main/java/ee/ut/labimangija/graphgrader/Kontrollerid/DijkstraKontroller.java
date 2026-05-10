@@ -75,7 +75,8 @@ public class DijkstraKontroller {
 
     public Integer kysiSisendit(Kaar k, int oodatud) {
         boolean korras = false;
-        Optional<String> sisend = KaaluSisendiDialoog.kuva();
+        String lisainfo = "Aktiivne tipp: %s, kaugus: %d".formatted(k.algus.tähis, k.algus.kaal);
+        Optional<String> sisend = KaaluSisendiDialoog.kuva(lisainfo);
         while (!korras) {
             if (sisend.isEmpty()) return null;
             String sisendiSisu = sisend.get();
@@ -85,14 +86,14 @@ public class DijkstraKontroller {
                     sammud.add(samm + "\t: Küsisin kaalu tipu " + k.lopp.tähis + " kohta. VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
                     Teavitaja.teavita(kontrolliTulemus, "Viga");
-                    sisend = KaaluSisendiDialoog.kuva();
+                    sisend = KaaluSisendiDialoog.kuva(lisainfo);
                     continue;
                 }
                 sammud.add(samm++ + "\t: Küsisin kaalu tipu " + k.lopp.tähis + " kohta. KORRAS");
                 korras = true;
             } catch (NumberFormatException exception) {
                 Teavitaja.teavita("Sisesta number", "Info");
-                sisend = KaaluSisendiDialoog.kuva();
+                sisend = KaaluSisendiDialoog.kuva(lisainfo);
             }
         }
         return Integer.parseInt(sisend.get());
@@ -231,7 +232,7 @@ public class DijkstraKontroller {
                 return "Järglane {%s} ei ole töödeldud ega andmestruktuuris".formatted(alluv.tähis);
 
         for (Kaar kaar : tipp.kaared)
-            if (kaar.lopp.kaal > kaar.kaal)
+            if (kaar.lopp.kaal > tipp.kaal + kaar.kaal)
                 return "Tipu {%s} kaugus on suurem kui oodatud".formatted(kaar.lopp.tähis);
 
         return "";

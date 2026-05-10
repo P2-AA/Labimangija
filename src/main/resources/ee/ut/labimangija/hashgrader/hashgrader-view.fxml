@@ -74,7 +74,7 @@
                             <VBox spacing="8">
                                 <children>
                                     <Label text="Sammud" style="-fx-font-size: 14; -fx-font-weight: bold;"/>
-                                    <Label text="i = massiivi indeks, r = rida, k = koht (valikuline)" wrapText="true"/>
+                                    <Label text="i = alammassiivi indeks, r = paisktabeli rida, k = koht (valikuline)" wrapText="true"/>
                                     <HBox spacing="8">
                                         <children>
                                             <TextField fx:id="indexField" promptText="i" HBox.hgrow="ALWAYS"/>

@@ -7,14 +7,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,9 +29,11 @@ public class HashSisendiGenereerija {
     private static final Random RANDOM = new Random();
 
     private record Parameetrid(int count, int min, int max, int base, int shifts, int relocations,
-                              int steps, int emptyBuckets, int longestBranchSize) {}
+            int steps, int emptyBuckets, int longestBranchSize) {
+    }
 
-    private record Element(int value, int modulus, int position, int shift) {}
+    private record Element(int value, int modulus, int position, int shift) {
+    }
 
     public static String genereeriFail(String tyyp) {
         Parameetrid vaike = vaikeParameetrid(tyyp);
@@ -126,8 +127,7 @@ public class HashSisendiGenereerija {
                         Integer.parseInt(relocations.getText().trim()),
                         Integer.parseInt(steps.getText().trim()),
                         Integer.parseInt(emptyBuckets.getText().trim()),
-                        Integer.parseInt(longestBranch.getText().trim())
-                );
+                        Integer.parseInt(longestBranch.getText().trim()));
             } catch (NumberFormatException e) {
                 HashSisendiValija.naitaViga("Kõik parameetrid peavad olema täisarvud.");
                 return null;
@@ -163,9 +163,6 @@ public class HashSisendiGenereerija {
         if (p.max - p.min < p.count) {
             return "Väärtuste vahemik peab sisaldama piisavalt erinevaid arve.";
         }
-        if (("l".equals(tyyp) || "e".equals(tyyp)) && p.base != p.count) {
-            return "Lisamise ja eemaldamise ülesandes peab paisktabeli ridade arv praegu võrduma elementide arvuga.";
-        }
         if (("l".equals(tyyp) || "e".equals(tyyp)) && p.shifts < 0) {
             return "Kompesammude arv ei tohi olla negatiivne.";
         }
@@ -175,7 +172,8 @@ public class HashSisendiGenereerija {
         if ("k".equals(tyyp) && (p.emptyBuckets < 0 || p.emptyBuckets >= p.count - 1)) {
             return "Tühjade kimpude arv peab olema vahemikus 0 kuni elementide arv - 2.";
         }
-        if ("p".equals(tyyp) && (p.base < 2 || p.steps < 1 || p.longestBranchSize < 1 || p.longestBranchSize > p.count)) {
+        if ("p".equals(tyyp)
+                && (p.base < 2 || p.steps < 1 || p.longestBranchSize < 1 || p.longestBranchSize > p.count)) {
             return "Positsioonimeetodi alus peab olema vähemalt 2, järke vähemalt 1 ja pikim kimp sobivas vahemikus.";
         }
         return null;
@@ -183,14 +181,15 @@ public class HashSisendiGenereerija {
 
     private static String genereeriLisamine(Parameetrid p) {
         List<Element> elemendid = leiaLisamiseElemendid(p);
-        return vormindaIntRida(elemendid.stream().map(Element::value).toList(), null);
+        return vormindaIntRida(elemendid.stream().map(Element::value).toList(), null, p.base());
     }
 
     private static String genereeriEemaldamine(Parameetrid p) {
         long algus = System.currentTimeMillis();
         while (System.currentTimeMillis() - algus <= 10_000L) {
             List<Element> lisatud = leiaLisamiseElemendid(p);
-            List<Integer> jarjekord = IntStream.range(0, lisatud.size()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            List<Integer> jarjekord = IntStream.range(0, lisatud.size()).boxed()
+                    .collect(Collectors.toCollection(ArrayList::new));
             Collections.shuffle(jarjekord, RANDOM);
             for (int indeks : jarjekord) {
                 int eemaldatav = lisatud.get(indeks).value();
@@ -199,7 +198,7 @@ public class HashSisendiGenereerija {
                         .toList();
                 List<Element> parast = paigutaElemendid(alles.stream().map(Element::value).toList(), p.base());
                 if (loendaYmbertostmised(lisatud, parast) == p.relocations()) {
-                    return vormindaIntRida(lisatud.stream().map(Element::value).toList(), eemaldatav);
+                    return vormindaIntRida(lisatud.stream().map(Element::value).toList(), eemaldatav, p.base());
                 }
             }
         }
@@ -301,7 +300,8 @@ public class HashSisendiGenereerija {
             end = p.max();
         }
         if (end - p.min() < p.count()) {
-            throw new IllegalArgumentException("Positsioonimeetodi parameetritega ei ole piisavalt erinevaid väärtuseid.");
+            throw new IllegalArgumentException(
+                    "Positsioonimeetodi parameetritega ei ole piisavalt erinevaid väärtuseid.");
         }
 
         int randomStep = RANDOM.nextInt(p.steps());
@@ -335,7 +335,8 @@ public class HashSisendiGenereerija {
         return vormindaIntRida(elemendid, null);
     }
 
-    private static List<String> leiaVotmed(Parameetrid p, int element, Map<String, Integer> branchSizes, int longestStep) {
+    private static List<String> leiaVotmed(Parameetrid p, int element, Map<String, Integer> branchSizes,
+            int longestStep) {
         List<String> keys = new ArrayList<>();
         for (int step = 0; step < p.steps(); step++) {
             int divider = (int) Math.pow(p.base(), step);
@@ -356,5 +357,8 @@ public class HashSisendiGenereerija {
                 .map(value -> tärniga != null && value.equals(tärniga) ? value + "*" : String.valueOf(value))
                 .collect(Collectors.joining(" ")) + "]";
     }
-}
 
+    private static String vormindaIntRida(List<Integer> vaartused, Integer tärniga, int ridu) {
+        return "m=" + ridu + " " + vormindaIntRida(vaartused, tärniga);
+    }
+}

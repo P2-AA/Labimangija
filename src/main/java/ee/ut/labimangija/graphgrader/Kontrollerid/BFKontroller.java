@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 public class BFKontroller {
 
     public List<Kaar> kaarteJarjekord = new ArrayList<>();
@@ -50,8 +49,10 @@ public class BFKontroller {
     }
 
     public void laeGraaf(MouseEvent ignored) throws IOException {
-        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud_kaalutud", GraafiGenereerija.Tyyp.SUUNATUD_KAALUTUD);
-        if (failitee == null) return;
+        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud_kaalutud",
+                GraafiGenereerija.Tyyp.SUUNATUD_KAALUTUD);
+        if (failitee == null)
+            return;
         taastaYlesanne();
         g = new Graaf(failitee, true);
         for (Tipp tipp : g.tipud)
@@ -69,7 +70,8 @@ public class BFKontroller {
         for (int i = 0; i < g.tipud.size(); i++) {
             Tipp praeguneTipp = g.tipud.get(i);
             praeguneTipp.kaal = Integer.MAX_VALUE;
-            if (i == 0) praeguneTipp.kaal = 0;
+            if (i == 0)
+                praeguneTipp.kaal = 0;
             TippGraafil tippEkraanil = new TippGraafil(praeguneTipp.x, praeguneTipp.y, 30, praeguneTipp);
             tippEkraanil.setFill(Color.WHITE);
             praeguneTipp.tippGraafil = tippEkraanil;
@@ -104,7 +106,9 @@ public class BFKontroller {
         }
 
         pseudoToodeldud.getChildren().clear();
-        for (Tipp t : g.tipud) pseudoToodeldud.getChildren().add(new Text("\t" + t.tähis + " : " + (t.kaal == Integer.MAX_VALUE ? "INF" : t.kaal)));
+        for (Tipp t : g.tipud)
+            pseudoToodeldud.getChildren()
+                    .add(new Text("\t" + t.tähis + " : " + (t.kaal == Integer.MAX_VALUE ? "INF" : t.kaal)));
     }
 
     public void lukustaGraaf(MouseEvent ignored) {
@@ -112,18 +116,21 @@ public class BFKontroller {
         andmestruktuur.setDisable(false);
         kuvaStruktuurid();
 
-        for (Tipp t : g.tipud) t.tippGraafil.addEventFilter(MouseEvent.MOUSE_DRAGGED, MouseEvent::consume);
+        for (Tipp t : g.tipud)
+            t.tippGraafil.addEventFilter(MouseEvent.MOUSE_DRAGGED, MouseEvent::consume);
     }
 
     public void kysiSisendit(Kaar k, int oodatud) {
         boolean korras = false;
         Optional<String> sisend = KaaluSisendiDialoog.kuva();
         while (!korras) {
-            if (sisend.isEmpty()) return;
+            if (sisend.isEmpty())
+                return;
             String sisendiSisu = sisend.get();
             try {
                 if (Integer.parseInt(sisendiSisu) != oodatud) {
-                    String kontrolliTulemus = "Tipu %s kaal peaks olema %d aga on %d".formatted(k.lopp.tähis, oodatud, Integer.parseInt(sisend.get()));
+                    String kontrolliTulemus = "Tipu %s kaal peaks olema %d aga on %d".formatted(k.lopp.tähis, oodatud,
+                            Integer.parseInt(sisend.get()));
                     sammud.add(samm + "\t: Küsisin kaalu tipu " + k.lopp.tähis + " kohta. VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
                     Teavitaja.teavita(kontrolliTulemus, "Viga");
@@ -143,11 +150,13 @@ public class BFKontroller {
         List<String> pos = List.of("jah", "ja", "j", "1"), neg = List.of("ei", "e", "0");
         boolean korras = false;
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Kas lõpetada?");
+        dialog.setTitle("Bellman-Ford");
+        dialog.setContentText("Kas lõpetada töö?\n\nVõimalikud vastused: jah, ja, j, 1, ei, e, 0");
         Optional<String> sisend = dialog.showAndWait();
         boolean tulemus = false;
         while (!korras) {
-            while (sisend.isEmpty()) sisend = dialog.showAndWait();
+            while (sisend.isEmpty())
+                sisend = dialog.showAndWait();
             String sisendiSisu = sisend.get().toLowerCase();
             if (pos.contains(sisendiSisu) || neg.contains(sisendiSisu)) {
                 korras = true;
@@ -171,8 +180,7 @@ public class BFKontroller {
                 Arrow kaar = new Arrow(
                         k.algus.tippGraafil.getCenterX(), k.algus.tippGraafil.getCenterY(),
                         k.lopp.tippGraafil.getCenterX(), k.lopp.tippGraafil.getCenterY(),
-                        true, false, k
-                );
+                        true, false, k);
 
                 k.arrow = kaar;
                 kaared.add(kaar);
@@ -204,7 +212,8 @@ public class BFKontroller {
             }
             if (!vahetus) {
                 Logija.logi(vead, g, sammud, "BF", true, false);
-                Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()), "Info");
+                Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()),
+                        "Info");
                 laeNupp.setVisible(true);
                 andmestruktuur.setDisable(true);
                 return;
@@ -219,11 +228,10 @@ public class BFKontroller {
         kaarteJarjekord.add(k);
         int jargmineOodatud = Math.min(k.algus.kaal + k.kaal, k.lopp.kaal);
         kysiSisendit(k, jargmineOodatud);
-        if (k.lopp.kaal != jargmineOodatud) vahetus = true;
+        if (k.lopp.kaal != jargmineOodatud)
+            vahetus = true;
         k.lopp.kaal = jargmineOodatud;
         k.arrow.setFill(Color.DARKGREY);
         kuvaStruktuurid();
     }
 }
-
-

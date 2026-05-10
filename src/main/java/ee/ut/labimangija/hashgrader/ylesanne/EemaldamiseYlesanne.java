@@ -27,6 +27,7 @@ public class EemaldamiseYlesanne extends Ylesanne<Integer> {
     private HashMap<Integer, Integer> kompejadaAlgsedIndeksid;
     private int järg;
     private int kompesamm;
+    private int ridadeArv;
 
     public EemaldamiseYlesanne(String failiTee) throws IOException {
         loeSisend(failiTee);
@@ -38,18 +39,28 @@ public class EemaldamiseYlesanne extends Ylesanne<Integer> {
         String rida = read.get(new Random().nextInt(read.size()));
 
         sisend = new ArrayList<>();
-        for (String s : rida.split(" ")) {
+        String[] osad = rida.split(" ");
+        int algusIndeks = 0;
+        if (osad.length > 0 && osad[0].startsWith("m=")) {
+            ridadeArv = Integer.parseInt(osad[0].substring(2));
+            algusIndeks = 1;
+        }
+        for (int i = algusIndeks; i < osad.length; i++) {
+            String s = osad[i];
             if (s.contains("*")) {
                 eemaldatav = Integer.parseInt(s.replaceAll("[\\[*\\]]", ""));
             }
             sisend.add(Integer.parseInt(s.replaceAll("[\\[*\\]]", "")));
+        }
+        if (ridadeArv <= 0) {
+            ridadeArv = sisend.size();
         }
         kompesamm = 1;
     }
 
     @Override
     public Paisktabel<Integer> getPaisktabel() {
-        Paisktabel<Integer> paisktabel = new Paisktabel<>(kompesamm, sisend.size());
+        Paisktabel<Integer> paisktabel = new Paisktabel<>(kompesamm, ridadeArv);
         for (Integer arv : sisend) {
             paisktabel.sisesta(paisktabel.leiaVabaKoht(paiskfunktsioon(arv, paisktabel)), 0, arv);
         }
@@ -107,7 +118,7 @@ public class EemaldamiseYlesanne extends Ylesanne<Integer> {
     @Override
     public String ylesandeKirjeldus() {
         return "Olgu lahtise adresseerimisega paisktabelil jääkpaiskamine, kompesamm " + kompesamm + " ja ridu "
-                + sisend.size() + ".\nEemalda lahtise adresseerimiesega paisktabelist " + eemaldatav;
+                + ridadeArv + ".\nEemalda lahtise adresseerimiesega paisktabelist " + eemaldatav;
     }
 
     @Override

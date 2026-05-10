@@ -3,11 +3,9 @@ package ee.ut.labimangija.algorithmgrader.Controllers;
 import ee.ut.labimangija.common.Juhendid;
 import ee.ut.labimangija.graphgrader.Util.Teavitaja;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 public class AlgorithmMainController {

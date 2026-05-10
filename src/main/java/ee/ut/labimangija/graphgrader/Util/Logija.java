@@ -9,13 +9,16 @@ import ee.ut.labimangija.graphgrader.Graaf.Tipp;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class Logija {
 
     public static void logi(List<String> vead, Graaf g, List<String> sammud, String algo, boolean kaarteKaalud, boolean tipuKaalud) {
         Path logiKaust = AppPaths.resolve("labimangud", "graphgrader", algo);
-        Path logiFail = logiKaust.resolve(algo + "_logi.txt");
+        String ajatempel = new SimpleDateFormat("ddMMyy-HHmmss.SSS").format(new Date());
+        Path logiFail = logiKaust.resolve(algo + "_logi_" + ajatempel + ".txt");
 
         try {
             Files.createDirectories(logiKaust);

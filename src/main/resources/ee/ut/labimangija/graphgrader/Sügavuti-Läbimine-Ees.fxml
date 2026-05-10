@@ -24,7 +24,7 @@
     </Pane>
     <Pane layoutX="785" layoutY="5">
         <Rectangle width="30" height="30" fill="red"/>
-        <Label layoutX="35" layoutY="5" text="Praegune"/>
+        <Label layoutX="35" layoutY="5" text="Aktiivne"/>
     </Pane>
     <Pane layoutX="670" layoutY="55">
         <Rectangle width="30" height="30" fill="orange"/>

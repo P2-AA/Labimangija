@@ -20,6 +20,7 @@ public class LisamiseYlesanne extends Ylesanne<Integer> {
 
     private ArrayList<Integer> sisend;
     private int kompesamm;
+    private int ridadeArv;
 
     public LisamiseYlesanne(String failiTee) throws IOException {
         loeSisend(failiTee);
@@ -31,15 +32,25 @@ public class LisamiseYlesanne extends Ylesanne<Integer> {
         String rida = read.get(new Random().nextInt(read.size()));
 
         sisend = new ArrayList<>();
-        for (String s : rida.split(" ")) {
+        String[] osad = rida.split(" ");
+        int algusIndeks = 0;
+        if (osad.length > 0 && osad[0].startsWith("m=")) {
+            ridadeArv = Integer.parseInt(osad[0].substring(2));
+            algusIndeks = 1;
+        }
+        for (int i = algusIndeks; i < osad.length; i++) {
+            String s = osad[i];
             sisend.add(Integer.parseInt(s.replaceAll("[\\[*\\]]", "")));
+        }
+        if (ridadeArv <= 0) {
+            ridadeArv = sisend.size();
         }
         kompesamm = 1;
     }
 
     @Override
     public Paisktabel<Integer> getPaisktabel() {
-        return new Paisktabel<>(kompesamm, sisend.size());
+        return new Paisktabel<>(kompesamm, ridadeArv);
     }
 
     @Override
@@ -76,7 +87,7 @@ public class LisamiseYlesanne extends Ylesanne<Integer> {
     @Override
     public String ylesandeKirjeldus() {
         return "Olgu lahtise adresseerimisega paisktabelil jääkpaiskamine, kompesamm " + kompesamm + " ja ridu "
-                + sisend.size() + ".\nLisa paisktabelisse samas järjekorras järgmised elemendid: " + sisend;
+                + ridadeArv + ".\nLisa paisktabelisse samas järjekorras järgmised elemendid: " + sisend;
     }
 
     @Override
