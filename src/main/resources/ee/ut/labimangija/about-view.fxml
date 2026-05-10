@@ -7,9 +7,24 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             prefHeight="400" prefWidth="600">
     <children>
-        <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
-            <Label text="Rakendusest" style="-fx-font-size:18; -fx-font-weight:bold;"/>
-            <Label text="See on rakendust tutvustava vahelehe kohahoidja" wrapText="true"/>
+        <VBox spacing="10"
+              AnchorPane.topAnchor="14" AnchorPane.leftAnchor="14"
+              AnchorPane.rightAnchor="14" AnchorPane.bottomAnchor="14">
+
+            <Label text="Rakendusest"
+                   style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+
+            <Label text="Läbimängija v1.0"
+                   style="-fx-font-size: 15; -fx-font-weight: bold;"/>
+
+            <Label wrapText="true" maxWidth="560"
+                   text="Läbimängija on õppetööd toetav harjutusprogramm, mis võimaldab algoritmide ja andmestruktuuride ülesandeid samm-sammult läbi mängida."/>
+
+            <Label wrapText="true" maxWidth="560"
+                   text="Rakendus koondab ühte keskkonda graafialgoritmide, puu- ja kuhjaalgoritmide, massiivialgoritmide ning paisktabelite harjutused. Ülesannete lahendamisel toetab rakendus nii etteantud sisendfailide kasutamist kui ka sisendite genereerimist."/>
+
+            <Label wrapText="true" maxWidth="560"
+                   text="Läbimängija arendus tugineb varasemalt valminud kaheksale lõputööle, täpsemalt nende põhjal loodud läbimänguprogrammidele ja sisendi genereerijatele, mida on edasi arendatud ühtseks süsteemiks."/>
         </VBox>
     </children>
 
