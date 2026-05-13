@@ -46,6 +46,11 @@ public class Arrow extends Path {
         double labelKoht = onKahepoolne() ? 2.0 / 3.0 : 1.0 / 2.0;
         midX = startX + (endX - startX) * labelKoht;
         midY = startY + (endY - startY) * labelKoht;
+        if (onKahepoolne()) {
+            double labelOffset = 10.0;
+            midX += -sin * labelOffset;
+            midY += cos * labelOffset;
+        }
 
         if (!showArrow) return;
 

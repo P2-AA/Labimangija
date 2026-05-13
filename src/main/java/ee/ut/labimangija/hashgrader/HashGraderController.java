@@ -432,8 +432,8 @@ public class HashGraderController {
     private String koostaAlgseadistuseAbi() {
         String valitudTyyp = getSelectedTaskType();
         return switch (valitudTyyp) {
-            case "k" -> "Kimbumeetod vajab kolmikut a b m.";
-            case "p" -> "Positsioonimeetod vajab paisktabeli pikkust.";
+            case "k" -> "Kimbumeetod vajab kolmikut a b m.\na - minimaalne element,\nb - maksimaalne element,\nm - kimpude arv.";
+            case "p" -> "Positsioonimeetod vajab algseadistusena paisktabeli pikkust.";
             default -> "Lisamine ja eemaldamine ei vaja eraldi algseadistust.";
         };
     }
@@ -452,7 +452,7 @@ public class HashGraderController {
 
         if (olek == Olek.ALGSEADISTUS) {
             if ("p".equals(aktiivneTyyp)) {
-                sb.append("Sisesta paisktabeli pikkus.\n");
+                sb.append("Sisesta paisktabeli pikkus.");
             } else {
                 sb.append(
                         "Sisesta a = minimaalne element, b = maksimaalne element ja\nm = kimpude arv (eraldatud tühikutega).\n");

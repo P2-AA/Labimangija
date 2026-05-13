@@ -17,7 +17,13 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+// Klassi implementatsioon põhineb Peamiselt Erik Presnovi loodud lahendusel.
+// Eeskujuks kasutatud töö: "Graafialgoritmide läbimängija ja hindaja", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/4d0c5318-13c9-4260-92e1-9d2b1c815dc7
 
 public class PrimKontroller {
 
@@ -50,7 +56,7 @@ public class PrimKontroller {
     }
 
     public void laeGraaf(MouseEvent ignored) throws IOException {
-        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud", GraafiGenereerija.Tyyp.SIDUS_KAALUTUD);
+        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud_kaalutud", GraafiGenereerija.Tyyp.SIDUS_KAALUTUD);
         if (failitee == null) return;
         taastaYlesanne();
         g = new Graaf(failitee, false);
@@ -171,6 +177,7 @@ public class PrimKontroller {
         graafiElement.getChildren().removeIf(e -> e instanceof Text);
         List<Text> kaalud = new ArrayList<>();
         List<Arrow> kaared = new ArrayList<>();
+        Map<Integer, Integer> kaaludeKordused = loendaKaaludeKordused();
 
         for (Tipp t : g.tipud) {
             for (Kaar k : t.kaared) {
@@ -183,7 +190,7 @@ public class PrimKontroller {
                 kaared.add(kaar);
 
                 if (g.kaalutud)
-                    kaalud.add(new Text(kaar.midX, kaar.midY, String.valueOf(kaar.kaar.kaal)));
+                    kaalud.add(new Text(kaar.midX, kaar.midY, kuvatavKaal(k, kaaludeKordused)));
             }
         }
 
@@ -227,5 +234,21 @@ public class PrimKontroller {
                 return "Järglane {%s} ei ole töödeldud ega andmestruktuuris".formatted(kaar.lopp.tähis);
 
         return "";
+    }
+
+    private Map<Integer, Integer> loendaKaaludeKordused() {
+        Map<Integer, Integer> kordused = new HashMap<>();
+        for (Tipp t : g.tipud) {
+            for (Kaar k : t.kaared) {
+                if (k.algus.tähis.compareTo(k.lopp.tähis) < 0) {
+                    kordused.merge(k.kaal, 1, Integer::sum);
+                }
+            }
+        }
+        return kordused;
+    }
+
+    private String kuvatavKaal(Kaar kaar, Map<Integer, Integer> kaaludeKordused) {
+        return kaaludeKordused.getOrDefault(kaar.kaal, 0) > 1 ? "1" : String.valueOf(kaar.kaal);
     }
 }

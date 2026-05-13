@@ -20,6 +20,10 @@ import static ee.ut.labimangija.hashgrader.Hindaja.Olek.LÕPP;
 import static ee.ut.labimangija.hashgrader.Hindaja.Olek.RASKE_LISAMINE;
 import static ee.ut.labimangija.hashgrader.Hindaja.Olek.TABELI_LOOMINE;
 
+// Klassi implementatsioon põhineb peamiselt Karolin Konradi loodud lahendusel.
+// Eeskujuks kasutatud töö: "Paisktabelialgoritmide läbimängu automaatse hindaja loomine", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/de177ee2-57a8-428a-b4b9-cac9982f5bd4
+
 public class KimbuYlesanne extends Ylesanne<Float> {
     private ArrayList<Float> sisend;
     private ArrayList<Float> algneSisend;
@@ -101,7 +105,9 @@ public class KimbuYlesanne extends Ylesanne<Float> {
     @Override
     public void setPaisktabeliParameetrid(float minElem, float maxElem, int elementideArv) {
         if (!kasSobivadPaisktabeliParameetrid(minElem, maxElem, elementideArv)) {
-            throw new IllegalArgumentException("Algseadistus peab paigutama kõik elemendid paisktabeli vahemikku 0 kuni m-1.");
+            throw new IllegalArgumentException(
+                    "Sobimatu algseadistus. Sisesta a b m nii, et kõik elemendid jaotuksid ridadele 0 kuni m-1."
+            );
         }
         this.tudengiMinElem = minElem;
         this.tudengiMaxElem = maxElem;
@@ -207,4 +213,3 @@ public class KimbuYlesanne extends Ylesanne<Float> {
         return new Hinnang(õigeSamm, LÕPP, samm, õigeSamm.equals(samm));
     }
 }
-

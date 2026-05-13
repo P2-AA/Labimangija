@@ -1,5 +1,9 @@
 package ee.ut.labimangija.arraygrader.massiiviseis;
 
+// Klassi implementatsioon põhineb peamiselt Pihla Järve loodud lahendusel.
+// Eeskujuks kasutatud töö: "Rakendus massiivialgoritmide läbimängude hindamiseks", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/2d182e41-7be8-4a84-b9fd-af9a48a8f6cc
+
 public class ValikuKiirmeetodiMassiiviSeis extends MassiiviSeis {
     int vastusePiir; // esimese elemendi indeks, mis ei jää vähimate elementide hulka. võrdne enne piiri olevate elementide arvuga.
 

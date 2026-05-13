@@ -16,6 +16,10 @@ import static ee.ut.labimangija.hashgrader.Hindaja.Olek.LISAMINE;
 import static ee.ut.labimangija.hashgrader.Hindaja.Olek.LÕPP;
 import static ee.ut.labimangija.hashgrader.Hindaja.Olek.RASKE_LISAMINE;
 
+// Klassi implementatsioon põhineb peamiselt Karolin Konradi loodud lahendusel.
+// Eeskujuks kasutatud töö: "Paisktabelialgoritmide läbimängu automaatse hindaja loomine", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/de177ee2-57a8-428a-b4b9-cac9982f5bd4
+
 public class LisamiseYlesanne extends Ylesanne<Integer> {
 
     private ArrayList<Integer> sisend;

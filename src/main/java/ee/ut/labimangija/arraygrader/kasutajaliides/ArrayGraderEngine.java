@@ -127,11 +127,11 @@ public class ArrayGraderEngine {
     }
 
     public boolean supportsPiste() {
-        return algoritm == Algoritm.MULLIMEETOD || algoritm == Algoritm.PISTEMEETOD;
+        return algoritm == Algoritm.PISTEMEETOD;
     }
 
     public boolean supportsVaheta() {
-        return algoritm == Algoritm.VALIKUMEETOD;
+        return algoritm == Algoritm.MULLIMEETOD || algoritm == Algoritm.VALIKUMEETOD;
     }
 
     public boolean supportsJaota() {
@@ -220,7 +220,7 @@ public class ArrayGraderEngine {
             case MULLIMEETOD ->
                 "Alustame mullimeetodi läbimängu massiivil " + Arrays.toString(massiiv)
                         + ". Kasutame varianti, " + "\n"
-                        + "kus massiiv loetakse sorteerituks, kui ühtegi vahetust ei tehta.";
+                        + "kus vahetatakse ainult kõrvutiasetsevaid elemente.";
             case PISTEMEETOD ->
                 "Alustame pistemeetodi läbimängu massiivil " + Arrays.toString(massiiv) + ".";
             case VALIKUMEETOD ->

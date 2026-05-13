@@ -5,6 +5,10 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 
+// Klassi implementatsioon põhineb peamiselt Markus Michelise loodud lahendusel.
+// Eeskujuks kasutatud töö: "kahendpuu- ja kuhjaalgoritmide läbimängija ja hindaja", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/e07a9cf2-900d-4db8-9d05-5c24d48e424c
+
 /**
  * eeskujuna kasutatud koodi - https://gist.github.com/kn0412/2086581e98a32c8dfa1f69772f14bca4
  * eeskujuks sarnase lahendusena - https://github.com/ErikPresnov/GraphGrader/blob/main/src/main/java/com/example/graphgrader/Graaf/Arrow.java

@@ -18,7 +18,13 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+
+// Klassi implementatsioon põhineb Peamiselt Erik Presnovi loodud lahendusel.
+// Eeskujuks kasutatud töö: "Graafialgoritmide läbimängija ja hindaja", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/4d0c5318-13c9-4260-92e1-9d2b1c815dc7
 
 public class KahnKontroller {
 
@@ -125,10 +131,15 @@ public class KahnKontroller {
     }
 
     public void laeGraaf(MouseEvent ignored) throws IOException {
-        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud", GraafiGenereerija.Tyyp.SUUNATUD_DAG);
+        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud_dag", GraafiGenereerija.Tyyp.KAHN);
         if (failitee == null) return;
         taastaYlesanne();
         g = new Graaf(failitee, true);
+        if (!onAtsukliline(g)) {
+            Teavitaja.teavita("Kahni algoritmi jaoks peab sisendgraaf olema tsükliteta suunatud graaf.", "Viga");
+            taastaYlesanne();
+            return;
+        }
         olemas = new int[g.tipud.size()];
         paris = new int[g.tipud.size()];
         for (Tipp tipp : g.tipud) for (Tipp t : tipp.alluvad) paris[t.tähis.charAt(0) - 'A']++;
@@ -229,6 +240,8 @@ public class KahnKontroller {
                 Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()), "Info");
                 laeNupp.setVisible(true);
                 andmestruktuur.setDisable(true);
+            } else {
+                Teavitaja.teavita("Järjekord on tühi, aga kõik tipud pole veel töödeldud. Kontrolli sisendastmeid või kas graaf sisaldab tsüklit.", "Info");
             }
             return;
         }
@@ -251,6 +264,35 @@ public class KahnKontroller {
         }
         return "";
     }
+
+    private boolean onAtsukliline(Graaf g) {
+        int[] sisendastmed = new int[g.tipud.size()];
+        for (Tipp tipp : g.tipud) {
+            for (Tipp alluv : tipp.alluvad) {
+                sisendastmed[alluv.tähis.charAt(0) - 'A']++;
+            }
+        }
+
+        Queue<Tipp> nullAstmega = new LinkedList<>();
+        for (Tipp tipp : g.tipud) {
+            if (sisendastmed[tipp.tähis.charAt(0) - 'A'] == 0) {
+                nullAstmega.add(tipp);
+            }
+        }
+
+        int toodeldudTipud = 0;
+        while (!nullAstmega.isEmpty()) {
+            Tipp tipp = nullAstmega.remove();
+            toodeldudTipud++;
+            for (Tipp alluv : tipp.alluvad) {
+                int indeks = alluv.tähis.charAt(0) - 'A';
+                sisendastmed[indeks]--;
+                if (sisendastmed[indeks] == 0) {
+                    nullAstmega.add(alluv);
+                }
+            }
+        }
+
+        return toodeldudTipud == g.tipud.size();
+    }
 }
-
-

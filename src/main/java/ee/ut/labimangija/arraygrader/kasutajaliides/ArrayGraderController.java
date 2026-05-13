@@ -1,7 +1,7 @@
-package ee.ut.labimangija.ui;
+package ee.ut.labimangija.arraygrader.kasutajaliides;
 
-import ee.ut.labimangija.graphgrader.Util.Teavitaja;
 import ee.ut.labimangija.common.Juhendid;
+import ee.ut.labimangija.graphgrader.Util.Teavitaja;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,8 +9,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import ee.ut.labimangija.arraygrader.kasutajaliides.ArrayGraderEngine;
-import ee.ut.labimangija.arraygrader.kasutajaliides.ArraySisendiValija;
 
 public class ArrayGraderController {
     private final ArrayGraderEngine engine = new ArrayGraderEngine();
@@ -151,11 +149,11 @@ public class ArrayGraderController {
     }
 
     private String loe(TextField field, String veateade) {
-        String vaartus = field.getText() == null ? "" : field.getText().trim();
-        if (vaartus.isEmpty()) {
+        String väärtus = field.getText() == null ? "" : field.getText().trim();
+        if (väärtus.isEmpty()) {
             throw new IllegalArgumentException(veateade);
         }
-        return vaartus;
+        return väärtus;
     }
 
     private ArrayGraderEngine.Algoritm getSelectedAlgorithm() {
@@ -186,4 +184,3 @@ public class ArrayGraderController {
         return "mullimeetod";
     }
 }
-

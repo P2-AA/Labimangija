@@ -5,6 +5,10 @@ import ee.ut.labimangija.arraygrader.massiiviseis.MassiiviSeis;
 
 import java.util.Objects;
 
+// Klassi implementatsioon põhineb peamiselt Pihla Järve loodud lahendusel.
+// Eeskujuks kasutatud töö: "Rakendus massiivialgoritmide läbimängude hindamiseks", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/2d182e41-7be8-4a84-b9fd-af9a48a8f6cc
+
 public abstract class TööalaValimine extends Massiivioperatsioon {
     public TööalaValimine(int uusTööalaAlgus, int uusTööalaleJärgnevIndeks, MassiiviSeis massiivEnneOperatsiooni) {
         super(massiivEnneOperatsiooni);

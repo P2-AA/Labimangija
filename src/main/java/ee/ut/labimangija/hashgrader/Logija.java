@@ -12,6 +12,10 @@ import java.util.Date;
 import ee.ut.labimangija.common.AppPaths;
 import ee.ut.labimangija.common.KasutajaAndmed;
 
+// Klassi implementatsioon põhineb peamiselt Karolin Konradi loodud lahendusel.
+// Eeskujuks kasutatud töö: "Paisktabelialgoritmide läbimängu automaatse hindaja loomine", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/de177ee2-57a8-428a-b4b9-cac9982f5bd4
+
 public class Logija {
     private static final Path LOG_DIR = AppPaths.resolve("labimangud", "hashgrader");
     private final Path fail;

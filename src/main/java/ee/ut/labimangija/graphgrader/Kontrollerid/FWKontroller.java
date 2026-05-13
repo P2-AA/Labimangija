@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// Klassi implementatsioon põhineb Peamiselt Erik Presnovi loodud lahendusel.
+// Eeskujuks kasutatud töö: "Graafialgoritmide läbimängija ja hindaja", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/4d0c5318-13c9-4260-92e1-9d2b1c815dc7
 
 public class FWKontroller {
 
@@ -54,7 +57,7 @@ public class FWKontroller {
     }
 
     public void laeGraaf(MouseEvent ignored) throws IOException {
-        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud_kaalutud", GraafiGenereerija.Tyyp.SUUNATUD_KAALUTUD);
+        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud_kaalutud", GraafiGenereerija.Tyyp.FLOYD_WARSHALL);
         if (failitee == null) return;
         taastaYlesanne();
         g = new Graaf(failitee, true);
@@ -250,5 +253,4 @@ public class FWKontroller {
         return "";
     }
 }
-
 

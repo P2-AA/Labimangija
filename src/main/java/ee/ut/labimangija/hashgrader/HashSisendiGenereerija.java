@@ -25,6 +25,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+// Klassi implementatsioon põhineb peamiselt Nikolai Voitsehhovski loodud lahendusel.
+// Eeskujuks kasutatud töö: "Paisktabelialgoritmide sisendite genereerimine", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/dfde13c8-40bb-47dd-b61b-88f9f58c424e
+
 public class HashSisendiGenereerija {
     private static final Random RANDOM = new Random();
 

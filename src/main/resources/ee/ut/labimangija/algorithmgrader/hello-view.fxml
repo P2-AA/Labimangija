@@ -3,6 +3,10 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 
+<!-- // Klassi implementatsioon põhineb peamiselt Markus Michelise loodud lahendusel.
+// Eeskujuks kasutatud töö: "kahendpuu- ja kuhjaalgoritmide läbimängija ja hindaja", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/e07a9cf2-900d-4db8-9d05-5c24d48e424c -->
+
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
          prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1"
          xmlns="http://javafx.com/javafx/19"

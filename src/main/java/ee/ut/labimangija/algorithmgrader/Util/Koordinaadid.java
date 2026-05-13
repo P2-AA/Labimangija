@@ -3,6 +3,10 @@ package ee.ut.labimangija.algorithmgrader.Util;
 import ee.ut.labimangija.algorithmgrader.Kahendpuu.*;
 
 import java.util.*;
+
+// Klassi implementatsioon põhineb peamiselt Markus Michelise loodud lahendusel.
+// Eeskujuks kasutatud töö: "kahendpuu- ja kuhjaalgoritmide läbimängija ja hindaja", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/e07a9cf2-900d-4db8-9d05-5c24d48e424c
 public class Koordinaadid {
     public static final int tipuRaadius = 20;
     public static final int JUURE_X = 445-tipuRaadius/2;

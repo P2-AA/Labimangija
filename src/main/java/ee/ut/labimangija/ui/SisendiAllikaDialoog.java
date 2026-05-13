@@ -13,7 +13,7 @@ public final class SisendiAllikaDialoog {
     }
 
     public static Valik kuva(String pealkiri) {
-        Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert dialog = new Alert(Alert.AlertType.NONE);
         dialog.setTitle(pealkiri);
         dialog.setHeaderText(HEADER);
 

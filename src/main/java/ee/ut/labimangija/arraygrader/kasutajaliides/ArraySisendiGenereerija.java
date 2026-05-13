@@ -17,6 +17,10 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
 
+// Klassi implementatsioon põhineb peamiselt Samuel Johannes Pitko loodud lahendusel.
+// Eeskujuks kasutatud töö: "Massiivialgoritmide sisendite genereerimine", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/9d032b2f-9fdd-4444-a3e3-94e8ec66ed9a
+
 public class ArraySisendiGenereerija {
     private static final Random RANDOM = new Random();
 

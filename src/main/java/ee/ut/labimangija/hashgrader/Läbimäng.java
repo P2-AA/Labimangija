@@ -9,6 +9,10 @@ import ee.ut.labimangija.hashgrader.ylesanne.EemaldamiseYlesanne;
 import ee.ut.labimangija.hashgrader.ylesanne.KimbuYlesanne;
 import ee.ut.labimangija.hashgrader.ylesanne.PositsiooniYlesanne;
 
+// Klassi implementatsioon põhineb peamiselt Karolin Konradi loodud lahendusel.
+// Eeskujuks kasutatud töö: "Paisktabelialgoritmide läbimängu automaatse hindaja loomine", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/de177ee2-57a8-428a-b4b9-cac9982f5bd4
+
 public class Läbimäng<T> {
 
     private Stack<Hinnang> läbimäng;

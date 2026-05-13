@@ -26,6 +26,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+// Klassi implementatsioon põhineb peamiselt Markus Michelise loodud lahendusel.
+// Eeskujuks kasutatud töö: "kahendpuu- ja kuhjaalgoritmide läbimängija ja hindaja", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/e07a9cf2-900d-4db8-9d05-5c24d48e424c
+
 public class ElemendiEemaldamineBST {
     @FXML
     private Pane kahendpuuAla;

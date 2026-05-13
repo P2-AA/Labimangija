@@ -23,6 +23,10 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+// Klassi implementatsioon põhineb peamiselt Renno Sepa loodud lahendusel.
+// Eeskujuks kasutatud töö: "Sisendite genereerimine puude ja kuhjade algoritmidele", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/726bc5e0-ae88-4038-9ec2-031fc48ba160
+
 public final class AlgorithmSisendiGenereerija {
     private static final Random RANDOM = new Random();
 

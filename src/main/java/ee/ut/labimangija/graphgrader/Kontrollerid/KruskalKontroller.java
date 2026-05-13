@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// Klassi implementatsioon põhineb Peamiselt Erik Presnovi loodud lahendusel.
+// Eeskujuks kasutatud töö: "Graafialgoritmide läbimängija ja hindaja", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/4d0c5318-13c9-4260-92e1-9d2b1c815dc7
+
 public class KruskalKontroller {
 
     public KaarteKuhi kuhi = new KaarteKuhi();
@@ -189,7 +193,7 @@ public class KruskalKontroller {
     }
 
     public boolean kysiSisendit() {
-        Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert dialog = new Alert(Alert.AlertType.NONE);
         dialog.setTitle("Sisend");
         dialog.setHeaderText("Kas valitud kaar kuulub toesesse?");
 

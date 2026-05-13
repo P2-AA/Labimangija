@@ -29,6 +29,10 @@ import ee.ut.labimangija.common.AppPaths;
 import java.nio.file.Files;
 import java.util.List;
 
+// Klassi implementatsioon põhineb peamiselt Markus Michelise loodud lahendusel.
+// Eeskujuks kasutatud töö: "kahendpuu- ja kuhjaalgoritmide läbimängija ja hindaja", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/e07a9cf2-900d-4db8-9d05-5c24d48e424c
+
 public class JärjendKahendotsimispuuks {
     @FXML
     private Pane kahendpuuAla; // Puu joonistamiseks

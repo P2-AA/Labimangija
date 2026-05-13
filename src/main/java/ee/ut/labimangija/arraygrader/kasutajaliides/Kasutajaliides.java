@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+// Klassi implementatsioon põhineb peamiselt Pihla Järve loodud lahendusel.
+// Eeskujuks kasutatud töö: "Rakendus massiivialgoritmide läbimängude hindamiseks", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/2d182e41-7be8-4a84-b9fd-af9a48a8f6cc
+
 public abstract class Kasutajaliides {
     private final Scanner skänner = new Scanner(System.in);
     private final Random random = new Random();

@@ -20,6 +20,10 @@ import static ee.ut.labimangija.hashgrader.Hindaja.Olek.LÕPP;
 import static ee.ut.labimangija.hashgrader.Hindaja.Olek.RASKE_LISAMINE;
 import static ee.ut.labimangija.hashgrader.Hindaja.Olek.TABELI_LOOMINE;
 
+// Klassi implementatsioon põhineb peamiselt Karolin Konradi loodud lahendusel.
+// Eeskujuks kasutatud töö: "Paisktabelialgoritmide läbimängu automaatse hindaja loomine", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/de177ee2-57a8-428a-b4b9-cac9982f5bd4
+
 public class PositsiooniYlesanne extends Ylesanne<Integer> {
     private ArrayList<Integer> sisend;
     private int kompesamm;

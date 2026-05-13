@@ -18,6 +18,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+// Klassi implementatsioon põhineb Peamiselt Erik Presnovi loodud lahendusel.
+// Eeskujuks kasutatud töö: "Graafialgoritmide läbimängija ja hindaja", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/4d0c5318-13c9-4260-92e1-9d2b1c815dc7
+
 public class SygEesKontroller {
     public List<Tipp> magasin = new ArrayList<>(), toodeldud = new ArrayList<>();
     public List<String> vead = new ArrayList<>(), sammud = new ArrayList<>();
@@ -44,7 +48,7 @@ public class SygEesKontroller {
     }
 
     public void laeGraaf(MouseEvent ignored) throws IOException {
-        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud", GraafiGenereerija.Tyyp.SUUNATUD);
+        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud", GraafiGenereerija.Tyyp.LABIMINE);
         if (failitee == null) return;
         taastaYlesanne();
         g = new Graaf(failitee, true);
@@ -194,5 +198,4 @@ public class SygEesKontroller {
         return "";
     }
 }
-
 

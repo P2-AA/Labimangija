@@ -22,6 +22,10 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+// Klassi implementatsioon põhineb Peamiselt Erik Presnovi loodud lahendusel.
+// Eeskujuks kasutatud töö: "Graafialgoritmide läbimängija ja hindaja", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/4d0c5318-13c9-4260-92e1-9d2b1c815dc7
+
 public class EeldusGraafKontroller {
     public List<Tipp> topoloogilineJarjestus = new ArrayList<>(), sisestatud = new ArrayList<>();
     public boolean[] varaseimLoppOlemas, hilisemAlgusOlemas;
@@ -128,6 +132,10 @@ public class EeldusGraafKontroller {
                 return;
             if (edasi)
                 return;
+            if (!koikJarglasedHinnatud(tipp.tipp)) {
+                Teavitaja.teavita("Kõigi järglaste hiliseim algusaeg peab enne olemas olema.", "Viga");
+                return;
+            }
             int tulemus = kysiSisendit(tipp.tipp, minJarglastest(tipp.tipp) - tipp.tipp.kaal, "Hiliseim algusaeg?");
             tipp.tipp.hiliseimAlgus = tulemus;
             tekst4.setText(String.valueOf(tulemus));
@@ -153,7 +161,7 @@ public class EeldusGraafKontroller {
 
     private void jargmine() {
         if (edasi) {
-            if (g.tipud.get(g.tipud.size() - 1).seis == TipuSeis.PRAEGUNE) {
+            if (topoloogilineJarjestus.get(topoloogilineJarjestus.size() - 1).seis == TipuSeis.PRAEGUNE) {
                 lopp.setFill(Color.WHITE);
                 algus.setFill(Color.RED);
                 kysiLoppu();
@@ -166,8 +174,8 @@ public class EeldusGraafKontroller {
                         + " juurde. KORRAS");
             }
         } else {
-            if (g.tipud.get(0).seis == TipuSeis.PRAEGUNE) {
-                g.tipud.get(0).setToodeldud();
+            if (topoloogilineJarjestus.get(0).seis == TipuSeis.PRAEGUNE) {
+                topoloogilineJarjestus.get(0).setToodeldud();
                 algus.setFill(Color.WHITE);
                 kysiKriitilised();
             } else {
@@ -197,6 +205,7 @@ public class EeldusGraafKontroller {
         while (!kriitilised.isEmpty()) {
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Sisend");
+            dialog.setHeaderText(null);
             dialog.setContentText("Milline on kriitiline tipp?");
             Optional<String> sisend = dialog.showAndWait();
             boolean korras = false;
@@ -240,6 +249,7 @@ public class EeldusGraafKontroller {
         boolean korras = false;
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Sisend");
+        dialog.setHeaderText(null);
         dialog.setContentText("Kogu projekti (graafi) varaseim lõpuaeg?");
         Optional<String> sisend = dialog.showAndWait();
         while (!korras) {
@@ -281,10 +291,22 @@ public class EeldusGraafKontroller {
         return min;
     }
 
+    private boolean koikJarglasedHinnatud(Tipp tipp) {
+        for (Tipp t : tipp.alluvad) {
+            int idx = g.tipud.indexOf(t);
+            if (idx < 0 || !hilisemAlgusOlemas[idx]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public int kysiSisendit(Tipp t, int oodatud, String mida) {
         boolean korras = false;
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle(mida);
+        dialog.setHeaderText(null);
+        dialog.setContentText(mida);
         Optional<String> sisend = dialog.showAndWait();
         while (!korras) {
             while (sisend.isEmpty())

@@ -8,6 +8,7 @@ module ee.ut.labimangija {
 
     opens ee.ut.labimangija to javafx.fxml;
     opens ee.ut.labimangija.ui to javafx.fxml;
+    opens ee.ut.labimangija.arraygrader.kasutajaliides to javafx.fxml;
     opens ee.ut.labimangija.algorithmgrader.Controllers to javafx.fxml;
     opens ee.ut.labimangija.graphgrader.Kontrollerid to javafx.fxml;
     opens ee.ut.labimangija.hashgrader to javafx.fxml;

@@ -14,7 +14,7 @@
             <Label text="Rakendusest"
                    style="-fx-font-size: 20; -fx-font-weight: bold;"/>
 
-            <Label text="Läbimängija v1.0"
+            <Label text="Läbimängija v1.1"
                    style="-fx-font-size: 15; -fx-font-weight: bold;"/>
 
             <Label wrapText="true" maxWidth="560"
@@ -25,6 +25,9 @@
 
             <Label wrapText="true" maxWidth="560"
                    text="Läbimängija arendus tugineb varasemalt valminud kaheksale lõputööle, täpsemalt nende põhjal loodud läbimänguprogrammidele ja sisendi genereerijatele, mida on edasi arendatud ühtseks süsteemiks."/>
+
+              <Label wrapText="true" maxWidth="560"
+                   text="Varasemate autorite tööle on koodis viidatud."/>     
         </VBox>
     </children>
 

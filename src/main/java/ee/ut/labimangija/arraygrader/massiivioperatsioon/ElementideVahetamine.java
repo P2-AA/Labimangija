@@ -2,9 +2,13 @@ package ee.ut.labimangija.arraygrader.massiivioperatsioon;
 
 import ee.ut.labimangija.arraygrader.massiiviseis.MassiiviSeis;
 
+// Klassi implementatsioon põhineb peamiselt Pihla Järve loodud lahendusel.
+// Eeskujuks kasutatud töö: "Rakendus massiivialgoritmide läbimängude hindamiseks", kättesaadav aadressil:
+// https://thesis.cs.ut.ee/2d182e41-7be8-4a84-b9fd-af9a48a8f6cc
+
 public abstract class ElementideVahetamine extends Massiivioperatsioon {
-    int vasakpoolseElemendiIndeks;
-    int parempoolseElemendiIndeks;
+    protected int vasakpoolseElemendiIndeks;
+    protected int parempoolseElemendiIndeks;
 
     public ElementideVahetamine(int üheVahetatavaIndeks, int teiseVahetatavaIndeks, MassiiviSeis massiivEnneOperatsiooni) {
         super(massiivEnneOperatsiooni);
@@ -45,4 +49,3 @@ public abstract class ElementideVahetamine extends Massiivioperatsioon {
                 && this.parempoolseElemendiIndeks == elementideVahetamine.parempoolseElemendiIndeks;
     }
 }
-
