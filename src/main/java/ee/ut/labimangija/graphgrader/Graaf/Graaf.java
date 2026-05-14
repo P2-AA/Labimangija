@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Queue;
 import ee.ut.labimangija.common.AppPaths;
 
 // Klassi implementatsioon põhineb Peamiselt Erik Presnovi loodud lahendusel.
@@ -43,9 +45,12 @@ public class Graaf {
             algus.lisaAlluv(loppT);
             if (!suunatud) loppT.lisaAlluv(algus);
             if (osad.length == 4) {
-                algus.kaared.add(new Kaar(algus, loppT, Integer.parseInt(osad[3])));
+                int kaal = Integer.parseInt(osad[3]);
+                if (kaal < 0)
+                    throw new IOException("Graafifail sisaldab negatiivset kaalu serval %d -> %d.".formatted(alg, lopp));
+                algus.kaared.add(new Kaar(algus, loppT, kaal));
                 if (!suunatud)
-                    loppT.kaared.add(new Kaar(loppT, algus, Integer.parseInt(osad[3])));
+                    loppT.kaared.add(new Kaar(loppT, algus, kaal));
             }
             else {
                 algus.kaared.add(new Kaar(algus, loppT));
@@ -56,6 +61,8 @@ public class Graaf {
         }
 
         this.tipud = tipud;
+        if (eeldus && !onAtsukliline(tipud))
+            throw new IOException("Eeldusgraaf peab olema suunatud atsükliline graaf.");
         this.kaalutud = tipud.get(0).kaared.get(0).kaal != 0;
     }
 
@@ -68,6 +75,35 @@ public class Graaf {
 
         return tagastus;
     }
+
+    private static boolean onAtsukliline(List<Tipp> tipud) {
+        int[] sisendastmed = new int[tipud.size()];
+        for (Tipp tipp : tipud) {
+            for (Tipp alluv : tipp.alluvad) {
+                sisendastmed[alluv.tähis.charAt(0) - 'A']++;
+            }
+        }
+
+        Queue<Tipp> nullAstmega = new LinkedList<>();
+        for (Tipp tipp : tipud) {
+            if (sisendastmed[tipp.tähis.charAt(0) - 'A'] == 0) {
+                nullAstmega.add(tipp);
+            }
+        }
+
+        int toodeldudTipud = 0;
+        while (!nullAstmega.isEmpty()) {
+            Tipp tipp = nullAstmega.remove();
+            toodeldudTipud++;
+            for (Tipp alluv : tipp.alluvad) {
+                int indeks = alluv.tähis.charAt(0) - 'A';
+                sisendastmed[indeks]--;
+                if (sisendastmed[indeks] == 0) {
+                    nullAstmega.add(alluv);
+                }
+            }
+        }
+
+        return toodeldudTipud == tipud.size();
+    }
 }
-
-

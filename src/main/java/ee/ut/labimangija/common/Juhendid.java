@@ -25,16 +25,16 @@ public final class Juhendid {
                 "Kauguste leidmine algtipust kõikidesse teistesse tippudesse\n\nKasutatav andmestruktuur: kuhi \n\nPunaseks värvitud tipp on aktiivne tipp. Töötle aktiivse tipu järglased. Selleks vajuta kaare peale ning sisesta järglase (uus) kaal. Seejärel märgi aktiivne tipp töödelduduks.\n\nLäbimängu lõpetamine: kui kõik tipud on töödeldud ja kuhi on saanud tühjaks, vajuta \"Võta\" nuppu.";
 
             case "fw" ->
-                "Kauguste leidmine igast tipust igasse tippu\n\nKasutatav andmestruktuur: maatriks\n\nPunaseks värvidud tipp (üks rida ja üks veerg maatriksis) on fikseeritud. Vajuta halli nuppu maatriksis ning sisesta (uus) kaugus. Kui kogu maatriks (va punane rida ja veerg) on töödeldud, siis märgi aktiivne tipp töödelduks.";
+                "Kauguste leidmine igast tipust igasse tippu\n\nKasutatav andmestruktuur: maatriks\n\nPunaseks värvidud tipp (üks rida ja üks veerg maatriksis) on fikseeritud. Vajuta halli nuppu maatriksis ning sisesta (uus) kaugus.\nKui kogu maatriks on töödeldud, siis märgi aktiivne tipp töödelduks.";
 
             case "bf" ->
                 "Kauguste leidmine algtipust kõikidesse teistesse tippudesse\n\nKasutatav andmestruktuur: järjekord\n\nVõta järjekorrast serv ning töötle see, see tähendab sisesta lõpptipu (uus) kaugus. Järjekorras tähendab | uue ringi algust. Järjekorrast kriipsu võtmisel küsitakse, kas peaks algoritmi töö lõpetama.";
 
             case "kahn" ->
-                "Topoloogilise järjestuse leidmine\n\nKasutatavad andmestruktuurid: paisktabel ja järjekord\n\nMääratud tabelis igale tipule tema sisendaste ning vajuta nuppu \"Kontrolli\". Kui sisendastmed on korrektsed, siis kaob nupp ära. Seejärel lisa tipud sisendastmega 0 järjekorda. Võta järjekorrast tipp, töötle väljuvad kaared, lisa sisendastmega 0 tipud järjekorda ja määra tipp töödelduks. Parempoolses paneelis olevad nupud \"lisa\", tähendavad tipu töösse lisamist";
+                "Topoloogilise järjestuse leidmine\n\nKasutatavad andmestruktuurid: paisktabel ja järjekord\n\nMääratud tabelis igale tipule tema sisendaste ning vajuta nuppu \"Kontrolli\".\nKui sisendastmed on korrektsed, siis kaob nupp ära. Seejärel lisa tipud sisendastmega 0 järjekorda.\nParempoolses paneelis olevad nupud \"lisa\", tähendavad tipu töösse lisamist.";
 
             case "eeldus" ->
-                "Graafi eeldusanalüüs\n\nSisesta topoloogiline järjestus. Seejärel klõpsa aktiivse tipu alumisel vasakul väljal ning määra varaseim lõpp, tee seda kõigi tippude puhul. Kui tipud on töödeldud, siis sisesta graafi varaseim lõpuaeg. Seejärel klõpsa aktiivse tipu alumisel paremal väljal ning sisesta hiliseim algusaeg. Lõpus sisesta kriitiline(sed) tipp(tipud)";
+                "Graafi eeldusanalüüs\n\nSisesta topoloogiline järjestus.\nSeejärel klõpsa aktiivsel tipul ning määra varaseim lõpp, tee seda kõigi tippude puhul.\nKui tipud on töödeldud, siis sisesta graafi varaseim lõpuaeg.\nSeejärel klõpsa aktiivsel tipul ja sisesta hiliseim algusaeg.\nLõpus sisesta kriitiline(sed) tipp(tipud).";
 
             default -> "";
         };
@@ -63,11 +63,11 @@ public final class Juhendid {
             case "mullimeetod" ->
                 "Mullimeetod\n\nKasuta \"Alusta\" nuppu, et laadida uus ülesanne. Sea vajadusel tööala, seejärel kasuta \"Vaheta\" nuppu kõrvutiasetsevate elementide vahetamiseks. Mullimeetodis tehakse vahetusi ainult naaberelementide vahel. \"Tagasi\" võtab viimase sammu tagasi ja \"Lõpeta\" lõpetab läbimängu.";
             case "pistemeetod" ->
-                "Pistemeetod\n\nKasuta \"Alusta\" nuppu, et laadida uus ülesanne. Sea tööala ning tee sammud indeksitega. \"Piste\" lisab elemendi õigesse kohta, \"Tagasi\" võtab viimase sammu tagasi ja \"Lõpeta\" lõpetab läbimängu.";
+                "Pistemeetod\n\nKasuta \"Alusta\" nuppu, et laadida uus ülesanne. Sea tööala ning tee sammud indeksitega.\n\"Piste\" paneb 1. indeksil oleva elemendi 2. indeksiga määratud kohale (vahele), \"Tagasi\" võtab viimase sammu tagasi ja \"Lõpeta\" lõpetab läbimängu.";
             case "valikumeetod" ->
-                "Valikumeetod\n\nKasuta \"Alusta\" nuppu, et laadida uus ülesanne. Sea tööala ning kasuta \"Vaheta\" nuppu minimaalse elemendi õigesse kohta viimiseks. \"Tagasi\" võtab viimase sammu tagasi ja \"Lõpeta\" lõpetab läbimängu.";
+                "Valikumeetod\n\nKasuta \"Alusta\" nuppu, et laadida uus ülesanne. \"Sea tööala\" kehtestab aktiivse tööala\n\"Vaheta\" vahetab määratud indeksitega kaks elementi. \"Tagasi\" võtab viimase sammu tagasi ja \"Lõpeta\" lõpetab läbimängu.";
             case "valiku_kiirmeetod" ->
-                "Valiku kiirmeetod\n\nKasuta \"Alusta\" nuppu, et laadida uus ülesanne. Sea tööala, vajadusel sisesta jaotus väljal \"Jaota\" uus massiiv kasutades lahkmekohana sümbolit _. \"Tagasi\" võtab viimase sammu tagasi ja \"Lõpeta\" lõpetab läbimängu.";
+                "Valiku kiirmeetod\n\nKasuta \"Alusta\" nuppu, et laadida uus ülesanne. \"Sea tööala\" kehtestab aktiivse tööala,\n\"Jaota\" kinnitab jaotuse tekstiväljale sisestatud väärtuste järjekorra massiivi (elementide vahele tuleb jätta tühikud). Lahkmekohana tuleks kasutada sümbolit _.\"Tagasi\" võtab viimase sammu tagasi ja \"Lõpeta\" lõpetab läbimängu.";
             default -> "";
         };
     }
@@ -81,7 +81,7 @@ public final class Juhendid {
             case "kimp" ->
                 "Kimbumeetod\n\nKasuta \"Alusta\" nuppu, et laadida uus ülesanne. Esmalt sisesta algseadistus kujul a = minimaalne element, b = maksimaalne element ja m = kimpude arv, seejärel kasuta välju i = alammassiivi indeks, r = paisktabeli rida ja vajadusel k = koht vastavate sammude tegemiseks. \"Võta tagasi\" tühistab viimase sammu ja \"Lõpeta\" lõpetab läbimängu.";
             case "positsioon" ->
-                "Positsioonimeetod\n\nKasuta \"Alusta\" nuppu, et laadida uus ülesanne. Esmalt sisesta paisktabeli pikkus algseadistuse väljale. Seejärel jaota elemendid paisktabeli ridadele, korja read samas järjekorras tagasi kokku ning jätka jaotamisega. \"Võta tagasi\" tühistab viimase sammu ja \"Lõpeta\" lõpetab läbimängu.";
+                "Positsioonimeetod\n\nKasuta \"Alusta\" nuppu, et laadida uus ülesanne. Esmalt sisesta paisktabeli algseadistus vastavale väljale. \"Sisest\" võtab esialgsest massiivist indeksil i oleva elemendi ja paigutab ta paisktabeli rea indeksile r, elemendiks indeksiga k (kui k on tühi, paigutatakse element rea algusesse). \"Võta tagasi\" tühistab viimase sammu ja \"Lõpeta\" lõpetab läbimängu.";
             default -> "";
         };
     }

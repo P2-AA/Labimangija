@@ -83,6 +83,7 @@ public class HashGraderController {
     private String aktiivneTyyp;
     private String viimaneTeade;
     private String lukustatudAlgseadistus;
+    private Integer positsiooniAlus;
 
     @FXML
     private void initialize() {
@@ -200,6 +201,7 @@ public class HashGraderController {
         olek = ("k".equals(aktiivneTyyp) || "p".equals(aktiivneTyyp)) ? Olek.ALGSEADISTUS : Olek.KASUD;
         viimaneTeade = null;
         lukustatudAlgseadistus = null;
+        positsiooniAlus = null;
         setupField.clear();
         puhastaSammuValjad();
     }
@@ -274,6 +276,7 @@ public class HashGraderController {
                 throw new IllegalArgumentException("Paisktabeli pikkus peab olema suurem kui 0.");
             }
             onnestus = labimang.astu(new PaisktabeliLoomiseSamm(pikkus));
+            positsiooniAlus = pikkus;
         } else if ("k".equals(aktiivneTyyp)) {
             if (osad.length != 3) {
                 throw new IllegalArgumentException("Kimbumeetodi jaoks sisesta kolm väärtust kujul: a b m.");
@@ -385,6 +388,7 @@ public class HashGraderController {
         labimang = null;
         aktiivneTyyp = null;
         lukustatudAlgseadistus = null;
+        positsiooniAlus = null;
         olek = Olek.YLESANDE_VALIK;
         setupField.clear();
         puhastaSammuValjad();
@@ -433,7 +437,9 @@ public class HashGraderController {
         String valitudTyyp = getSelectedTaskType();
         return switch (valitudTyyp) {
             case "k" -> "Kimbumeetod vajab kolmikut a b m.\na - minimaalne element,\nb - maksimaalne element,\nm - kimpude arv.";
-            case "p" -> "Positsioonimeetod vajab algseadistusena paisktabeli pikkust.";
+            case "p" -> positsiooniAlus == null
+                    ? "Positsioonimeetod vajab algseadistusena paisktabeli pikkust."
+                    : "Meetodi alus on: " + positsiooniAlus;
             default -> "Lisamine ja eemaldamine ei vaja eraldi algseadistust.";
         };
     }

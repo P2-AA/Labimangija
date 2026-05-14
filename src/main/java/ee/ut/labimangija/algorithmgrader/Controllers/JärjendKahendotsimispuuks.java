@@ -169,7 +169,10 @@ public class JärjendKahendotsimispuuks {
             //Logime vead
             Logija.logiViga(vead, logiFail);
             kuvaTeade("Läbimäng tehtud", "Vigu kokku: " + vigu);
+            eelminePuuOlek.setVisible(false);
+            lukustaPuu.setVisible(false);
             laeUusPuu.setVisible(true);
+            laeUusPuu.toFront();
         }
     }
     private void looPesad(Tipp tipp, VisuaalneTipp visuaalneTipp){

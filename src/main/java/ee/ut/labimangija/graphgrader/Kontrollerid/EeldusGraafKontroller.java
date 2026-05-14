@@ -4,6 +4,7 @@ import ee.ut.labimangija.graphgrader.Graaf.*;
 import ee.ut.labimangija.graphgrader.Util.GraafiGenereerija;
 import ee.ut.labimangija.graphgrader.Util.GraafiPaigutaja;
 import ee.ut.labimangija.graphgrader.Util.GraafiValija;
+import ee.ut.labimangija.graphgrader.Util.KaareKaaluKuvaja;
 import ee.ut.labimangija.graphgrader.Util.Logija;
 import ee.ut.labimangija.graphgrader.Util.Teavitaja;
 import javafx.scene.Group;
@@ -114,6 +115,29 @@ public class EeldusGraafKontroller {
             uuenda();
         });
 
+        tipp.setOnMouseClicked(e -> {
+            if (tipp.tipp.seis != TipuSeis.PRAEGUNE)
+                return;
+            if (edasi) {
+                int tulemus = kysiSisendit(tipp.tipp, tipp.tipp.kaal + maxEelastest(tipp.tipp), "Varaseim lõpuaeg?");
+                tipp.tipp.varaseimLopp = tulemus;
+                tekst3.setText(String.valueOf(tulemus));
+                varaseimLoppOlemas[g.tipud.indexOf(tipp.tipp)] = true;
+                koguAeg = arvutaKoguAeg();
+                jargmine();
+                return;
+            }
+            if (!koikJarglasedHinnatud(tipp.tipp)) {
+                Teavitaja.teavita("Kõigi järglaste hiliseim algusaeg peab enne olemas olema.", "Viga");
+                return;
+            }
+            int tulemus = kysiSisendit(tipp.tipp, minJarglastest(tipp.tipp) - tipp.tipp.kaal, "Hiliseim algusaeg?");
+            tipp.tipp.hiliseimAlgus = tulemus;
+            tekst4.setText(String.valueOf(tulemus));
+            hilisemAlgusOlemas[g.tipud.indexOf(tipp.tipp)] = true;
+            jargmine();
+        });
+
         tekst3.setOnMouseClicked(e -> {
             if (tipp.tipp.seis != TipuSeis.PRAEGUNE)
                 return;
@@ -123,8 +147,8 @@ public class EeldusGraafKontroller {
             tipp.tipp.varaseimLopp = tulemus;
             tekst3.setText(String.valueOf(tulemus));
             varaseimLoppOlemas[g.tipud.indexOf(tipp.tipp)] = true;
+            koguAeg = arvutaKoguAeg();
             jargmine();
-            koguAeg = Math.max(koguAeg, tulemus);
         });
 
         tekst4.setOnMouseClicked(e -> {
@@ -247,6 +271,7 @@ public class EeldusGraafKontroller {
 
     private void kysiLoppu() {
         boolean korras = false;
+        koguAeg = arvutaKoguAeg();
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Sisend");
         dialog.setHeaderText(null);
@@ -258,8 +283,7 @@ public class EeldusGraafKontroller {
             String sisendiSisu = sisend.get();
             try {
                 if (Integer.parseInt(sisendiSisu) != koguAeg) {
-                    String kontrolliTulemus = "Kogu lõpuaeg peaks olema %d aga sisestati %s".formatted(koguAeg,
-                            Integer.parseInt(sisend.get()));
+                    String kontrolliTulemus = "Sisestatud kogu lõpuaeg on vale, sisestati %s".formatted(Integer.parseInt(sisend.get()));
                     sammud.add(samm + "\t: Küsin kogu lõpuaega. VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
                     Teavitaja.teavita(kontrolliTulemus, "Viga");
@@ -273,6 +297,13 @@ public class EeldusGraafKontroller {
                 sisend = Optional.empty();
             }
         }
+    }
+
+    private int arvutaKoguAeg() {
+        int max = 0;
+        for (Tipp tipp : g.tipud)
+            max = Math.max(max, tipp.varaseimLopp);
+        return max;
     }
 
     private int maxEelastest(Tipp tipp) {
@@ -437,8 +468,8 @@ public class EeldusGraafKontroller {
                         true, false, k);
                 kaared.add(kaar);
 
-                if (g.kaalutud)
-                    kaalud.add(new Text(kaar.midX, kaar.midY, String.valueOf(kaar.kaar.kaal)));
+                if (g.kaalutud && KaareKaaluKuvaja.peaksKuvama(k))
+                    kaalud.add(KaareKaaluKuvaja.looKaaluTekst(kaar, k, String.valueOf(kaar.kaar.kaal)));
             }
         }
 

@@ -4,6 +4,7 @@ import ee.ut.labimangija.graphgrader.Graaf.*;
 import ee.ut.labimangija.graphgrader.Util.GraafiGenereerija;
 import ee.ut.labimangija.graphgrader.Util.GraafiPaigutaja;
 import ee.ut.labimangija.graphgrader.Util.GraafiValija;
+import ee.ut.labimangija.graphgrader.Util.KaareKaaluKuvaja;
 import ee.ut.labimangija.graphgrader.Util.KaaluSisendiDialoog;
 import ee.ut.labimangija.graphgrader.Util.Logija;
 import ee.ut.labimangija.graphgrader.Util.Teavitaja;
@@ -190,8 +191,8 @@ public class BFKontroller {
                 k.arrow = kaar;
                 kaared.add(kaar);
 
-                if (g.kaalutud)
-                    kaalud.add(new Text(kaar.midX, kaar.midY, String.valueOf(kaar.kaar.kaal)));
+                if (g.kaalutud && KaareKaaluKuvaja.peaksKuvama(k))
+                    kaalud.add(KaareKaaluKuvaja.looKaaluTekst(kaar, k, String.valueOf(kaar.kaar.kaal)));
             }
         }
 

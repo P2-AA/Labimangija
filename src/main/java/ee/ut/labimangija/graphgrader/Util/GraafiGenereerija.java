@@ -433,7 +433,7 @@ public class GraafiGenereerija {
         kaugus[0] = 0;
 
         for (int[] kaar : e) {
-            kaar[2] = r.nextInt(18) - 9;
+            kaar[2] = r.nextInt(10);
             kaugus[kaar[1]] = kaugus[kaar[0]] + kaar[2];
         }
 
@@ -484,7 +484,7 @@ public class GraafiGenereerija {
                 if (m2 <= 0) break;
                 int j = r.nextInt(i + 1) - 1;
                 ep.get(j).remove(Integer.valueOf(i));
-                int kaal = r.nextInt(18) - 9;
+                int kaal = r.nextInt(10);
                 kaugus[i + 1] = kaugus[j + 1] + kaal;
                 if (j != -1) {
                     e[j][i] = kaal;

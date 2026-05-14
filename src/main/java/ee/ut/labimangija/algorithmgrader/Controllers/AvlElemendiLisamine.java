@@ -153,7 +153,14 @@ public class AvlElemendiLisamine {
             uuendaNooli();
             kuvaTeade("Läbimäng tehtud", "Vigu kokku: " + vigu);
 
+            laeEelnevPuu.setVisible(false);
+            lukustaPuu.setVisible(false);
+            lisaVasakAlluv.setVisible(false);
+            lisaParemAlluv.setVisible(false);
+            eemaldaVasakAlluv.setVisible(false);
+            eemaldaParemAlluv.setVisible(false);
             laeUusPuu.setVisible(true);
+            laeUusPuu.toFront();
         }
 
     }
@@ -796,4 +803,3 @@ public class AvlElemendiLisamine {
         alert.showAndWait();
     }
 }
-

@@ -2,6 +2,7 @@ package ee.ut.labimangija.algorithmgrader.Controllers;
 
 import static ee.ut.labimangija.algorithmgrader.Util.Koordinaadid.*;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -201,6 +202,7 @@ public class ElemendiEemaldamineBST {
             kuvaTeade("Läbimäng tehtud", "Vigu kokku: " + vigu);
             laeEelnevPuu.setVisible(false);
             laeUusPuu.setVisible(true);
+            laeUusPuu.toFront();
         }
 
     }
@@ -211,6 +213,8 @@ public class ElemendiEemaldamineBST {
         tekst.setLayoutX(visuaalneTipp.getCenterX() - 4);
         tekst.setLayoutY(visuaalneTipp.getCenterY() + 4);
         Group grupp = new Group(visuaalneTipp, tekst);
+        grupp.setOnMouseEntered(e -> grupp.setCursor(Cursor.TEXT));
+        grupp.setOnMouseExited(e -> grupp.setCursor(Cursor.DEFAULT));
 
         grupp.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
             Tipp vanem = null;
@@ -653,4 +657,3 @@ public class ElemendiEemaldamineBST {
         alert.showAndWait();
     }
 }
-
