@@ -18,7 +18,7 @@
                    style="-fx-font-size: 15; -fx-font-weight: bold;"/>
 
             <Label wrapText="true" maxWidth="560"
-                   text="Läbimängija on õppetööd toetav harjutusprogramm, mis võimaldab algoritmide ja andmestruktuuride ülesandeid samm-sammult läbi mängida."/>
+                   text="Läbimängija on õppetööd toetav harjutusprogramm, mis võimaldab õppeaine 'Algoritmid ja andmestruktuurid' ülesandeid samm-sammult läbi mängida."/>
 
             <Label wrapText="true" maxWidth="560"
                    text="Rakendus koondab ühte keskkonda graafialgoritmide, puu- ja kuhjaalgoritmide, massiivialgoritmide ning paisktabelite harjutused. Ülesannete lahendamisel toetab rakendus nii etteantud sisendfailide kasutamist kui ka sisendite genereerimist."/>

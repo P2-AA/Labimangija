@@ -248,7 +248,7 @@ public class FWKontroller {
     public String kontrolli(TippGraafil t) {
         if (t.tipp.seis != TipuSeis.PRAEGUNE) return "Ei ole praegu töödeldav tipp";
         if (tehtud != (g.tipud.size() - 2)*(g.tipud.size() - 1))
-            return "Midagi puudu";
+            return "Midagi on puudu";
 
         tehtud = 0;
         return "";

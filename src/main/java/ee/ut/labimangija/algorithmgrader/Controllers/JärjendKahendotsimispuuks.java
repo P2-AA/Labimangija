@@ -380,7 +380,7 @@ public class JärjendKahendotsimispuuks {
         }else {
             vigu++;
             vead.add("VIGA: " + järjend.get(0) + " lisamisel kaotati kahendotsimispuu struktuur");
-            kuvaTeade("","Ebakorrektne lisamine ja puu ei ole enam Kahendotsimispuu!");
+            kuvaTeade("","Ebakorrektne lisamine ja puu ei ole enam kahendotsimispuu!");
 
             visuaalnePuu = new Kahendotsimispuu();
             puudSamaks(visuaalnePuu, eelnevaSeisugaPuu.juurtipp);

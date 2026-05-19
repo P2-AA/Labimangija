@@ -685,7 +685,7 @@ public class AvlElemendiEemaldamine {
                 kuvaTeade("","Ebakorrektne eemaldamine ja ei ole säilinud AVL-puu");
             }else {
                 vead.add("VIGA: " + eemaldatavad.get(0) + " eemaldati ebakorrektselt, kahendotsimispuu ei säilinud");
-                kuvaTeade("","Ebakorrektne eemaldamine ja puu ei ole enam Kahendotsimispuu!");
+                kuvaTeade("","Ebakorrektne eemaldamine ja puu ei ole enam kahendotsimispuu!");
             }
 
             vigu++;

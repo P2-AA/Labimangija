@@ -613,7 +613,7 @@ public class ElemendiEemaldamineBST {
         }else {
             vigu++;
             vead.add("VIGA: " + hetkelEemaldatav + " eemaldati ebakorrektselt, kahendotsimispuu struktuur kaotati");
-            kuvaTeade("","Ebakorrektne eemaldus ja puu ei ole enam Kahendotsimispuu!");
+            kuvaTeade("","Ebakorrektne eemaldus ja puu ei ole enam kahendotsimispuu!");
 
             visuaalnePuu = new Kahendotsimispuu();
             puudSamaks(visuaalnePuu, eelnevaSeisugaPuu.juurtipp);

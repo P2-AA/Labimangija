@@ -142,8 +142,8 @@ public class SygLoppKontroller {
                 for (Tipp t : praegune.alluvad) if (t == tipp.tipp) {jarglane = t;break;}
                 if (jarglane == null) {
                     sammud.add(samm + "\t: Lisan tipu " + tipp.tipp.tähis + " magasini. VIGA");
-                    vead.add(samm++ + "\t: Lõpptipp " + tipp.tipp.tähis + " ei ole praeguse tipu järglane.");
-                    Teavitaja.teavita("Lõpptipp " + tipp.tipp.tähis + " ei ole praeguse tipu järglane.", "Viga");
+                    vead.add(samm++ + "\t: Lõpptipp " + tipp.tipp.tähis + " ei ole aktiivse tipu järglane.");
+                    Teavitaja.teavita("Lõpptipp " + tipp.tipp.tähis + " ei ole aktiivse tipu järglane.", "Viga");
                     return;
                 }
                 if (jarglane.seis == TipuSeis.AVASTAMATA) {

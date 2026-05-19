@@ -140,7 +140,7 @@ public class KruskalKontroller {
     public void votaAndmestruktuurist(MouseEvent ignored) {
         if (kuhi.onTyhi()) {
             Logija.logi(vead, g, sammud, "Kruskal", true, false);
-            Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()),
+            Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi kirjutatud faili.".formatted(vead.size()),
                     "Info");
             laeNupp.setVisible(true);
             andmestruktuur.setDisable(true);
@@ -196,7 +196,7 @@ public class KruskalKontroller {
     public boolean kysiSisendit() {
         Alert dialog = new Alert(Alert.AlertType.NONE);
         dialog.setTitle("Sisend");
-        dialog.setHeaderText("Kas valitud kaar kuulub toesesse?");
+        dialog.setHeaderText("Kas valitud kaar lisada toesesse?");
 
         ButtonType jah = new ButtonType("Jah");
         ButtonType ei = new ButtonType("Ei");

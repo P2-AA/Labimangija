@@ -36,6 +36,7 @@ public class Graaf {
             tipud.add(tipp);
         }
 
+        boolean kaalutud = false;
         for (int i = 1; i < graaf.size(); i++) {
             String[] osad = graaf.get(i).split(" ");
             int alg = Integer.parseInt(osad[1]);
@@ -45,6 +46,7 @@ public class Graaf {
             algus.lisaAlluv(loppT);
             if (!suunatud) loppT.lisaAlluv(algus);
             if (osad.length == 4) {
+                kaalutud = true;
                 int kaal = Integer.parseInt(osad[3]);
                 if (kaal < 0)
                     throw new IOException("Graafifail sisaldab negatiivset kaalu serval %d -> %d.".formatted(alg, lopp));
@@ -63,7 +65,7 @@ public class Graaf {
         this.tipud = tipud;
         if (eeldus && !onAtsukliline(tipud))
             throw new IOException("Eeldusgraaf peab olema suunatud atsükliline graaf.");
-        this.kaalutud = tipud.get(0).kaared.get(0).kaal != 0;
+        this.kaalutud = kaalutud;
     }
 
     private static List<String> loeFail(String failitee) throws IOException {
