@@ -14,7 +14,7 @@
             <Label text="Rakendusest"
                    style="-fx-font-size: 20; -fx-font-weight: bold;"/>
 
-            <Label text="Läbimängija v1.2"
+            <Label text="Läbimängija v1.3"
                    style="-fx-font-size: 15; -fx-font-weight: bold;"/>
 
             <Label wrapText="true" maxWidth="560"
