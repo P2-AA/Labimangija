@@ -1,5 +1,6 @@
 package ee.ut.labimangija.arraygrader.kasutajaliides;
 
+import ee.ut.labimangija.common.AppPaths;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -37,8 +38,7 @@ public class ArraySisendiGenereerija {
             int[] massiiv = genereeriMassiiv(algoritm, parameetrid);
             Path kaust = ArraySisendiValija.sisendiKaust(algoritm);
             Files.createDirectories(kaust);
-            String aeg = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-            Path fail = kaust.resolve("gen_" + aeg + ".txt");
+            Path fail = kaust.resolve(AppPaths.generatedFile());
             Files.writeString(fail, Arrays.toString(massiiv), StandardCharsets.UTF_8);
             return new ArraySisendiValija.Sisend(massiiv, "Genereeritud fail: " + fail.toAbsolutePath());
         } catch (Exception e) {

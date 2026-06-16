@@ -50,7 +50,7 @@ public class LaiutiKontroller {
     }
 
     public void laeGraaf(MouseEvent ignored) throws IOException {
-        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud", GraafiGenereerija.Tyyp.LABIMINE);
+        failitee = GraafiValija.valiFailVoiGenereeri(GraafiGenereerija.Tyyp.LABIMINE);
         if (failitee == null) return;
         taastaYlesanne();
         g = new Graaf(failitee, true);

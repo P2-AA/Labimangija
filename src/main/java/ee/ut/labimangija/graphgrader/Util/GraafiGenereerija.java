@@ -12,13 +12,7 @@ import javafx.scene.layout.Priority;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 // Laiuti läbimise, sügavuti läbimise, Prim'i ja eeldusgraafi sisendite genereerimise 
 // loogika on loodud tehisaru abiga, et programm töötaks kuna kasutusel olevas
@@ -51,7 +45,7 @@ public class GraafiGenereerija {
 
     private record Parameetrid(int n, int m, int min, int max) {}
 
-    public static String genereeriFail(Tyyp tyyp, String kaust) {
+    public static String genereeriFail(Tyyp tyyp) {
         Parameetrid vaike = vaikeParameetrid(tyyp);
         Parameetrid p = kysiParameetrid(tyyp, vaike);
         if (p == null) return null;
@@ -59,10 +53,9 @@ public class GraafiGenereerija {
         try {
             List<String> sisu = looSisu(tyyp, p);
             if (sisu == null) return null;
-            Path kaustTee = AppPaths.resolve(kaust);
+            Path kaustTee = GraafiValija.sisendiKaust(tyyp);
             Files.createDirectories(kaustTee);
-            String aeg = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-            Path fail = kaustTee.resolve("gen_" + aeg + ".txt");
+            Path fail = kaustTee.resolve(AppPaths.generatedFile());
             Files.write(fail, sisu);
             return fail.toAbsolutePath().toString();
         } catch (IOException e) {

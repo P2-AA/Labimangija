@@ -54,7 +54,7 @@ public class DijkstraKontroller {
     }
 
     public void laeGraaf(MouseEvent ignored) throws IOException {
-        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud_kaalutud", GraafiGenereerija.Tyyp.DIJKSTRA);
+        failitee = GraafiValija.valiFailVoiGenereeri(GraafiGenereerija.Tyyp.DIJKSTRA);
         if (failitee == null) return;
         taastaYlesanne();
         g = new Graaf(failitee, true);

@@ -1,5 +1,6 @@
 package ee.ut.labimangija.hashgrader;
 
+import ee.ut.labimangija.common.AppPaths;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -57,8 +58,7 @@ public class HashSisendiGenereerija {
 
             Path kaust = HashSisendiValija.sisendiKaust(tyyp);
             Files.createDirectories(kaust);
-            String aeg = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-            Path fail = kaust.resolve("gen_" + aeg + ".txt");
+            Path fail = kaust.resolve(AppPaths.generatedFile());
             Files.writeString(fail, sisu + System.lineSeparator(), StandardCharsets.UTF_8);
             return fail.toAbsolutePath().toString();
         } catch (Exception e) {

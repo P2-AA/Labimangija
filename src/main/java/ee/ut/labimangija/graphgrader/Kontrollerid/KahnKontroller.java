@@ -131,7 +131,7 @@ public class KahnKontroller {
     }
 
     public void laeGraaf(MouseEvent ignored) throws IOException {
-        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud_dag", GraafiGenereerija.Tyyp.KAHN);
+        failitee = GraafiValija.valiFailVoiGenereeri(GraafiGenereerija.Tyyp.KAHN);
         if (failitee == null) return;
         taastaYlesanne();
         g = new Graaf(failitee, true);

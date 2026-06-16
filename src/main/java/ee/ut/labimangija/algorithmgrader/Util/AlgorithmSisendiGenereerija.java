@@ -1,5 +1,6 @@
 package ee.ut.labimangija.algorithmgrader.Util;
 
+import ee.ut.labimangija.common.AppPaths;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -64,11 +65,9 @@ public final class AlgorithmSisendiGenereerija {
                 case KUHJAMEETOD -> genereeriMassiiv(parameetrid.elemente(), parameetrid.min(), parameetrid.max());
             };
 
-            Path kaust = AlgorithmSisendiValija.sisendiKaust();
+            Path kaust = AlgorithmSisendiValija.sisendiKaust(tyyp);
             Files.createDirectories(kaust);
-            String aeg = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-            String nimi = "gen_" + tyyp.failiPrefix() + "_" + aeg + ".txt";
-            Path fail = kaust.resolve(nimi);
+            Path fail = kaust.resolve(AppPaths.generatedFile());
             Files.writeString(fail, sisu + System.lineSeparator(), StandardCharsets.UTF_8);
             return fail.toAbsolutePath().toString();
         } catch (Exception e) {

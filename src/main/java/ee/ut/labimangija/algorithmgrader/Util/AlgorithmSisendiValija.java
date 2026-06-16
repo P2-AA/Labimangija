@@ -11,33 +11,27 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public final class AlgorithmSisendiValija {
-    private static final Path SISENDI_KAUST = AppPaths.resolve("sisendid", "kahendpuu_kuhi");
+    private static final Path SISENDI_KAUST = AppPaths.resolve("sisendid", "kahendpuud_kuhjad");
 
     private AlgorithmSisendiValija() {
     }
 
     public enum Tyyp {
-        BST_LISAMINE("Kahendotsimispuu lisamise sisend", "bst_lisamine"),
-        BST_EEMALDAMINE("Kahendotsimispuu eemaldamise sisend", "bst_eemaldamine"),
-        AVL_LISAMINE("AVL lisamise sisend", "avl_lisamine"),
-        AVL_EEMALDAMINE("AVL eemaldamise sisend", "avl_eemaldamine"),
-        KUHJASTAMINE("Kuhjastamise sisend", "kuhjastamine"),
-        KUHJAMEETOD("Kuhjameetodi sisend", "kuhjameetod");
+        BST_LISAMINE("Kahendotsimispuu lisamise sisend"),
+        BST_EEMALDAMINE("Kahendotsimispuu eemaldamise sisend"),
+        AVL_LISAMINE("AVL lisamise sisend"),
+        AVL_EEMALDAMINE("AVL eemaldamise sisend"),
+        KUHJASTAMINE("Kuhjastamise sisend"),
+        KUHJAMEETOD("Kuhjameetodi sisend");
 
         private final String pealkiri;
-        private final String failiPrefix;
 
-        Tyyp(String pealkiri, String failiPrefix) {
+        Tyyp(String pealkiri) {
             this.pealkiri = pealkiri;
-            this.failiPrefix = failiPrefix;
         }
 
         public String pealkiri() {
             return pealkiri;
-        }
-
-        public String failiPrefix() {
-            return failiPrefix;
         }
     }
 
@@ -52,16 +46,17 @@ public final class AlgorithmSisendiValija {
         return valiFail(tyyp);
     }
 
-    static Path sisendiKaust() {
-        return SISENDI_KAUST;
+    static Path sisendiKaust(Tyyp tyyp) {
+        return SISENDI_KAUST.resolve(tyyp.name().toLowerCase());
     }
 
     private static String valiFail(Tyyp tyyp) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Vali sisendfail: " + tyyp.pealkiri().toLowerCase());
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Tekstifailid", "*.txt"));
-        if (Files.isDirectory(SISENDI_KAUST)) {
-            chooser.setInitialDirectory(SISENDI_KAUST.toFile());
+        Path kaust = sisendiKaust(tyyp);
+        if (Files.isDirectory(kaust)) {
+            chooser.setInitialDirectory(kaust.toFile());
         }
 
         File valitud = chooser.showOpenDialog(null);

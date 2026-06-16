@@ -53,8 +53,7 @@ public class KruskalKontroller {
     }
 
     public void laeGraaf(MouseEvent ignored) throws IOException {
-        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud_kaalutud",
-                GraafiGenereerija.Tyyp.SIDUS_KAALUTUD);
+        failitee = GraafiValija.valiFailVoiGenereeri(GraafiGenereerija.Tyyp.SIDUS_KAALUTUD);
         if (failitee == null)
             return;
         taastaYlesanne();

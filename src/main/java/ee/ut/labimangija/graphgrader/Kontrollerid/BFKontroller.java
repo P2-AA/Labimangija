@@ -54,8 +54,7 @@ public class BFKontroller {
     }
 
     public void laeGraaf(MouseEvent ignored) throws IOException {
-        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud_kaalutud",
-                GraafiGenereerija.Tyyp.BELLMAN_FORD);
+        failitee = GraafiValija.valiFailVoiGenereeri(GraafiGenereerija.Tyyp.BELLMAN_FORD);
         if (failitee == null)
             return;
         taastaYlesanne();

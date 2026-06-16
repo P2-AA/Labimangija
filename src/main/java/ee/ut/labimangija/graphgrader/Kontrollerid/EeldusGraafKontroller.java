@@ -65,7 +65,7 @@ public class EeldusGraafKontroller {
     }
 
     public void laeGraaf(MouseEvent ignored) throws IOException {
-        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/eeldusgraaf", GraafiGenereerija.Tyyp.EELDUS);
+        failitee = GraafiValija.valiFailVoiGenereeri(GraafiGenereerija.Tyyp.EELDUS);
         if (failitee == null)
             return;
         taastaYlesanne();

@@ -58,7 +58,7 @@ public class FWKontroller {
     }
 
     public void laeGraaf(MouseEvent ignored) throws IOException {
-        failitee = GraafiValija.valiFailVoiGenereeri("sisendid/graafid/suunatud_kaalutud", GraafiGenereerija.Tyyp.FLOYD_WARSHALL);
+        failitee = GraafiValija.valiFailVoiGenereeri(GraafiGenereerija.Tyyp.FLOYD_WARSHALL);
         if (failitee == null) return;
         taastaYlesanne();
         g = new Graaf(failitee, true);

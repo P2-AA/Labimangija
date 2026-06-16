@@ -16,7 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ArraySisendiValija {
-    private static final Path SISENDI_JUUR = AppPaths.resolve("sisendid", "massiivialgoritmid");
+    private static final Path SISENDI_JUUR = AppPaths.resolve("sisendid", "massiivid");
     private static final Pattern TAISARV = Pattern.compile("-?\\d+");
 
     public record Sisend(int[] massiiv, String kirjeldus) {
@@ -34,12 +34,7 @@ public class ArraySisendiValija {
     }
 
     static Path sisendiKaust(ArrayGraderEngine.Algoritm algoritm) {
-        return SISENDI_JUUR.resolve(switch (algoritm) {
-            case MULLIMEETOD -> "mullimeetod";
-            case PISTEMEETOD -> "pistemeetod";
-            case VALIKUMEETOD -> "valikumeetod";
-            case VALIKU_KIIRMEETOD -> "valiku_kiirmeetod";
-        });
+        return SISENDI_JUUR.resolve(algoritm.name().toLowerCase());
     }
 
     private static Sisend valiFail(ArrayGraderEngine.Algoritm algoritm) {
