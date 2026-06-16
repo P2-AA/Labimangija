@@ -54,7 +54,6 @@ public class JärjendiKuhjastamine {
     private List<String> vead = new ArrayList<>();
     private int vigu = 0;
     private boolean elemendidLisatud;
-    private final String logiFail = "kuhjastamine_logi.txt";
     public void laePuu() {
         String valitudFail = AlgorithmSisendiValija.valiSisend(AlgorithmSisendiValija.Tyyp.KUHJASTAMINE);
         if (valitudFail == null) {
@@ -439,7 +438,7 @@ public class JärjendiKuhjastamine {
         if(visuaalneKuhi.kasOnKuhi()) {
             järgmineTippLabel.setText("Järjend kuhjastatud!");
             vead.add("Vigu: " + vigu);
-            Logija.logiViga(vead, logiFail);
+            Logija.logiViga(vead, "kuhjastamine");
             laeUusPuu.setVisible(true);
             vahetaTipud.setVisible(false);
             lukustaPuu.setVisible(false);

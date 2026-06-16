@@ -3,6 +3,7 @@ package ee.ut.labimangija.arraygrader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,19 +14,18 @@ import ee.ut.labimangija.common.AppPaths;
 import ee.ut.labimangija.common.KasutajaAndmed;
 
 public class ArrayGraderLogija {
-    private static final Path LOG_DIR = AppPaths.resolve("labimangud", "arraygrader");
+    private static final Path LOG_DIR = AppPaths.resolve("labimangud", "massiivid");
 
     private final Path fail;
     private boolean paisKirjutatud;
 
-    public ArrayGraderLogija(String algoritm, String labimang) {
-        String ajatempel = new SimpleDateFormat("ddMMyy-HHmmss.SSS").format(new Date());
-        String failinimi = normaliseeri(algoritm) + "_" + normaliseeri(labimang) + "_" + ajatempel + ".txt";
+    public ArrayGraderLogija(String algoritm) {
+        String failinimi = AppPaths.logFile(algoritm);
 
         try {
             Files.createDirectories(LOG_DIR);
         } catch (IOException e) {
-            throw new IllegalStateException("Kahendpuu ja kuhjaalgoritmide logikataloogi loomine ebaõnnestus", e);
+            throw new UncheckedIOException("Logikataloogi loomine ebaõnnestus", e);
         }
 
         fail = LOG_DIR.resolve(failinimi);
@@ -50,7 +50,7 @@ public class ArrayGraderLogija {
             }
             pw.println(sisu);
         } catch (IOException e) {
-            throw new RuntimeException("Kahendpuu ja kuhjaalgoritmide logimine ebaõnnestus", e);
+            throw new UncheckedIOException("Logimine ebaõnnestus", e);
         }
     }
 

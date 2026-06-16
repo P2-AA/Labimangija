@@ -53,7 +53,7 @@ public class ArrayGraderEngine {
         kaigud = new ArrayList<>();
         lopetatud = false;
         sisendiKirjeldus = uusSisendiKirjeldus == null ? "Sisend" : uusSisendiKirjeldus;
-        logija = new ArrayGraderLogija(uusAlgoritm.getPealkiri(), "Harjutamine");
+        logija = new ArrayGraderLogija(uusAlgoritm.getPealkiri());
         vigadeArv = 0;
 
         Massiivioperatsioon algus = kasutajaliides

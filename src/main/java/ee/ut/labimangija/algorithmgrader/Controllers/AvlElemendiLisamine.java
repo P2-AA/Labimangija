@@ -68,7 +68,6 @@ public class AvlElemendiLisamine {
     private int puuElementideArv;
     private boolean hetkelMuudetakseTippu = false;
     private boolean lisatud;
-    private final String logiFail = "avl_lisamine_logi.txt";
     private void loeFailistVäärtusedJaLooAlgnePuu(String failitee) {
         try {
             List<String> sisu = Files.readAllLines(AppPaths.resolve(failitee));
@@ -149,7 +148,7 @@ public class AvlElemendiLisamine {
             lisatavadLabel.setText("");
             kahendpuuAla.getChildren().removeAll(pesad);
             pesad.clear();
-            Logija.logiViga(vead, logiFail);
+            Logija.logiViga(vead, "avl_lisamine");
             uuendaNooli();
             kuvaTeade("Läbimäng tehtud", "Vigu kokku: " + vigu);
 

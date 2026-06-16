@@ -57,9 +57,6 @@ public class Kuhjameetod {
     private int vigu = 0;
     boolean juurTöödeldud;
 
-    private final String logiFail = "kuhjameetod_logi.txt";
-
-
     public void laeKuhi() {
         String valitudFail = AlgorithmSisendiValija.valiSisend(AlgorithmSisendiValija.Tyyp.KUHJAMEETOD);
         if (valitudFail == null) {
@@ -146,7 +143,7 @@ public class Kuhjameetod {
             töödeldudText.setFill(Color.GREEN);
             massiivFlow.getChildren().setAll(tekst, töödeldudText);
 
-            Logija.logiViga(vead, logiFail);
+            Logija.logiViga(vead, "kuhjameetod");
 
             kuvaTeade("Läbimäng tehtud", "Vigu kokku: " +vigu);
             laeUusPuu.setVisible(true);

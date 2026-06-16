@@ -20,9 +20,8 @@ import java.util.List;
 public class Logija {
 
     public static void logi(List<String> vead, Graaf g, List<String> sammud, String algo, boolean kaarteKaalud, boolean tipuKaalud) {
-        Path logiKaust = AppPaths.resolve("labimangud", "graphgrader", algo);
-        String ajatempel = new SimpleDateFormat("ddMMyy-HHmmss.SSS").format(new Date());
-        Path logiFail = logiKaust.resolve(algo + "_logi_" + ajatempel + ".txt");
+        Path logiKaust = AppPaths.resolve("labimangud", "graafid");
+        Path logiFail = logiKaust.resolve(AppPaths.logFile(algo));
 
         try {
             Files.createDirectories(logiKaust);

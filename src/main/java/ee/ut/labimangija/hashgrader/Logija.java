@@ -7,8 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import ee.ut.labimangija.common.AppPaths;
 import ee.ut.labimangija.common.KasutajaAndmed;
 
@@ -17,18 +16,17 @@ import ee.ut.labimangija.common.KasutajaAndmed;
 // https://thesis.cs.ut.ee/de177ee2-57a8-428a-b4b9-cac9982f5bd4
 
 public class Logija {
-    private static final Path LOG_DIR = AppPaths.resolve("labimangud", "hashgrader");
+    private static final Path LOG_DIR = AppPaths.resolve("labimangud", "paisktabelid");
     private final Path fail;
     private boolean paisKirjutatud;
 
     public Logija(String algoritm) {
-        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy-hhmmss.SSS");
         try {
             Files.createDirectories(LOG_DIR);
         } catch (IOException e) {
             throw new IllegalStateException("Paisktabelite logikataloogi loomine ebaõnnestus", e);
         }
-        fail = LOG_DIR.resolve(algoritm + "_" + sdf.format(new Date()) + ".txt");
+        fail = LOG_DIR.resolve(AppPaths.logFile(algoritm));
     }
 
     public void logi(String sisu) {

@@ -60,7 +60,6 @@ public class JärjendKahendotsimispuuks {
     private List<String> vead= new ArrayList<>();
     private int vigu;
     private boolean lisatud;
-    private String logiFail = "järjendKahendotsimispuuks_logi.txt";
     public void laePuu() {
         String valitudFail = AlgorithmSisendiValija.valiSisend(AlgorithmSisendiValija.Tyyp.BST_LISAMINE);
         if (valitudFail == null) {
@@ -167,7 +166,7 @@ public class JärjendKahendotsimispuuks {
             uuendaNooli();
 
             //Logime vead
-            Logija.logiViga(vead, logiFail);
+            Logija.logiViga(vead, "bst_lisamine");
             kuvaTeade("Läbimäng tehtud", "Vigu kokku: " + vigu);
             eelminePuuOlek.setVisible(false);
             lukustaPuu.setVisible(false);

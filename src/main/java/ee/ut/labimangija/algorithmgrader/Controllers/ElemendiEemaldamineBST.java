@@ -65,7 +65,6 @@ public class ElemendiEemaldamineBST {
     private int hetkelEemaldatav;
     private int puuElementideArv;
 
-    private final String logiFail = "elemendi_eemaldamine_logi.txt";
     public void laePuu() {
         String valitudFail = AlgorithmSisendiValija.valiSisend(AlgorithmSisendiValija.Tyyp.BST_EEMALDAMINE);
         if (valitudFail == null) {
@@ -198,7 +197,7 @@ public class ElemendiEemaldamineBST {
             eemaldatav.setText("Kõik tipud eemaldatud!");
             uuendaNooli();
             kustutaTipp.setVisible(false);
-            Logija.logiViga(vead, logiFail);
+            Logija.logiViga(vead, "bst_eemaldamine");
             kuvaTeade("Läbimäng tehtud", "Vigu kokku: " + vigu);
             laeEelnevPuu.setVisible(false);
             laeUusPuu.setVisible(true);

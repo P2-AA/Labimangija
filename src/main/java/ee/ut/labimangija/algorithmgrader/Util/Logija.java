@@ -16,9 +16,9 @@ import ee.ut.labimangija.common.KasutajaAndmed;
 // Eeskujuks kasutatud töö: "kahendpuu- ja kuhjaalgoritmide läbimängija ja hindaja", kättesaadav aadressil:
 // https://thesis.cs.ut.ee/e07a9cf2-900d-4db8-9d05-5c24d48e424c
 public class Logija {
-    private static final Path LOGI_KAUST = AppPaths.resolve("labimangud", "kahendpuu_kuhi");
+    private static final Path LOGI_KAUST = AppPaths.resolve("labimangud", "kahendpuud_kuhjad");
 
-    public static void logiViga(List<String> vead, String logiFail) {
+    public static void logiViga(List<String> vead, String algoritm) {
         if (vead == null || vead.isEmpty()) {
             return;
         }
@@ -29,9 +29,7 @@ public class Logija {
             throw new RuntimeException(e);
         }
 
-        String ajatempel = new SimpleDateFormat("ddMMyy-HHmmss.SSS").format(new Date());
-        String failinimi = eemaldaTxt(logiFail) + "_" + ajatempel + ".txt";
-        Path logiPath = LOGI_KAUST.resolve(failinimi);
+        Path logiPath = LOGI_KAUST.resolve(AppPaths.logFile(algoritm));
 
         try (BufferedWriter bw = Files.newBufferedWriter(
                 logiPath,
@@ -47,14 +45,6 @@ public class Logija {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static void logiViga(String viga, String logiFail) {
-        logiViga(List.of(viga), logiFail + ".txt");
-    }
-
-    private static String eemaldaTxt(String nimi) {
-        return nimi.endsWith(".txt") ? nimi.substring(0, nimi.length() - 4) : nimi;
     }
 }
 

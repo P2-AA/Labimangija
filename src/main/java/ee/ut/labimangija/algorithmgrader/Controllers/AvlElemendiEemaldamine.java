@@ -67,7 +67,6 @@ public class AvlElemendiEemaldamine {
     private boolean hetkelMuudetakseTippu = false;
     private boolean eemaldatud;
     private int vigu;
-    private final String logiFail = "avl_eemaldamine_logi.txt";
     private void loeFailistVäärtusedJaLooAlgnePuu(String failitee) {
         try {
             List<String> sisu = Files.readAllLines(AppPaths.resolve(failitee));
@@ -177,7 +176,7 @@ public class AvlElemendiEemaldamine {
         } else {
             eemaldatav.setText("Kõik tipud eemaldatud!");
             eemaldatavLabel.setText("");
-            Logija.logiViga(vead, logiFail);
+            Logija.logiViga(vead, "avl_eemaldamine");
             uuendaNooli();
             kuvaTeade("Läbimäng tehtud", "Vigu kokku: " + vigu);
             laeEelnevPuu.setVisible(false);
