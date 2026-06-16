@@ -27,7 +27,7 @@ Projekti juurkaustas tuleb käsuviibal sisestada:
 
 Pärast eelmainitud käskluseid tekib kokkupakitud zip-arhiiv, milles sisaldub käivitatav programm:
 ```text
-build/*.zip
+build/Labimangija-*.zip
 ```
 
 Rakendust saab käivitada, kui pakkida lahti tekitatud fail ning käivitada järgnev jooksutatav fail:
@@ -37,5 +37,5 @@ Rakendust saab käivitada, kui pakkida lahti tekitatud fail ning käivitada jär
 
 ## Sisendfailid ja logid
 
-- Sisendfailid asuvad kaustas `sisendid`.
+- Sisendfailid asuvad kaustas `sisendid`,
 - Läbimängude logid asuvad kaustas `labimangud`.
