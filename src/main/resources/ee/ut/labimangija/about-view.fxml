@@ -1,33 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            prefHeight="400" prefWidth="600">
+<AnchorPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <VBox spacing="10"
-              AnchorPane.topAnchor="14" AnchorPane.leftAnchor="14"
-              AnchorPane.rightAnchor="14" AnchorPane.bottomAnchor="14">
+        <VBox spacing="10" AnchorPane.bottomAnchor="14" AnchorPane.leftAnchor="14" AnchorPane.rightAnchor="14" AnchorPane.topAnchor="14">
 
-            <Label text="Rakendusest"
-                   style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+            <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Rakendusest" />
 
-            <Label text="Läbimängija v1.3"
-                   style="-fx-font-size: 15; -fx-font-weight: bold;"/>
+            <Label style="-fx-font-size: 15; -fx-font-weight: bold;" text="Läbimängija v1.3" />
 
-            <Label wrapText="true" maxWidth="560"
-                   text="Läbimängija on õppetööd toetav harjutusprogramm, mis võimaldab õppeaine 'Algoritmid ja andmestruktuurid' ülesandeid samm-sammult läbi mängida."/>
+            <Label maxWidth="560" text="Läbimängija on õppetööd toetav harjutusprogramm, mis võimaldab õppeaine 'Algoritmid ja andmestruktuurid' ülesandeid samm-sammult läbi mängida." wrapText="true" />
 
-            <Label wrapText="true" maxWidth="560"
-                   text="Rakendus koondab ühte keskkonda graafialgoritmide, puu- ja kuhjaalgoritmide, massiivialgoritmide ning paisktabelite harjutused. Ülesannete lahendamisel toetab rakendus nii etteantud sisendfailide kasutamist kui ka sisendite genereerimist."/>
+            <Label maxWidth="560" text="Rakendus koondab ühte keskkonda graafialgoritmide, puu- ja kuhjaalgoritmide, massiivialgoritmide ning paisktabelite harjutused. Ülesannete lahendamisel toetab rakendus nii etteantud sisendfailide kasutamist kui ka sisendite genereerimist." wrapText="true" />
 
-            <Label wrapText="true" maxWidth="560"
-                   text="Läbimängija arendus tugineb varasemalt valminud kaheksale lõputööle, täpsemalt nende põhjal loodud läbimänguprogrammidele ja sisendi genereerijatele, mida on edasi arendatud ühtseks süsteemiks."/>
+            <Label maxWidth="560" text="Läbimängija on arendatud üheksa bakalaureusetöö raames:&#10;• Ruud Tammel (2026) - Ühtne läbimängija rakendus&#10;• Erik Presnov  (2024) - Graafialgoritmide läbimängija&#10;• Uku Hannes Arismaa (2022) - Graafialgoritmide sisendite genereerimine&#10;• Markus Michelis (2025) - Kahendpuu ja kuhjaalgoritmide läbimängija&#10;• Renno Sepp (2024) - Kahendpuu ja kuhjaalgoritmide sisendite genereerimine&#10;• Pihla Järv (2024) - Massiivialgoritmide läbimängija&#10;• Samuel Johannes Pitko (2021) - Massiivialgoritmide sisendite genereerimine&#10;• Karolin Konrad (2023) - Paisktabelialgoritmide läbimängija&#10;• Nikolai Voitsehhovski (2022) - Paisktabelialgoritmide sisendite genereerimine&#10;" wrapText="true" />
 
-              <Label wrapText="true" maxWidth="560"
-                   text="Varasemate autorite tööle on koodis viidatud."/>     
+              <Label maxWidth="560" text="Rakendust arendatakse edasi õppeaine 'Algoritmid ja andmestruktuurid' õppejõudude poolt. Vigadest ja probleemidest võib teavitada kursuse Zulipis." wrapText="true" />
         </VBox>
     </children>
 
