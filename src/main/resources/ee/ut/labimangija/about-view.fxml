@@ -3,13 +3,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ee.ut.labimangija.ui.AboutController">
     <children>
         <VBox spacing="10" AnchorPane.bottomAnchor="14" AnchorPane.leftAnchor="14" AnchorPane.rightAnchor="14" AnchorPane.topAnchor="14">
 
             <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Rakendusest" />
 
-            <Label style="-fx-font-size: 15; -fx-font-weight: bold;" text="Läbimängija v1.3" />
+            <Label style="-fx-font-size: 15; -fx-font-weight: bold;" fx:id="applicationName" text="Läbimängija" />
 
             <Label maxWidth="560" text="Läbimängija on õppetööd toetav harjutusprogramm, mis võimaldab õppeaine 'Algoritmid ja andmestruktuurid' ülesandeid samm-sammult läbi mängida." wrapText="true" />
 
