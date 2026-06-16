@@ -17,53 +17,23 @@ public final class AlgorithmSisendiValija {
     }
 
     public enum Tyyp {
-        BST_LISAMINE("Kahendotsimispuu lisamise sisend"),
-        BST_EEMALDAMINE("Kahendotsimispuu eemaldamise sisend"),
-        AVL_LISAMINE("AVL lisamise sisend"),
-        AVL_EEMALDAMINE("AVL eemaldamise sisend"),
-        KUHJASTAMINE("Kuhjastamise sisend"),
-        KUHJAMEETOD("Kuhjameetodi sisend");
-
-        private final String pealkiri;
-
-        Tyyp(String pealkiri) {
-            this.pealkiri = pealkiri;
-        }
-
-        public String pealkiri() {
-            return pealkiri;
-        }
+        BST_LISAMINE,
+        BST_EEMALDAMINE,
+        AVL_LISAMINE,
+        AVL_EEMALDAMINE,
+        KUHJASTAMINE,
+        KUHJAMEETOD
     }
 
     public static String valiSisend(Tyyp tyyp) {
-        SisendiAllikaDialoog.Valik valik = SisendiAllikaDialoog.kuva(tyyp.pealkiri());
-        if (valik == SisendiAllikaDialoog.Valik.KATKESTA) {
-            return null;
-        }
-        if (valik == SisendiAllikaDialoog.Valik.GENEREERI) {
-            return AlgorithmSisendiGenereerija.genereeriFail(tyyp);
-        }
-        return valiFail(tyyp);
+        SisendiAllikaDialoog.Valik valik = SisendiAllikaDialoog.kuva();
+        if (valik == SisendiAllikaDialoog.Valik.KATKESTA) return null;
+        if (valik == SisendiAllikaDialoog.Valik.GENEREERI) return AlgorithmSisendiGenereerija.genereeriFail(tyyp);
+        return SisendiAllikaDialoog.valiFail(sisendiKaust(tyyp));
     }
 
     static Path sisendiKaust(Tyyp tyyp) {
         return SISENDI_KAUST.resolve(tyyp.name().toLowerCase());
-    }
-
-    private static String valiFail(Tyyp tyyp) {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Vali sisendfail: " + tyyp.pealkiri().toLowerCase());
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Tekstifailid", "*.txt"));
-        Path kaust = sisendiKaust(tyyp);
-        if (Files.isDirectory(kaust)) {
-            chooser.setInitialDirectory(kaust.toFile());
-        }
-
-        File valitud = chooser.showOpenDialog(null);
-        if (valitud == null) {
-            return null;
-        }
-        return valitud.getAbsolutePath();
     }
 
     static void naitaViga(String teade) {

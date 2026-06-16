@@ -16,14 +16,10 @@ public class HashSisendiValija {
     private static final Path SISENDI_JUUR = AppPaths.resolve("sisendid", "paisktabelid");
 
     public static String valiSisend(String tyyp) {
-        SisendiAllikaDialoog.Valik valik = SisendiAllikaDialoog.kuva("Paisktabeli sisend");
-        if (valik == SisendiAllikaDialoog.Valik.KATKESTA) {
-            return null;
-        }
-        if (valik == SisendiAllikaDialoog.Valik.GENEREERI) {
-            return HashSisendiGenereerija.genereeriFail(tyyp);
-        }
-        return valiFail(tyyp);
+        SisendiAllikaDialoog.Valik valik = SisendiAllikaDialoog.kuva();
+        if (valik == SisendiAllikaDialoog.Valik.KATKESTA) return null;
+        if (valik == SisendiAllikaDialoog.Valik.GENEREERI) return HashSisendiGenereerija.genereeriFail(tyyp);
+        return SisendiAllikaDialoog.valiFail(sisendiKaust(tyyp));
     }
 
     static Path sisendiKaust(String tyyp) {
@@ -34,22 +30,6 @@ public class HashSisendiValija {
             case "p" -> "positsioonimeetod";
             default -> throw new IllegalArgumentException("Tundmatu paisktabeli ülesande tüüp: " + tyyp);
         });
-    }
-
-    private static String valiFail(String tyyp) {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Vali paisktabeli sisendfail");
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Tekstifailid", "*.txt"));
-        Path kaust = sisendiKaust(tyyp);
-        if (Files.isDirectory(kaust)) {
-            chooser.setInitialDirectory(kaust.toFile());
-        }
-
-        File valitud = chooser.showOpenDialog(null);
-        if (valitud == null) {
-            return null;
-        }
-        return valitud.getAbsolutePath();
     }
 
     static void naitaViga(String teade) {

@@ -1,9 +1,14 @@
 package ee.ut.labimangija.ui;
 
+import ee.ut.labimangija.common.AppPaths;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 
 public final class SisendiAllikaDialoog {
@@ -12,9 +17,9 @@ public final class SisendiAllikaDialoog {
     private SisendiAllikaDialoog() {
     }
 
-    public static Valik kuva(String pealkiri) {
+    public static Valik kuva() {
         Alert dialog = new Alert(Alert.AlertType.NONE);
-        dialog.setTitle(pealkiri);
+        dialog.setTitle("Sisend");
         dialog.setHeaderText(HEADER);
 
         ButtonType genereeri = new ButtonType("Genereeri");
@@ -30,6 +35,21 @@ public final class SisendiAllikaDialoog {
             return Valik.GENEREERI;
         }
         return Valik.VALI_FAIL;
+    }
+
+    public static String valiFail(Path kaust) {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Vali sisendfail");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Tekstifailid", "*.txt"));
+        if (Files.isDirectory(kaust)) {
+            chooser.setInitialDirectory(kaust.toFile());
+        } else {
+            chooser.setInitialDirectory(AppPaths.root().toFile());
+        }
+
+        File valitud = chooser.showOpenDialog(null);
+        if (valitud == null) return null;
+        return valitud.getAbsolutePath();
     }
 
     public enum Valik {

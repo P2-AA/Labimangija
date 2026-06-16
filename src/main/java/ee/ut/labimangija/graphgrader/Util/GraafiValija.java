@@ -1,10 +1,7 @@
 package ee.ut.labimangija.graphgrader.Util;
 
 import ee.ut.labimangija.ui.SisendiAllikaDialoog;
-import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import ee.ut.labimangija.common.AppPaths;
@@ -21,23 +18,9 @@ public class GraafiValija {
     }
 
     public static String valiFailVoiGenereeri(GraafiGenereerija.Tyyp tyyp) {
-        SisendiAllikaDialoog.Valik valik = SisendiAllikaDialoog.kuva("Graafi sisend");
+        SisendiAllikaDialoog.Valik valik = SisendiAllikaDialoog.kuva();
         if (valik == SisendiAllikaDialoog.Valik.KATKESTA) return null;
         if (valik == SisendiAllikaDialoog.Valik.GENEREERI) return GraafiGenereerija.genereeriFail(tyyp);
-        return valiFail(tyyp);
-    }
-
-    private static String valiFail(GraafiGenereerija.Tyyp tyyp) {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Vali graafifail");
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Tekstifailid", "*.txt"));
-        Path kaust = sisendiKaust(tyyp);
-        if (Files.isDirectory(kaust)) {
-            chooser.setInitialDirectory(kaust.toFile());
-        }
-
-        File valitud = chooser.showOpenDialog(null);
-        if (valitud == null) return null;
-        return valitud.getAbsolutePath();
+        return SisendiAllikaDialoog.valiFail(sisendiKaust(tyyp));
     }
 }

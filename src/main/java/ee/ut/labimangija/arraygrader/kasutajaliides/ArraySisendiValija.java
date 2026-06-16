@@ -23,34 +23,16 @@ public class ArraySisendiValija {
     }
 
     public static Sisend valiSisend(ArrayGraderEngine.Algoritm algoritm) {
-        SisendiAllikaDialoog.Valik valik = SisendiAllikaDialoog.kuva("Massiivi sisend");
-        if (valik == SisendiAllikaDialoog.Valik.KATKESTA) {
-            return null;
-        }
-        if (valik == SisendiAllikaDialoog.Valik.GENEREERI) {
-            return ArraySisendiGenereerija.genereeriFail(algoritm);
-        }
-        return valiFail(algoritm);
+        SisendiAllikaDialoog.Valik valik = SisendiAllikaDialoog.kuva();
+        if (valik == SisendiAllikaDialoog.Valik.KATKESTA) return null;
+        if (valik == SisendiAllikaDialoog.Valik.GENEREERI) return ArraySisendiGenereerija.genereeriFail(algoritm);
+        String fail = SisendiAllikaDialoog.valiFail(sisendiKaust(algoritm));
+        if (fail == null) return null;
+        return loeFail(Path.of(fail));
     }
 
     static Path sisendiKaust(ArrayGraderEngine.Algoritm algoritm) {
         return SISENDI_JUUR.resolve(algoritm.name().toLowerCase());
-    }
-
-    private static Sisend valiFail(ArrayGraderEngine.Algoritm algoritm) {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Vali massiivialgoritmi sisendfail");
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Tekstifailid", "*.txt"));
-        Path kaust = sisendiKaust(algoritm);
-        if (Files.isDirectory(kaust)) {
-            chooser.setInitialDirectory(kaust.toFile());
-        }
-
-        File valitud = chooser.showOpenDialog(null);
-        if (valitud == null) {
-            return null;
-        }
-        return loeFail(valitud.toPath());
     }
 
     private static Sisend loeFail(Path fail) {
