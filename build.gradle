@@ -46,7 +46,22 @@ jlink {
     imageZip = layout.buildDirectory.file("Labimangija-${project.version}-${javafx.platform.classifier}.zip")
     options = ['--strip-debug', '--compress', 'zip-9', '--no-header-files', '--no-man-pages']
     launcher {
-        name = 'Labimangija'
+        name = '../Labimangija'
         // noConsole = true
+    }
+}
+
+tasks.named('jlink') {
+    doLast {
+        // Some string replacement hacks to move launch script to image root
+        def launchScriptWin = jlink.imageDir.file('Labimangija.bat').get().asFile
+        def launchScriptUnix = jlink.imageDir.file('Labimangija').get().asFile
+        if (javafx.platform.classifier == 'win') {
+            launchScriptWin.text = launchScriptWin.text.replace('%~dp0', '%~dp0/bin')
+            delete launchScriptUnix
+        } else {
+            launchScriptUnix.text = launchScriptUnix.text.replace('${0%/*}', '${0%/*}/bin')
+            delete launchScriptWin
+        }
     }
 }

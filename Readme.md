@@ -32,7 +32,7 @@ build/Labimangija-*.zip
 
 Rakendust saab käivitada, kui pakkida lahti tekitatud fail ning käivitada järgnev jooksutatav fail:
 ```text
-../Labimangija/bin/Labimangija.bat
+Labimangija/Labimangija.bat
 ```
 
 ## Sisendfailid ja logid
