@@ -48,11 +48,3 @@ jlink {
         // noConsole = true
     }
 }
-
-tasks.named('jlink') {
-    doLast {
-        def imageDir = jlink.imageDir.asFile.get()
-        mkdir new File(imageDir, 'sisendid')
-        mkdir new File(imageDir, 'labimangud')
-    }
-}
