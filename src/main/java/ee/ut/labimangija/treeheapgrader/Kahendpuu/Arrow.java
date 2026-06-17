@@ -1,4 +1,4 @@
-package ee.ut.labimangija.algorithmgrader.Kahendpuu;
+package ee.ut.labimangija.treeheapgrader.Kahendpuu;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;

@@ -1,4 +1,4 @@
-package ee.ut.labimangija.algorithmgrader.Controllers;
+package ee.ut.labimangija.treeheapgrader.Controllers;
 
 import ee.ut.labimangija.common.Juhendid;
 import ee.ut.labimangija.graphgrader.Util.Teavitaja;

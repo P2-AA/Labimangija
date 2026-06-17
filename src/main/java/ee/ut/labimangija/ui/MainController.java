@@ -63,7 +63,7 @@ public class MainController {
 
     @FXML
     private void handleAlgorithmGrader(ActionEvent event) throws IOException {
-        loadViewFromResource("/ee/ut/labimangija/algorithmgrader/hello-view.fxml");
+        loadViewFromResource("/ee/ut/labimangija/treeheapgrader/hello-view.fxml");
         ensureWindowSize(1120, 760);
     }
 

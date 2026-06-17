@@ -13,7 +13,7 @@
 // https://thesis.cs.ut.ee/e07a9cf2-900d-4db8-9d05-5c24d48e424c -->
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ee.ut.labimangija.algorithmgrader.Controllers.JärjendiKuhjastamine"
+            fx:controller="ee.ut.labimangija.treeheapgrader.Controllers.JärjendiKuhjastamine"
             prefHeight="400.0" prefWidth="600.0">
 
     <Label fx:id="järgmineTippLabel" layoutX="10" layoutY="20" style="-fx-font-size: 15px;"/>

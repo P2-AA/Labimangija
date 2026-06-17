@@ -1,4 +1,4 @@
-package ee.ut.labimangija.algorithmgrader.Kahendpuu;
+package ee.ut.labimangija.treeheapgrader.Kahendpuu;
 
 import java.util.ArrayList;
 import java.util.Collections;

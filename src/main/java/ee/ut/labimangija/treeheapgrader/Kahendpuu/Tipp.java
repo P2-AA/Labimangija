@@ -1,4 +1,4 @@
-package ee.ut.labimangija.algorithmgrader.Kahendpuu;
+package ee.ut.labimangija.treeheapgrader.Kahendpuu;
 
 // Klassi implementatsioon põhineb peamiselt Markus Michelise loodud lahendusel.
 // Eeskujuks kasutatud töö: "kahendpuu- ja kuhjaalgoritmide läbimängija ja hindaja", kättesaadav aadressil:

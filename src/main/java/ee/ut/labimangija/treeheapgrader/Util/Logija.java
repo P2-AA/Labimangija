@@ -1,7 +1,5 @@
-package ee.ut.labimangija.algorithmgrader.Util;
+package ee.ut.labimangija.treeheapgrader.Util;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

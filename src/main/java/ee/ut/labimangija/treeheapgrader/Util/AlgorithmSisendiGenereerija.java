@@ -1,4 +1,4 @@
-package ee.ut.labimangija.algorithmgrader.Util;
+package ee.ut.labimangija.treeheapgrader.Util;
 
 import ee.ut.labimangija.common.AppPaths;
 import javafx.scene.control.ButtonType;
@@ -8,20 +8,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 // Klassi implementatsioon põhineb peamiselt Renno Sepa loodud lahendusel.

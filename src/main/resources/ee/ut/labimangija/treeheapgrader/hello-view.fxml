@@ -10,7 +10,7 @@
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
          prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1"
          xmlns="http://javafx.com/javafx/19"
-         fx:controller="ee.ut.labimangija.algorithmgrader.Controllers.AlgorithmMainController"
+         fx:controller="ee.ut.labimangija.treeheapgrader.Controllers.AlgorithmMainController"
          fx:id="tabPane">
     <Tab fx:id="jarjend_BST" text="Järjend kahendotsimispuuks">
         <fx:include source="järjend-kahendotsimispuuks.fxml"/>

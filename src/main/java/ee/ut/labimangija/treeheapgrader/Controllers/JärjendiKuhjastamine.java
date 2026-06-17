@@ -1,6 +1,6 @@
-package ee.ut.labimangija.algorithmgrader.Controllers;
+package ee.ut.labimangija.treeheapgrader.Controllers;
 
-import static ee.ut.labimangija.algorithmgrader.Util.Koordinaadid.*;
+import static ee.ut.labimangija.treeheapgrader.Util.Koordinaadid.*;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Alert;
@@ -10,15 +10,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import ee.ut.labimangija.algorithmgrader.Kahendpuu.*;
-import ee.ut.labimangija.algorithmgrader.Util.AlgorithmSisendiValija;
-import ee.ut.labimangija.algorithmgrader.Util.Logija;
+import ee.ut.labimangija.treeheapgrader.Kahendpuu.*;
+import ee.ut.labimangija.treeheapgrader.Util.AlgorithmSisendiValija;
+import ee.ut.labimangija.treeheapgrader.Util.Logija;
 import ee.ut.labimangija.common.AppPaths;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 

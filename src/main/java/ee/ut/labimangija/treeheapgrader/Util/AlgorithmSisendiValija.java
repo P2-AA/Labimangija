@@ -1,13 +1,10 @@
-package ee.ut.labimangija.algorithmgrader.Util;
+package ee.ut.labimangija.treeheapgrader.Util;
 
 import ee.ut.labimangija.common.AppPaths;
 import ee.ut.labimangija.ui.SisendiAllikaDialoog;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 public final class AlgorithmSisendiValija {

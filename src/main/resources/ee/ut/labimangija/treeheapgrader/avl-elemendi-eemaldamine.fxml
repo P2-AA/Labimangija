@@ -14,7 +14,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ee.ut.labimangija.algorithmgrader.Controllers.AvlElemendiEemaldamine"
+            fx:controller="ee.ut.labimangija.treeheapgrader.Controllers.AvlElemendiEemaldamine"
             prefHeight="400.0" prefWidth="600.0">
 
     <Label fx:id="eemaldatav" layoutX="10" layoutY="20" style="-fx-font-size: 15px;"/>
