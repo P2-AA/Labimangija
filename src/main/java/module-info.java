@@ -3,8 +3,8 @@ module ee.ut.labimangija {
     requires javafx.fxml;
     requires java.prefs;
 
-    requires org.controlsfx.controls;
-    requires org.kordamp.ikonli.javafx;
+    // requires org.controlsfx.controls;
+    // requires org.kordamp.ikonli.javafx;
 
     opens ee.ut.labimangija to javafx.fxml;
     opens ee.ut.labimangija.ui to javafx.fxml;
