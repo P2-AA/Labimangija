@@ -1,6 +1,8 @@
 package ee.ut.labimangija.ui;
 
+import java.io.IOException;
 import java.net.URL;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,17 +23,17 @@ public class MainController {
     private VBox navAccordion;
 
     @FXML
-    private void initialize() {
+    private void initialize() throws IOException {
         loadView("home-view.fxml");
     }
 
     @FXML
-    private void handleHome(ActionEvent event) {
+    private void handleHome(ActionEvent event) throws IOException {
         loadView("home-view.fxml");
     }
 
     @FXML
-    private void handleAbout(ActionEvent event) {
+    private void handleAbout(ActionEvent event) throws IOException {
         loadView("about-view.fxml");
     }
 
@@ -54,25 +56,25 @@ public class MainController {
     }
 
     @FXML
-    private void handleGraphAlgorithms(ActionEvent event) {
+    private void handleGraphAlgorithms(ActionEvent event) throws IOException {
         loadViewFromResource("/ee/ut/labimangija/graphgrader/Programm.fxml");
         ensureWindowSize(1120, 760);
     }
 
     @FXML
-    private void handleAlgorithmGrader(ActionEvent event) {
+    private void handleAlgorithmGrader(ActionEvent event) throws IOException {
         loadViewFromResource("/ee/ut/labimangija/algorithmgrader/hello-view.fxml");
         ensureWindowSize(1120, 760);
     }
 
     @FXML
-    private void handleHashTables(ActionEvent event) {
+    private void handleHashTables(ActionEvent event) throws IOException {
         loadViewFromResource("/ee/ut/labimangija/hashgrader/hashgrader-view.fxml");
         ensureWindowSize(1120, 760);
     }
 
     @FXML
-    private void handleArrayAlgorithms(ActionEvent event) {
+    private void handleArrayAlgorithms(ActionEvent event) throws IOException {
         loadViewFromResource("/ee/ut/labimangija/arraygrader/arraygrader-view.fxml");
         ensureWindowSize(1120, 760);
     }
@@ -90,36 +92,18 @@ public class MainController {
         }
     }
 
-    private void loadView(String fxmlName) {
+    private void loadView(String fxmlName) throws IOException {
         loadViewFromResource("/ee/ut/labimangija/" + fxmlName);
     }
 
-    private void loadViewFromResource(String resourcePath) {
-        try {
-            URL resource = getClass().getResource(resourcePath);
-            if (resource == null) {
-                System.err.println("FXML faili ei leitud: " + resourcePath);
-                kuvaLaadimisviga("FXML faili ei leitud: " + resourcePath.substring(resourcePath.lastIndexOf('/') + 1));
-                return;
-            }
-
-            Parent view = FXMLLoader.load(resource);
-            asetaVaade(view);
-        } catch (Exception e) {
-            e.printStackTrace();
-            kuvaLaadimisviga("Vaate laadimine ebaõnnestus: " + resourcePath.substring(resourcePath.lastIndexOf('/') + 1));
+    private void loadViewFromResource(String resourcePath) throws IOException {
+        URL resource = getClass().getResource(resourcePath);
+        if (resource == null) {
+            throw new IOException("Resource not found: " + resourcePath);
         }
-    }
 
-    private void kuvaLaadimisviga(String sonum) {
-        AnchorPane placeholder = new AnchorPane();
-        placeholder.setPrefSize(600, 400);
-        Label silt = new Label(sonum);
-        silt.setWrapText(true);
-        silt.setLayoutX(10);
-        silt.setLayoutY(10);
-        placeholder.getChildren().add(silt);
-        asetaVaade(placeholder);
+        Parent view = FXMLLoader.load(resource);
+        asetaVaade(view);
     }
 
     private void asetaVaade(Parent view) {

@@ -16,6 +16,7 @@ import ee.ut.labimangija.algorithmgrader.Util.Logija;
 import ee.ut.labimangija.common.AppPaths;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -100,8 +101,7 @@ public class JärjendiKuhjastamine {
                     järjend.add(Integer.parseInt(väärtus.strip()));
             }
         } catch (IOException e) {
-            System.err.println("Vales formaadis fail!");
-            System.out.println(e.getMessage());
+            throw new UncheckedIOException(e);
         }
     }
 

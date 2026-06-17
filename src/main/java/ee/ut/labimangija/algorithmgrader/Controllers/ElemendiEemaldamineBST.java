@@ -22,6 +22,7 @@ import ee.ut.labimangija.algorithmgrader.Util.Logija;
 import ee.ut.labimangija.common.AppPaths;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -176,7 +177,7 @@ public class ElemendiEemaldamineBST {
             }
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            throw new UncheckedIOException(e);
         }
     }
     public void järgmineEemaldatav(){

@@ -18,6 +18,7 @@ import ee.ut.labimangija.algorithmgrader.Kahendpuu.VisuaalneTipp;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.*;
 import java.util.*;
 
@@ -143,7 +144,7 @@ public class JärjendKahendotsimispuuks {
                     järjend.add(new Tipp(Integer.parseInt(väärtus.strip())));
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            throw new UncheckedIOException(e);
         }
     }
     @FXML
