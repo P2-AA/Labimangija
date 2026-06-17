@@ -219,8 +219,7 @@ public class ArrayGraderEngine {
         return switch (algoritm) {
             case MULLIMEETOD ->
                 "Alustame mullimeetodi läbimängu massiivil " + Arrays.toString(massiiv)
-                        + ". Kasutame varianti, " + "\n"
-                        + "kus vahetatakse ainult kõrvutiasetsevaid elemente.";
+                        + ". Kasutame varianti, kus vahetatakse ainult kõrvutiasetsevaid elemente.";
             case PISTEMEETOD ->
                 "Alustame pistemeetodi läbimängu massiivil " + Arrays.toString(massiiv) + ".";
             case VALIKUMEETOD ->

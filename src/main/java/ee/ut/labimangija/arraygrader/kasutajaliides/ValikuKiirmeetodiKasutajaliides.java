@@ -1,7 +1,5 @@
 package ee.ut.labimangija.arraygrader.kasutajaliides;
 
-import ee.ut.labimangija.arraygrader.labimanguhindaja.LäbimänguHindaja;
-import ee.ut.labimangija.arraygrader.labimanguhindaja.ValikuKiirmeetodiLäbimänguHindaja;
 import ee.ut.labimangija.arraygrader.massiiviseis.MassiiviSeis;
 import ee.ut.labimangija.arraygrader.massiiviseis.ValikuKiirmeetodiMassiiviSeis;
 import ee.ut.labimangija.arraygrader.massiivioperatsioon.LäbimänguAlustamine;
@@ -17,21 +15,12 @@ import java.util.Arrays;
 // https://thesis.cs.ut.ee/2d182e41-7be8-4a84-b9fd-af9a48a8f6cc
 
 public class ValikuKiirmeetodiKasutajaliides extends Kasutajaliides {
-    @Override
-    protected void kuvaVõimalikudOperatsioonid() {
-        System.out.println("jaota a b _ c d e - muudab massiivi seisu, alakriips märgib jaotamise lahkmekohta");
-        super.kuvaVõimalikudOperatsioonid();
-    }
 
+    private final int valikuKiirmeetodiVastusePiir = 3;
 
     @Override
     protected LäbimänguAlustamine läbimänguAlustamiseOperatsioon(int[] massiiv) {
         return new ValikuKiirmeetodiLäbimänguAlustamine(new ValikuKiirmeetodiMassiiviSeis(massiiv, null, null, valikuKiirmeetodiVastusePiir));
-    }
-
-    @Override
-    protected void läbimänguAlustamiseSõnum(int[] massiiv) {
-        System.out.println("Alustame valiku kiirmeetodi läbimängu massiivil " + Arrays.toString(massiiv) + ", tuua esimesed " + valikuKiirmeetodiVastusePiir + " elementi massiivi algusesse.");
     }
 
     @Override
@@ -67,7 +56,7 @@ public class ValikuKiirmeetodiKasutajaliides extends Kasutajaliides {
                         valikuKiirmeetodiMassiiviSeis.getTööalaleJärgnevIndeks(),
                         valikuKiirmeetodiMassiiviSeis.getVastusePiir()), lahkmeIndeks);
             case "tööala":
-                if(sisend.length != 3) {
+                if (sisend.length != 3) {
                     throw new ViganeSisendException("Tööala muutmine vajab kahte argumenti (tööala algus ja lõpp).");
                 }
                 int tööalaAlgus = Integer.parseInt(sisend[1]);
@@ -78,9 +67,5 @@ public class ValikuKiirmeetodiKasutajaliides extends Kasutajaliides {
         }
     }
 
-    @Override
-    protected LäbimänguHindaja läbimänguHindaja() {
-        return new ValikuKiirmeetodiLäbimänguHindaja();
-    }
 }
 

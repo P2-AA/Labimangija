@@ -1,7 +1,5 @@
 package ee.ut.labimangija.arraygrader.kasutajaliides;
 
-import ee.ut.labimangija.arraygrader.labimanguhindaja.LäbimänguHindaja;
-import ee.ut.labimangija.arraygrader.labimanguhindaja.PistemeetodiLäbimänguHindaja;
 import ee.ut.labimangija.arraygrader.massiiviseis.MassiiviSeis;
 import ee.ut.labimangija.arraygrader.massiivioperatsioon.LäbimänguAlustamine;
 import ee.ut.labimangija.arraygrader.massiivioperatsioon.Massiivioperatsioon;
@@ -16,20 +14,10 @@ import java.util.Arrays;
 // https://thesis.cs.ut.ee/2d182e41-7be8-4a84-b9fd-af9a48a8f6cc
 
 public class PistemeetodiKasutajaliides extends Kasutajaliides {
-    @Override
-    protected void kuvaVõimalikudOperatsioonid() {
-        System.out.println("piste <algusindeks> <lõpuindeks> - teeb massiivil piste");
-        super.kuvaVõimalikudOperatsioonid();
-    }
 
     @Override
     protected LäbimänguAlustamine läbimänguAlustamiseOperatsioon(int[] massiiv) {
         return new PistemeetodiLäbimänguAlustamine(new MassiiviSeis(massiiv, null, null));
-    }
-
-    @Override
-    protected void läbimänguAlustamiseSõnum(int[] massiiv) {
-        System.out.println("Alustame pistemeetodi läbimängu massiivil " + Arrays.toString(massiiv) + ".");
     }
 
     @Override
@@ -54,8 +42,4 @@ public class PistemeetodiKasutajaliides extends Kasutajaliides {
         }
     }
 
-    @Override
-    protected LäbimänguHindaja läbimänguHindaja() {
-        return new PistemeetodiLäbimänguHindaja();
-    }
 }
