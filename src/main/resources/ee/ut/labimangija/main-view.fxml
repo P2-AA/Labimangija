@@ -19,7 +19,7 @@
                 <VBox spacing="6" style="-fx-padding: 6; -fx-border-color: lightgray; -fx-border-width: 1;">
                     <Label text = "Algoritmid" style="-fx-font-weight: bold;"/>
                     <Button text = "Graafialgoritmid" onAction="#handleGraphAlgorithms" maxWidth="Infinity"/>
-                    <Button text="Kahendpuu ja&#10;kuhjaalgoritmid" onAction="#handleAlgorithmGrader" maxWidth="Infinity" wrapText="true" prefHeight="44.0" textAlignment="CENTER"/>
+                    <Button text="Kahendpuu- ja&#10;kuhjaalgoritmid" onAction="#handleAlgorithmGrader" maxWidth="Infinity" wrapText="true" prefHeight="44.0" textAlignment="CENTER"/>
                     <Button text = "Massiivialgoritmid" onAction="#handleArrayAlgorithms" maxWidth="Infinity"/>
                     <Button text = "Paisktabelialgoritmid" onAction="#handleHashTables" maxWidth="Infinity"/>
                 </VBox>
