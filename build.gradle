@@ -41,7 +41,7 @@ dependencies {
 
 jlink {
     imageDir = layout.buildDirectory.dir('Labimangija')
-    imageZip = layout.buildDirectory.file("Labimangija-${javafx.platform.classifier}.zip")
+    imageZip = layout.buildDirectory.file("Labimangija-${project.version}-${javafx.platform.classifier}.zip")
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
     launcher {
         name = 'Labimangija'
