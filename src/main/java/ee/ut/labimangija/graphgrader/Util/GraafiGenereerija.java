@@ -593,6 +593,9 @@ public class GraafiGenereerija {
     // Tehisaru pakkus esialgse lahendusidee ja loogika, mida autor kohandas,
     // vastavalt rakenduse nõuetele.
     private static List<String> genereeriEeldus(int n, int m, int minAeg, int maxAeg) {
+        // TODO: See meetod genereerib mõnikord tsüklitega graafi.
+        //  See tuleks ilmselt asendada Arismaa Kahni generaatoril põhineva meetodiga.
+
         int minM = n - 1;
         int maxM = n * (n - 1) / 2;
         if (m < minM || m > maxM) {
