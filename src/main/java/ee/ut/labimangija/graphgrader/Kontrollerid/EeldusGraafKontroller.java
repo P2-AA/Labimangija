@@ -70,6 +70,9 @@ public class EeldusGraafKontroller {
             return;
         taastaYlesanne();
         g = new Graaf(failitee, true, true);
+        if (!g.onAtsukliline()) {
+            throw new IOException("Eeldusgraaf peab olema suunatud atsükliline graaf.");
+        }
         varaseimLoppOlemas = new boolean[g.tipud.size()];
         hilisemAlgusOlemas = new boolean[g.tipud.size()];
         naitaGraafi();

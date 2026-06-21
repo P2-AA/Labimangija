@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
+
 import ee.ut.labimangija.common.AppPaths;
 
 // Klassi implementatsioon põhineb Peamiselt Erik Presnovi loodud lahendusel.
@@ -22,7 +23,7 @@ public class Graaf {
         this(failitee, suunatud, false);
     }
 
-    public Graaf(String failitee, boolean suunatud, boolean eeldus) throws IOException {
+    public Graaf(String failitee, boolean suunatud, boolean kaalutudTipud) throws IOException {
         List<String> graaf = loeFail(failitee);
 
         List<Tipp> tipud = new ArrayList<>();
@@ -31,7 +32,7 @@ public class Graaf {
 
         for (int i = 1; i <= Integer.parseInt(esimene[2]); i++) {
             Tipp tipp = new Tipp((char) (i + 'A' - 1) + "");
-            if (eeldus)
+            if (kaalutudTipud)
                 tipp.kaal = Integer.parseInt(esimene[3 + i]);
             tipud.add(tipp);
         }
@@ -48,13 +49,10 @@ public class Graaf {
             if (osad.length == 4) {
                 kaalutud = true;
                 int kaal = Integer.parseInt(osad[3]);
-                if (kaal < 0)
-                    throw new IOException("Graafifail sisaldab negatiivset kaalu serval %d -> %d.".formatted(alg, lopp));
                 algus.kaared.add(new Kaar(algus, loppT, kaal));
                 if (!suunatud)
                     loppT.kaared.add(new Kaar(loppT, algus, kaal));
-            }
-            else {
+            } else {
                 algus.kaared.add(new Kaar(algus, loppT));
                 if (!suunatud)
                     loppT.kaared.add(new Kaar(loppT, algus));
@@ -63,8 +61,6 @@ public class Graaf {
         }
 
         this.tipud = tipud;
-        if (eeldus && !onAtsukliline(tipud))
-            throw new IOException("Eeldusgraaf peab olema suunatud atsükliline graaf.");
         this.kaalutud = kaalutud;
     }
 
@@ -78,7 +74,16 @@ public class Graaf {
         return tagastus;
     }
 
-    private static boolean onAtsukliline(List<Tipp> tipud) {
+    public boolean onMittenegatiivne() {
+        for (Tipp tipp : tipud) {
+            for (Kaar kaar : tipp.kaared) {
+                if (kaar.kaal < 0) return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean onAtsukliline() {
         int[] sisendastmed = new int[tipud.size()];
         for (Tipp tipp : tipud) {
             for (Tipp alluv : tipp.alluvad) {

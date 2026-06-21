@@ -58,6 +58,9 @@ public class DijkstraKontroller {
         if (failitee == null) return;
         taastaYlesanne();
         g = new Graaf(failitee, true);
+        if (!g.onMittenegatiivne()) {
+            throw new IOException("Dijkstra graaf ei tohi sisaldada negatiivse kaaluga servi.");
+        }
         naitaGraafi();
         laeNupp.setVisible(false);
         lukustaNupp.setVisible(true);
