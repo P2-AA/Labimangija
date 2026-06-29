@@ -7,7 +7,7 @@ import ee.ut.labimangija.graphgrader.Util.GraafiValija;
 import ee.ut.labimangija.graphgrader.Util.KaareKaaluKuvaja;
 import ee.ut.labimangija.graphgrader.Util.KaarteKuhi;
 import ee.ut.labimangija.graphgrader.Util.Logija;
-import ee.ut.labimangija.graphgrader.Util.Teavitaja;
+import ee.ut.labimangija.ui.Popups;
 import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -139,8 +139,7 @@ public class KruskalKontroller {
     public void votaAndmestruktuurist(MouseEvent ignored) {
         if (kuhi.onTyhi()) {
             Logija.logi(vead, g, sammud, "Kruskal", true, false);
-            Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi kirjutatud faili.".formatted(vead.size()),
-                    "Info");
+            Popups.showInfo("Läbimäng tehtud!\nKokku %d viga.\nLogi kirjutatud faili.".formatted(vead.size()));
             laeNupp.setVisible(true);
             andmestruktuur.setDisable(true);
             return;
@@ -155,7 +154,7 @@ public class KruskalKontroller {
         while (vastus != kasKuulub) {
             sammud.add(samm + "\t: Küsin kaare toesesse kuulmist. VIGA");
             vead.add(samm++ + "\t: Kaar " + min + (kasKuulub ? " peaks " : " ei peaks ") + "toesesse kuuluma.");
-            Teavitaja.teavita("Sain vale vastuse", "Viga");
+            Popups.showError("Sain vale vastuse");
             vastus = kysiSisendit();
         }
         sammud.add(samm++ + "\t: Küsin kaare " + min + " toesesse kuulmist. KORRAS");
@@ -193,7 +192,7 @@ public class KruskalKontroller {
     }
 
     public boolean kysiSisendit() {
-        Alert dialog = new Alert(Alert.AlertType.NONE);
+        Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
         dialog.setTitle("Sisend");
         dialog.setHeaderText("Kas valitud kaar lisada toesesse?");
 
@@ -209,7 +208,7 @@ public class KruskalKontroller {
                 if (valik.get() == ei)
                     return false;
             }
-            Teavitaja.teavita("Vali palun 'Jah' või 'Ei'.", "Info");
+            Popups.showInfo("Vali palun 'Jah' või 'Ei'.");
         }
     }
 

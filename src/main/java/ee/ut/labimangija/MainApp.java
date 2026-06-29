@@ -1,7 +1,7 @@
 package ee.ut.labimangija;
 
+import ee.ut.labimangija.ui.Popups;
 import javafx.application.Application;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,11 +30,7 @@ public class MainApp extends Application {
 
         throwable.printStackTrace();
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Viga");
-        alert.setHeaderText("Programmi jooksutamisel visati ootamatu erind");
-        alert.setContentText(throwable.toString());
-        alert.showAndWait();
+        Popups.showError("Programmi jooksutamisel visati ootamatu erind", throwable.toString());
     }
 
     public static void main(String[] args) {

@@ -2,8 +2,6 @@ package ee.ut.labimangija.treeheapgrader.Util;
 
 import ee.ut.labimangija.common.AppPaths;
 import ee.ut.labimangija.ui.SisendiAllikaDialoog;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 
 import java.nio.file.Path;
 
@@ -33,7 +31,4 @@ public final class AlgorithmSisendiValija {
         return SISENDI_KAUST.resolve(tyyp.name().toLowerCase());
     }
 
-    static void naitaViga(String teade) {
-        new Alert(Alert.AlertType.ERROR, teade, ButtonType.OK).showAndWait();
-    }
 }

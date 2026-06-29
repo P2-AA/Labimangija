@@ -1,7 +1,7 @@
 package ee.ut.labimangija.graphgrader.Kontrollerid;
 
 import ee.ut.labimangija.common.Juhendid;
-import ee.ut.labimangija.graphgrader.Util.Teavitaja;
+import ee.ut.labimangija.ui.Popups;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -44,7 +44,7 @@ public class MainController {
         Button juhendNupp = new Button("Juhend");
         juhendNupp.setLayoutX(JUHEND_NUPU_X);
         juhendNupp.setLayoutY(JUHEND_NUPU_Y);
-        juhendNupp.setOnAction(e -> Teavitaja.teavita(info, "Juhend"));
+        juhendNupp.setOnAction(e -> Popups.showInstructions(info));
         pane.getChildren().add(juhendNupp);
         juhendNupp.toFront();
     }

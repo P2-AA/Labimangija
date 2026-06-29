@@ -1,6 +1,7 @@
 package ee.ut.labimangija.treeheapgrader.Util;
 
 import ee.ut.labimangija.common.AppPaths;
+import ee.ut.labimangija.ui.Popups;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -66,7 +67,7 @@ public final class AlgorithmSisendiGenereerija {
             Files.writeString(fail, sisu + System.lineSeparator(), StandardCharsets.UTF_8);
             return fail.toAbsolutePath().toString();
         } catch (Exception e) {
-            AlgorithmSisendiValija.naitaViga("Genereerimine ebaõnnestus: " + e.getMessage());
+            Popups.showError("Genereerimine ebaõnnestus: " + e.getMessage());
             return null;
         }
     }
@@ -108,7 +109,7 @@ public final class AlgorithmSisendiGenereerija {
                         Integer.parseInt(maxField.getText().trim())
                 );
             } catch (NumberFormatException e) {
-                AlgorithmSisendiValija.naitaViga("Kõik parameetrid peavad olema täisarvud.");
+                Popups.showError("Kõik parameetrid peavad olema täisarvud.");
                 return null;
             }
         });
@@ -120,7 +121,7 @@ public final class AlgorithmSisendiGenereerija {
 
         String viga = valideeri(tyyp, tulemus.get());
         if (viga != null) {
-            AlgorithmSisendiValija.naitaViga(viga);
+            Popups.showError(viga);
             return null;
         }
         return tulemus.get();

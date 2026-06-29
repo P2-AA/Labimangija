@@ -5,7 +5,7 @@ import ee.ut.labimangija.graphgrader.Util.GraafiGenereerija;
 import ee.ut.labimangija.graphgrader.Util.GraafiPaigutaja;
 import ee.ut.labimangija.graphgrader.Util.GraafiValija;
 import ee.ut.labimangija.graphgrader.Util.Logija;
-import ee.ut.labimangija.graphgrader.Util.Teavitaja;
+import ee.ut.labimangija.ui.Popups;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -68,7 +68,7 @@ public class KahnKontroller {
             } catch (RuntimeException e) {
                 sammud.add(samm + "\t: Kontrollin algseid sisendastmeid. VIGA");
                 vead.add(samm++ + "\t: Ootasin: " + Arrays.toString(paris) + " , sain: " + Arrays.toString(olemas));
-                Teavitaja.teavita("Sisendastmed on vigased", "Info");
+                Popups.showInfo("Sisendastmed on vigased");
             }
         });
         tabel.add(kontrollNupp, 0, 0, 2, 1);
@@ -85,7 +85,7 @@ public class KahnKontroller {
             Button alla = new Button("-");
             alla.setOnMouseClicked(e -> {
                 if (olemas[finalI] == 0) {
-                    Teavitaja.teavita("Tipu sisendaste ei saa olla negatiivne", "Viga");
+                    Popups.showError("Tipu sisendaste ei saa olla negatiivne");
                     return;
                 }
                 olemas[finalI]--;
@@ -114,7 +114,7 @@ public class KahnKontroller {
                 } else {
                     sammud.add(samm + "\t: Lisan tipu " + g.tipud.get(finalI).tähis + " järjekorda. VIGA");
                     vead.add(samm++ + "\t: Järjekorda lisatava tipu sisendaste peaks olema 0 mitte " + olemas[g.tipud.get(finalI).tähis.charAt(0) - 'A']);
-                    Teavitaja.teavita("Tipu %s sisendaste ei ole 0!".formatted(g.tipud.get(finalI).tähis), "Info");
+                    Popups.showInfo("Tipu %s sisendaste ei ole 0!".formatted(g.tipud.get(finalI).tähis));
                 }
             });
             lisa.setPrefWidth(40);
@@ -136,7 +136,7 @@ public class KahnKontroller {
         taastaYlesanne();
         g = new Graaf(failitee, true);
         if (!onAtsukliline(g)) {
-            Teavitaja.teavita("Kahni algoritmi jaoks peab sisendgraaf olema tsükliteta suunatud graaf.", "Viga");
+            Popups.showError("Kahni algoritmi jaoks peab sisendgraaf olema tsükliteta suunatud graaf.");
             taastaYlesanne();
             return;
         }
@@ -210,7 +210,7 @@ public class KahnKontroller {
             }
             sammud.add(samm + "\t: Kontrollin tippu " + tipp.tipp.tähis + ". VIGA");
             vead.add(samm++ + "\t: " + kontrolliTulemus.replaceAll("\n", " "));
-            Teavitaja.teavita(kontrolliTulemus, "Viga");
+            Popups.showError(kontrolliTulemus);
         });
     }
 
@@ -237,11 +237,11 @@ public class KahnKontroller {
         if (jarjekord.isEmpty()) {
             if (toodeldud.size() == g.tipud.size()) {
                 Logija.logi(vead, g, sammud, "Kahn", false, false);
-                Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()), "Info");
+                Popups.showInfo("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()));
                 laeNupp.setVisible(true);
                 andmestruktuur.setDisable(true);
             } else {
-                Teavitaja.teavita("Järjekord on tühi, aga kõik tipud pole veel töödeldud. Kontrolli sisendastmeid või kas graaf sisaldab tsüklit.", "Info");
+                Popups.showInfo("Järjekord on tühi, aga kõik tipud pole veel töödeldud. Kontrolli sisendastmeid või kas graaf sisaldab tsüklit.");
             }
             return;
         }

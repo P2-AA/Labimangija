@@ -2,14 +2,7 @@ package ee.ut.labimangija.hashgrader;
 
 import ee.ut.labimangija.common.AppPaths;
 import ee.ut.labimangija.ui.SisendiAllikaDialoog;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Region;
-import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class HashSisendiValija {
@@ -32,17 +25,4 @@ public class HashSisendiValija {
         });
     }
 
-    static void naitaViga(String teade) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "", ButtonType.OK);
-        alert.setTitle("Viga");
-        alert.setHeaderText("Viga");
-
-        Label sisu = new Label(teade);
-        sisu.setWrapText(true);
-        alert.getDialogPane().setContent(sisu);
-        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        alert.getDialogPane().setPrefWidth(560);
-
-        alert.showAndWait();
-    }
 }

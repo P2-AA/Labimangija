@@ -7,7 +7,7 @@ import ee.ut.labimangija.graphgrader.Util.GraafiValija;
 import ee.ut.labimangija.graphgrader.Util.KaareKaaluKuvaja;
 import ee.ut.labimangija.graphgrader.Util.KaaluSisendiDialoog;
 import ee.ut.labimangija.graphgrader.Util.Logija;
-import ee.ut.labimangija.graphgrader.Util.Teavitaja;
+import ee.ut.labimangija.ui.Popups;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -174,14 +174,14 @@ public class FWKontroller {
                     String kontrolliTulemus = "Tipu %s kaal peaks olema %d aga on %d".formatted(t.tähis, oodatud, Integer.parseInt(sisend.get()));
                     sammud.add(samm + "\t: Küsin tipu " + t.tähis + " kaalu. VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
-                    Teavitaja.teavita(kontrolliTulemus, "Viga");
+                    Popups.showError(kontrolliTulemus);
                     sisend = KaaluSisendiDialoog.kuva();
                     continue;
                 }
                 sammud.add(samm++ + "\t: Küsin tipu " + t.tähis + " kaalu. KORRAS");
                 korras = true;
             } catch (NumberFormatException exception) {
-                Teavitaja.teavita("Sisesta number", "Info");
+                Popups.showInfo("Sisesta number");
                 sisend = KaaluSisendiDialoog.kuva();
             }
         }
@@ -206,7 +206,7 @@ public class FWKontroller {
 
                 if (toodeldud.size() == g.tipud.size()) {
                     Logija.logi(vead, g, sammud, "FW", true, false);
-                    Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()), "Info");
+                    Popups.showInfo("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()));
                     laeNupp.setVisible(true);
                     return;
                 }
@@ -217,7 +217,7 @@ public class FWKontroller {
             }
             sammud.add(samm + "\t: Töötlen tippu " + tipp.tipp.tähis + ". VIGA");
             vead.add(samm++ + "\t: " + kontrolliTulemus);
-            Teavitaja.teavita(kontrolliTulemus, "Viga");
+            Popups.showError(kontrolliTulemus);
         });
     }
 

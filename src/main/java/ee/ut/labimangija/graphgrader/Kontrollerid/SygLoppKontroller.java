@@ -5,7 +5,7 @@ import ee.ut.labimangija.graphgrader.Util.GraafiGenereerija;
 import ee.ut.labimangija.graphgrader.Util.GraafiPaigutaja;
 import ee.ut.labimangija.graphgrader.Util.GraafiValija;
 import ee.ut.labimangija.graphgrader.Util.Logija;
-import ee.ut.labimangija.graphgrader.Util.Teavitaja;
+import ee.ut.labimangija.ui.Popups;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -134,7 +134,7 @@ public class SygLoppKontroller {
                 }
                 sammud.add(samm + "\t: Kontrollin tippu " + tipp.tipp.tähis + ". VIGA");
                 vead.add(samm++ + "\t: " + kontrolliTulemus);
-                Teavitaja.teavita(kontrolliTulemus, "Viga");
+                Popups.showError(kontrolliTulemus);
             } else {
                 Tipp praegune = leiaPraegune();
                 Tipp jarglane = null;
@@ -143,7 +143,7 @@ public class SygLoppKontroller {
                 if (jarglane == null) {
                     sammud.add(samm + "\t: Lisan tipu " + tipp.tipp.tähis + " magasini. VIGA");
                     vead.add(samm++ + "\t: Lõpptipp " + tipp.tipp.tähis + " ei ole aktiivse tipu järglane.");
-                    Teavitaja.teavita("Lõpptipp " + tipp.tipp.tähis + " ei ole aktiivse tipu järglane.", "Viga");
+                    Popups.showError("Lõpptipp " + tipp.tipp.tähis + " ei ole aktiivse tipu järglane.");
                     return;
                 }
                 if (jarglane.seis == TipuSeis.AVASTAMATA) {
@@ -155,7 +155,7 @@ public class SygLoppKontroller {
                 } else if (jarglane.seis == TipuSeis.ANDMESTRUKTUURIS || jarglane.seis == TipuSeis.TÖÖDELDUD) {
                     sammud.add(samm + "\t: Lisan tipu " + jarglane.tähis + " magasini. VIGA");
                     vead.add(samm++ + "\t: Lõpptipp " + jarglane.tähis + " on juba töödeldud või andmestruktuuris.");
-                    Teavitaja.teavita("Lõpptipp " + jarglane.tähis + " on juba töödeldud või andmestruktuuris.", "Viga");
+                    Popups.showError("Lõpptipp " + jarglane.tähis + " on juba töödeldud või andmestruktuuris.");
                 }
             }
         });
@@ -190,7 +190,7 @@ public class SygLoppKontroller {
         if (magasin.isEmpty()) {
             if (toodeldud.size() == g.tipud.size()) {
                 Logija.logi(vead, g, sammud, "SügavutiLõpp", false, false);
-                Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()), "Info");
+                Popups.showInfo("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()));
                 laeNupp.setVisible(true);
             }
             andmestruktuur.setDisable(true);
@@ -200,7 +200,7 @@ public class SygLoppKontroller {
         if (t != null) {
             sammud.add(samm + "\t: Mingit tippu pidi praegu töötlema. VIGA");
             vead.add(samm++ + "\t: Tippu " + t.tähis + " pidi praegu töötlema.");
-            Teavitaja.teavita("Mingit tippu pidi praegu töötlema.", "Viga");
+            Popups.showError("Mingit tippu pidi praegu töötlema.");
             return;
         }
         t = magasin.remove(magasin.size() - 1);

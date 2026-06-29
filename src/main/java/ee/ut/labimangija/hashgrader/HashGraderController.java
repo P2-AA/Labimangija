@@ -3,7 +3,7 @@ package ee.ut.labimangija.hashgrader;
 import java.io.IOException;
 import java.util.Locale;
 import ee.ut.labimangija.common.Juhendid;
-import ee.ut.labimangija.graphgrader.Util.Teavitaja;
+import ee.ut.labimangija.ui.Popups;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -109,7 +109,7 @@ public class HashGraderController {
 
     @FXML
     private void handleShowGuide() {
-        Teavitaja.teavita(Juhendid.paisktabel(getSelectedGuideKey()), "Juhend");
+        Popups.showInstructions(Juhendid.paisktabel(getSelectedGuideKey()));
     }
 
     @FXML

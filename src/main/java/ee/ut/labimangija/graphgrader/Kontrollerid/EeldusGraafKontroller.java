@@ -6,7 +6,7 @@ import ee.ut.labimangija.graphgrader.Util.GraafiPaigutaja;
 import ee.ut.labimangija.graphgrader.Util.GraafiValija;
 import ee.ut.labimangija.graphgrader.Util.KaareKaaluKuvaja;
 import ee.ut.labimangija.graphgrader.Util.Logija;
-import ee.ut.labimangija.graphgrader.Util.Teavitaja;
+import ee.ut.labimangija.ui.Popups;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -131,7 +131,7 @@ public class EeldusGraafKontroller {
                 return;
             }
             if (!koikJarglasedHinnatud(tipp.tipp)) {
-                Teavitaja.teavita("Kõigi järglaste hiliseim algusaeg peab enne olemas olema.", "Viga");
+                Popups.showError("Kõigi järglaste hiliseim algusaeg peab enne olemas olema.");
                 return;
             }
             int tulemus = kysiSisendit(tipp.tipp, minJarglastest(tipp.tipp) - tipp.tipp.kaal, "Hiliseim algusaeg?");
@@ -160,7 +160,7 @@ public class EeldusGraafKontroller {
             if (edasi)
                 return;
             if (!koikJarglasedHinnatud(tipp.tipp)) {
-                Teavitaja.teavita("Kõigi järglaste hiliseim algusaeg peab enne olemas olema.", "Viga");
+                Popups.showError("Kõigi järglaste hiliseim algusaeg peab enne olemas olema.");
                 return;
             }
             int tulemus = kysiSisendit(tipp.tipp, minJarglastest(tipp.tipp) - tipp.tipp.kaal, "Hiliseim algusaeg?");
@@ -245,7 +245,7 @@ public class EeldusGraafKontroller {
                     String kontrolliTulemus = "Sellist tippu ei eksisteeri.";
                     sammud.add(samm + "\t: Küsin kriitilist tippu. VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
-                    Teavitaja.teavita(kontrolliTulemus, "Viga");
+                    Popups.showError(kontrolliTulemus);
                     sisend = Optional.empty();
                 } else if (!kriitilised.contains(t)) {
                     String kontrolliTulemus;
@@ -255,7 +255,7 @@ public class EeldusGraafKontroller {
                         kontrolliTulemus = "Sisestatud tipp ei ole kriitiline.";
                     sammud.add(samm + "\t: Küsin kriitilist tippu. VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
-                    Teavitaja.teavita(kontrolliTulemus, "Viga");
+                    Popups.showError(kontrolliTulemus);
                     sisend = Optional.empty();
                 } else {
                     sammud.add(samm + "\t: Küsin kriitilist tippu. KORRAS");
@@ -268,7 +268,7 @@ public class EeldusGraafKontroller {
             }
         }
         Logija.logi(vead, g, sammud, "Eeldusgraaf", false, true);
-        Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()), "Info");
+        Popups.showInfo("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()));
         laeNupp.setVisible(true);
     }
 
@@ -289,14 +289,14 @@ public class EeldusGraafKontroller {
                     String kontrolliTulemus = "Sisestatud kogu lõpuaeg on vale, sisestati %s".formatted(Integer.parseInt(sisend.get()));
                     sammud.add(samm + "\t: Küsin kogu lõpuaega. VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
-                    Teavitaja.teavita(kontrolliTulemus, "Viga");
+                    Popups.showError(kontrolliTulemus);
                     sisend = Optional.empty();
                     continue;
                 }
                 sammud.add(samm + "\t: Küsin kogu lõpuaega. KORRAS");
                 korras = true;
             } catch (NumberFormatException exception) {
-                Teavitaja.teavita("Sisesta number", "Info");
+                Popups.showInfo("Sisesta number");
                 sisend = Optional.empty();
             }
         }
@@ -352,14 +352,14 @@ public class EeldusGraafKontroller {
                             Integer.parseInt(sisend.get()));
                     sammud.add(samm + "\t: Küsin tipu " + t.tähis + " " + mida + ". VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
-                    Teavitaja.teavita(kontrolliTulemus, "Viga");
+                    Popups.showError(kontrolliTulemus);
                     sisend = Optional.empty();
                     continue;
                 }
                 korras = true;
                 sammud.add(samm++ + "\t: Küsin tipu " + t.tähis + " " + mida + ". KORRAS");
             } catch (NumberFormatException exception) {
-                Teavitaja.teavita("Sisesta number", "Info");
+                Popups.showInfo("Sisesta number");
                 sisend = Optional.empty();
             }
         }
@@ -390,7 +390,7 @@ public class EeldusGraafKontroller {
         while (!korras) {
             if (sisend.isEmpty()) {
                 sammud.add(samm++ + "\t: Topoloogilise järjestuse küsimine katkestati.");
-                Teavitaja.teavita("Topoloogilise järjestuse sisestamine katkestati.", "Info");
+                Popups.showInfo("Topoloogilise järjestuse sisestamine katkestati.");
                 laeNupp.setVisible(true);
                 return;
             }
@@ -398,7 +398,7 @@ public class EeldusGraafKontroller {
             String error = sobib(sisendiSisu);
             if (error != null) {
                 String kontrolliTulemus = "Sisestus ei ole sobiv topoloogiline järjestus";
-                Teavitaja.teavita(kontrolliTulemus, "Viga");
+                Popups.showError(kontrolliTulemus);
                 sammud.add(samm + "\t: Küsin topolooglist järjestust. VIGA");
                 vead.add(samm++ + "\t: " + kontrolliTulemus);
                 sisend = dialog.showAndWait();

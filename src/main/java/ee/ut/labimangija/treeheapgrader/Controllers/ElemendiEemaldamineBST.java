@@ -1,11 +1,12 @@
 package ee.ut.labimangija.treeheapgrader.Controllers;
 
 import static ee.ut.labimangija.treeheapgrader.Util.Koordinaadid.*;
+
+import ee.ut.labimangija.ui.Popups;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -58,9 +59,9 @@ public class ElemendiEemaldamineBST {
     private Kahendotsimispuu eelnevaSeisugaPuu;
     private List<VisuaalneTipp> visuaalsedTipud = new ArrayList<>();
     private List<Tipp> aktiivsedTipud = new ArrayList<>();
-    private List<Integer> eemaldatavad=new ArrayList<>();
+    private List<Integer> eemaldatavad = new ArrayList<>();
     private List<Tipp> metsaJuurtipud = new ArrayList<>();
-    private  List<String> vead = new ArrayList<>();
+    private List<String> vead = new ArrayList<>();
     private int vigu;
     private int hetkelEemaldatav;
     private int puuElementideArv;
@@ -80,10 +81,10 @@ public class ElemendiEemaldamineBST {
         visuaalsedTipud.clear();
         aktiivsedTipud.clear();
         metsaJuurtipud.clear();
-        vigu=0;
+        vigu = 0;
         puu = new Kahendotsimispuu();
         visuaalnePuu = new Kahendotsimispuu();
-        vead=new ArrayList<>();
+        vead = new ArrayList<>();
         //Logidesse sisend loetakse failist lugemisel
         loeFailistVäärtused(valitudFail);
 
@@ -95,11 +96,13 @@ public class ElemendiEemaldamineBST {
         laeUusPuu.setVisible(false);
         laeEelnevPuu.setVisible(true);
     }
-    public void ilusPuu(){
+
+    public void ilusPuu() {
         kahendpuuAla.getChildren().clear();
         looVisuaalnePuu(visuaalnePuu.juurtipp, 1, JUURE_X, JUURE_Y, true);
     }
-    public void laeEelnevPuu(){
+
+    public void laeEelnevPuu() {
         visuaalnePuu = new Kahendotsimispuu();
         puudSamaks(visuaalnePuu, eelnevaSeisugaPuu.juurtipp);
         visuaalsedTipud.clear();
@@ -115,24 +118,25 @@ public class ElemendiEemaldamineBST {
         lisaParemAlluv.setVisible(false);
         lisaVasakAlluv.setVisible(false);
     }
-    public void looVisuaalnePuu(Tipp tipp, int tase, int x, int y, boolean vasak){
-        if (tipp== null)
+
+    public void looVisuaalnePuu(Tipp tipp, int tase, int x, int y, boolean vasak) {
+        if (tipp == null)
             return;
 
-        if (metsaJuurtipud.size()>1 && metsaJuurtipud.contains(tipp)){
-            for (VisuaalneTipp t : visuaalsedTipud){
-                if(t.tipp!=tipp && (t.getCenterX()<x+10 && t.getCenterX()>x-10)){
-                    if (x>kahendpuuAla.getWidth()/2){
-                        x=x-40;
-                    }else {
-                        x=x+40;
+        if (metsaJuurtipud.size() > 1 && metsaJuurtipud.contains(tipp)) {
+            for (VisuaalneTipp t : visuaalsedTipud) {
+                if (t.tipp != tipp && (t.getCenterX() < x + 10 && t.getCenterX() > x - 10)) {
+                    if (x > kahendpuuAla.getWidth() / 2) {
+                        x = x - 40;
+                    } else {
+                        x = x + 40;
                     }
                     break;
                 } else if (t.tipp != tipp && metsaJuurtipud.contains(t.tipp)) {
-                    if (x>kahendpuuAla.getWidth()-JUURE_X/Math.pow(2, tase-1)){
-                        x = (int) (kahendpuuAla.getWidth() - (int) (JUURE_X/Math.pow(2, tase-1)));
-                    }else if(x<JUURE_X/Math.pow(2, tase-1)){
-                        x = (int) (JUURE_X/Math.pow(2, tase-1));
+                    if (x > kahendpuuAla.getWidth() - JUURE_X / Math.pow(2, tase - 1)) {
+                        x = (int) (kahendpuuAla.getWidth() - (int) (JUURE_X / Math.pow(2, tase - 1)));
+                    } else if (x < JUURE_X / Math.pow(2, tase - 1)) {
+                        x = (int) (JUURE_X / Math.pow(2, tase - 1));
                     }
                 }
             }
@@ -144,12 +148,12 @@ public class ElemendiEemaldamineBST {
         visuaalsedTipud.add(tipp.visuaalneTipp);
         tipp.visuaalneTipp.väärtus = tipp.väärtus;
 
-        int xKoordMuutus=(int) (JUURE_X/Math.pow(2, tase));
+        int xKoordMuutus = (int) (JUURE_X / Math.pow(2, tase));
 
         //liigutatavTipp(tipp.visuaalneTipp);
 
-        looVisuaalnePuu(tipp.vasak, tase+1, x-xKoordMuutus, y+pesaY, true);
-        looVisuaalnePuu(tipp.parem, tase+1, x+xKoordMuutus, y+pesaY, false);
+        looVisuaalnePuu(tipp.vasak, tase + 1, x - xKoordMuutus, y + pesaY, true);
+        looVisuaalnePuu(tipp.parem, tase + 1, x + xKoordMuutus, y + pesaY, false);
     }
 
     private void loeFailistVäärtused(String failitee) {
@@ -162,16 +166,16 @@ public class ElemendiEemaldamineBST {
 
             int puuIndeks = järjendid.indexOf("[");
             int puuLõppIndeks = järjendid.indexOf("]");
-            for (String väärtus : järjendid.substring(puuIndeks+1, puuLõppIndeks).split(",")) {
+            for (String väärtus : järjendid.substring(puuIndeks + 1, puuLõppIndeks).split(",")) {
                 puu.lisa(new Tipp(Integer.parseInt(väärtus.strip())), false);
                 visuaalnePuu.lisa(new Tipp(Integer.parseInt(väärtus.strip())), false);
             }
 
-            String järjend2 = järjendid.substring(puuLõppIndeks+1);
+            String järjend2 = järjendid.substring(puuLõppIndeks + 1);
             int eemaldatavadIndeks = järjend2.indexOf("[");
             int eemaldatavadLõppIndeks = järjend2.indexOf("]");
 
-            for (String väärtus : järjend2.substring(eemaldatavadIndeks+1, eemaldatavadLõppIndeks).split(",")) {
+            for (String väärtus : järjend2.substring(eemaldatavadIndeks + 1, eemaldatavadLõppIndeks).split(",")) {
                 eemaldatavad.add(Integer.parseInt(väärtus.strip()));
             }
 
@@ -179,9 +183,10 @@ public class ElemendiEemaldamineBST {
             throw new UncheckedIOException(e);
         }
     }
-    public void järgmineEemaldatav(){
+
+    public void järgmineEemaldatav() {
         lukustaPuu.setVisible(false);
-       // laeEelnevPuu.setVisible(false);
+        // laeEelnevPuu.setVisible(false);
         if (!eemaldatavad.isEmpty()) {
 
             eelnevaSeisugaPuu = new Kahendotsimispuu();
@@ -198,16 +203,17 @@ public class ElemendiEemaldamineBST {
             uuendaNooli();
             kustutaTipp.setVisible(false);
             Logija.logiViga(vead, "bst_eemaldamine");
-            kuvaTeade("Läbimäng tehtud", "Vigu kokku: " + vigu);
+            Popups.showInfo("Läbimäng tehtud", "Vigu kokku: " + vigu);
             laeEelnevPuu.setVisible(false);
             laeUusPuu.setVisible(true);
             laeUusPuu.toFront();
         }
 
     }
+
     public Group liigutatavTipp(Tipp tipp, boolean vasak) {
         VisuaalneTipp visuaalneTipp = tipp.visuaalneTipp;
-        Text tekst = new Text(visuaalneTipp.tipp==null ? "" : String.valueOf(visuaalneTipp.tipp.getVäärtus()));
+        Text tekst = new Text(visuaalneTipp.tipp == null ? "" : String.valueOf(visuaalneTipp.tipp.getVäärtus()));
 
         tekst.setLayoutX(visuaalneTipp.getCenterX() - 4);
         tekst.setLayoutY(visuaalneTipp.getCenterY() + 4);
@@ -218,18 +224,19 @@ public class ElemendiEemaldamineBST {
         grupp.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
             Tipp vanem = null;
             Tipp juur = null;
-            for (Tipp j : metsaJuurtipud){
+            for (Tipp j : metsaJuurtipud) {
                 vanem = visuaalnePuu.getVanemKahendpuu(j, tipp);
                 juur = j;
                 if (vanem != null)
                     break;
             }
-            if (vanem==null) {
+            if (vanem == null) {
                 vanem = visuaalnePuu.getVanemKahendpuu(visuaalnePuu.juurtipp, tipp);
                 juur = visuaalnePuu.juurtipp;
             }
             //if (visuaalnePuu.getVanemKahendpuu(visuaalnePuu.juurtipp, tipp) == null) return;
-            if (e.getX() < kahendpuuAla.getLayoutX() + 40 || e.getX() > kahendpuuAla.getLayoutX() + kahendpuuAla.getWidth() - 40) return;
+            if (e.getX() < kahendpuuAla.getLayoutX() + 40 || e.getX() > kahendpuuAla.getLayoutX() + kahendpuuAla.getWidth() - 40)
+                return;
             //if (e.getY() < 35 || e.getY() > kahendpuuAla.getHeight() - 35) return;
             if (vanem != null) {
                 if (tipp != juur && vasak && e.getX() > vanem.visuaalneTipp.getCenterX() - tipuRaadius) return;
@@ -240,8 +247,10 @@ public class ElemendiEemaldamineBST {
 
             else if (tipp!=visuaalnePuu.juurtipp && !vasak && e.getX() < vanem.visuaalneTipp.getCenterX()+tipuRaadius) return;*/
 
-            if (tipp.vasak!=null && tipp.vasak.visuaalneTipp!=null && e.getX() < tipp.vasak.visuaalneTipp.getCenterX()+tipuRaadius) return;
-            else if (tipp.parem!=null && tipp.parem.visuaalneTipp!=null && e.getX() > tipp.parem.visuaalneTipp.getCenterX()-tipuRaadius) return;
+            if (tipp.vasak != null && tipp.vasak.visuaalneTipp != null && e.getX() < tipp.vasak.visuaalneTipp.getCenterX() + tipuRaadius)
+                return;
+            else if (tipp.parem != null && tipp.parem.visuaalneTipp != null && e.getX() > tipp.parem.visuaalneTipp.getCenterX() - tipuRaadius)
+                return;
 
             visuaalneTipp.setCenterX(e.getX());
             tekst.setLayoutX(e.getX() - 4);
@@ -254,20 +263,19 @@ public class ElemendiEemaldamineBST {
             if (e.getClickCount() == 1) {
                 StringBuilder inputText = new StringBuilder(tekst.getText());
                 //nuppude asukohad
-                if (laeEelnevPuu.isVisible()){
+                if (laeEelnevPuu.isVisible()) {
                     lisaVasakAlluv.setLayoutX(143);
                     lisaParemAlluv.setLayoutX(143);
-                }
-                else{
+                } else {
                     lisaVasakAlluv.setLayoutX(10);
                     lisaParemAlluv.setLayoutX(10);
                 }
 
 
-                if ((visuaalneTipp.getFill()==Color.GREEN || visuaalneTipp.getFill()==Color.RED)){
-                    if(aktiivsedTipud.size()==1) {
+                if ((visuaalneTipp.getFill() == Color.GREEN || visuaalneTipp.getFill() == Color.RED)) {
+                    if (aktiivsedTipud.size() == 1) {
                         kustutaTipp.setVisible(false);
-                    }else if (aktiivsedTipud.size()==2 && visuaalneTipp.getFill()==Color.RED &&
+                    } else if (aktiivsedTipud.size() == 2 && visuaalneTipp.getFill() == Color.RED &&
                             puuElementideArv == visuaalnePuu.puuElementideArv(visuaalnePuu.juurtipp)) {
                         kustutaTipp.setVisible(true);
                     }
@@ -277,29 +285,26 @@ public class ElemendiEemaldamineBST {
                     lisaParemAlluv.setVisible(false);
                     return;
                 }
-                if (aktiivsedTipud.size()<2){
+                if (aktiivsedTipud.size() < 2) {
 
                     aktiivsedTipud.add(tipp);
-                    if (aktiivsedTipud.size()==1) {
+                    if (aktiivsedTipud.size() == 1) {
                         visuaalneTipp.setFill(Color.GREEN);
                         if (puuElementideArv == visuaalnePuu.puuElementideArv(visuaalnePuu.juurtipp)) {
                             kustutaTipp.setVisible(true);
                         }
-                    }
-                    else if (aktiivsedTipud.get(0).visuaalneTipp.getFill()==Color.GREEN) {
+                    } else if (aktiivsedTipud.get(0).visuaalneTipp.getFill() == Color.GREEN) {
                         visuaalneTipp.setFill(Color.RED);
                         lisaVasakAlluv.setVisible(true);
                         lisaParemAlluv.setVisible(true);
                         kustutaTipp.setVisible(false);
-                    }
-                    else {
+                    } else {
                         visuaalneTipp.setFill(Color.GREEN);
                         kustutaTipp.setVisible(false);
                         lisaVasakAlluv.setVisible(true);
                         lisaParemAlluv.setVisible(true);
                     }
-                }
-                else if (aktiivsedTipud.size()==2) {
+                } else if (aktiivsedTipud.size() == 2) {
                     visuaalneTipp.setFill(aktiivsedTipud.get(0).visuaalneTipp.getFill());
 
                     aktiivsedTipud.get(0).visuaalneTipp.setFill(Color.GRAY);
@@ -309,21 +314,21 @@ public class ElemendiEemaldamineBST {
                 }
 
                 grupp.requestFocus();
-                grupp.addEventHandler(KeyEvent.KEY_TYPED, keyEvent ->  {
-                    if (visuaalneTipp.getFill()==Color.GREEN) {
+                grupp.addEventHandler(KeyEvent.KEY_TYPED, keyEvent -> {
+                    if (visuaalneTipp.getFill() == Color.GREEN) {
                         uuendaNooli();
                         String input = keyEvent.getCharacter();
                         if (input.matches("\\d") && inputText.length() < 3) {
                             inputText.append(input);
                             tekst.setText(inputText.toString());
-                            tipp.väärtus=Integer.parseInt(inputText.toString());
+                            tipp.väärtus = Integer.parseInt(inputText.toString());
                         } else if (input.matches("\b") && !inputText.isEmpty()) {
                             inputText.deleteCharAt(inputText.length() - 1);
                             tekst.setText(inputText.toString());
                             if (inputText.isEmpty())
-                                tipp.väärtus=0;
+                                tipp.väärtus = 0;
                             else
-                                tipp.väärtus=Integer.parseInt(inputText.toString());
+                                tipp.väärtus = Integer.parseInt(inputText.toString());
 
                         } else if (input.equals("\r") || input.equals("\n")) {
                             if (!inputText.isEmpty()) {
@@ -341,14 +346,15 @@ public class ElemendiEemaldamineBST {
                 });
 
                 kustutaTipp.setOnAction(e2 -> {
-                    if (tipp==visuaalnePuu.juurtipp) {
+                    if (tipp == visuaalnePuu.juurtipp) {
+                        // TODO: Miks loetakse juurtipu eemaldamine veaks, aga muude tippude eemaldamine mitte?
                         vigu++;
                         vead.add("ALGORITMILINE VIGA: eemaldada üritati juurtippu. Eemaldatav tipp oli: " + eemaldatavad.get(0));
-                        kuvaTeade("","Juurtippu kustutada ei saa, aga saab muuta väärtust");
+                        Popups.showError("Juurtippu kustutada ei saa, aga saab muuta väärtust");
                         return;
                     }
-                    if (tipp.parem!=null && tipp.vasak!=null){
-                        kuvaTeade("","Ära eemalda kahe alluvaga tippu vaid muuda kirjeid");
+                    if (tipp.parem != null && tipp.vasak != null) {
+                        Popups.showInfo("Ära eemalda kahe alluvaga tippu vaid muuda kirjeid");
                         return;
                     }
                     /*if (visuaalneTipp.getFill()==Color.GREEN && aktiivsedTipud.size()==1) {
@@ -365,20 +371,22 @@ public class ElemendiEemaldamineBST {
                         }
                         uuendaNooli();
                         kustutaTipp.setVisible(false);
-                    }*/ else if (aktiivsedTipud.size()==1 && aktiivsedTipud.get(0).visuaalneTipp.getFill()==Color.GREEN) {
+                    }*/
+                    else if (aktiivsedTipud.size() == 1 && aktiivsedTipud.get(0).visuaalneTipp.getFill() == Color.GREEN) {
                         välimine:
-                        for (Node n : kahendpuuAla.getChildren()){
-                            if (n instanceof Group group){
-                                for (Node c : group.getChildren()){
-                                    if (c instanceof VisuaalneTipp && ((VisuaalneTipp) c).getFill()==Color.GREEN){
-                                        if (((VisuaalneTipp) c).tipp==visuaalnePuu.juurtipp) {
+                        for (Node n : kahendpuuAla.getChildren()) {
+                            if (n instanceof Group group) {
+                                for (Node c : group.getChildren()) {
+                                    if (c instanceof VisuaalneTipp && ((VisuaalneTipp) c).getFill() == Color.GREEN) {
+                                        if (((VisuaalneTipp) c).tipp == visuaalnePuu.juurtipp) {
+                                            // TODO: Miks loetakse juurtipu eemaldamine veaks, aga muude tippude eemaldamine mitte?
                                             vigu++;
                                             vead.add("ALGORITMILINE VIGA: eemaldada üritati juurtippu. Eemaldatav tipp oli: " + eemaldatavad.get(0));
-                                            kuvaTeade("","Juurtippu kustutada ei saa, aga saab muuta väärtust");
+                                            Popups.showError("Juurtippu kustutada ei saa, aga saab muuta väärtust");
                                             return;
                                         }
-                                        if (((VisuaalneTipp) c).tipp.parem!=null && ((VisuaalneTipp) c).tipp.vasak!=null){
-                                            kuvaTeade("","Ära eemalda kahe alluvaga tippu vaid muuda kirjeid");
+                                        if (((VisuaalneTipp) c).tipp.parem != null && ((VisuaalneTipp) c).tipp.vasak != null) {
+                                            Popups.showInfo("Ära eemalda kahe alluvaga tippu vaid muuda kirjeid");
                                             return;
                                         }
                                         kahendpuuAla.getChildren().remove(group);
@@ -387,20 +395,20 @@ public class ElemendiEemaldamineBST {
                                         aktiivsedTipud.clear();
 
                                         Tipp metsaJuur;
-                                        if (((VisuaalneTipp) c).tipp.parem != null){
+                                        if (((VisuaalneTipp) c).tipp.parem != null) {
                                             metsaJuur = ((VisuaalneTipp) c).tipp.parem;
                                             metsaJuur.tase = visuaalnePuu.leiaTipuTase(visuaalnePuu.juurtipp, ((VisuaalneTipp) c).tipp.parem);
                                             metsaJuurtipud.add(metsaJuur);
                                         }
-                                        if (((VisuaalneTipp) c).tipp.vasak != null){
+                                        if (((VisuaalneTipp) c).tipp.vasak != null) {
                                             metsaJuur = ((VisuaalneTipp) c).tipp.vasak;
                                             metsaJuur.tase = visuaalnePuu.leiaTipuTase(visuaalnePuu.juurtipp, ((VisuaalneTipp) c).tipp.vasak);
                                             metsaJuurtipud.add(metsaJuur);
                                         }
-                                        Tipp vanem =visuaalnePuu.getVanemKahendpuu(visuaalnePuu.juurtipp, ((VisuaalneTipp) c).tipp);
-                                        if (vanem!=null && vanem.parem == ((VisuaalneTipp) c).tipp) {
+                                        Tipp vanem = visuaalnePuu.getVanemKahendpuu(visuaalnePuu.juurtipp, ((VisuaalneTipp) c).tipp);
+                                        if (vanem != null && vanem.parem == ((VisuaalneTipp) c).tipp) {
                                             vanem.parem = null;
-                                        } else if (vanem!=null){
+                                        } else if (vanem != null) {
                                             vanem.vasak = null;
                                         }
                                         /*if (visuaalnePuu.getVanemKahendpuu(visuaalnePuu.juurtipp, ((VisuaalneTipp) c).tipp)!=null && visuaalnePuu.getVanemKahendpuu(visuaalnePuu.juurtipp,((VisuaalneTipp) c).tipp).parem == ((VisuaalneTipp) c).tipp) {
@@ -421,17 +429,17 @@ public class ElemendiEemaldamineBST {
                     lukustaPuu.setVisible(true);
 
                 });
-                lisaVasakAlluv.setOnAction(e3 ->{
-                        lisaVasakAlluv();
-                        uuendaNooli();
-                        lisaVasakAlluv.setVisible(false);
-                        lisaParemAlluv.setVisible(false);
+                lisaVasakAlluv.setOnAction(e3 -> {
+                    lisaVasakAlluv();
+                    uuendaNooli();
+                    lisaVasakAlluv.setVisible(false);
+                    lisaParemAlluv.setVisible(false);
                 });
                 lisaParemAlluv.setOnAction(e4 -> {
-                        lisaParemAlluv();
-                        uuendaNooli();
-                        lisaVasakAlluv.setVisible(false);
-                        lisaParemAlluv.setVisible(false);
+                    lisaParemAlluv();
+                    uuendaNooli();
+                    lisaVasakAlluv.setVisible(false);
+                    lisaParemAlluv.setVisible(false);
                 });
 
                 e.consume();
@@ -440,32 +448,34 @@ public class ElemendiEemaldamineBST {
 
         return grupp;
     }
-    private void lisaVasakAlluv(){
+
+    private void lisaVasakAlluv() {
         Tipp kust = null;
         Tipp kuhu = null;
 
         boolean vasak = false;
         Tipp kuhuVanem = null;
 
-        for (Tipp tipp : aktiivsedTipud){
-            if (tipp.visuaalneTipp.getFill()==Color.GREEN){
+        for (Tipp tipp : aktiivsedTipud) {
+            if (tipp.visuaalneTipp.getFill() == Color.GREEN) {
                 kust = tipp;
-            }else {
+            } else {
                 kuhu = tipp;
 
-                if (kuhu==visuaalnePuu.juurtipp){
-                    kuvaTeade("","Juurtippu ei saa alluvaks määrata");
+                if (kuhu == visuaalnePuu.juurtipp) {
+                    // TODO: Miks loetakse see veaks, aga teisi vigaseid alluva määramisi mitte?
+                    Popups.showError("Juurtippu ei saa alluvaks määrata");
                     vigu++;
                     vead.add("ALGORITMILINE VIGA: Juurtipp üritati alluvaks määrata");
                     return;
                 }
 
-                for (Tipp juur : metsaJuurtipud){
+                for (Tipp juur : metsaJuurtipud) {
                     kuhuVanem = visuaalnePuu.getVanemKahendpuu(juur, tipp);
                     if (kuhuVanem != null)
                         break;
                 }
-                if (kuhuVanem==null)
+                if (kuhuVanem == null)
                     kuhuVanem = visuaalnePuu.getVanemKahendpuu(visuaalnePuu.juurtipp, tipp);
 
                 else {
@@ -475,18 +485,19 @@ public class ElemendiEemaldamineBST {
             }
         }
 
-        if(visuaalnePuu.kasTippOnSamasHarus(kuhu, kust)){
-            kuvaTeade("","Ülemtippu ei saa alluvaks määrata");
+        if (visuaalnePuu.kasTippOnSamasHarus(kuhu, kust)) {
+            Popups.showInfo("Ülemtippu ei saa alluvaks määrata");
         } else if (kust.vasak != null) {
-            kuvaTeade("", "Tipul on vasak alluv juba olemas");
+            Popups.showInfo("Tipul on vasak alluv juba olemas");
         } else if (kuhu == visuaalnePuu.juurtipp) {
+            // TODO: Miks loetakse see veaks, aga teisi vigaseid alluva määramisi mitte?
             vigu++;
             vead.add("ALGORITMILINE VIGA: Juurtipp üritati alluvaks määrata");
-            kuvaTeade("","Juurtippu ei saa alluvaks määrata");
+            Popups.showError("Juurtippu ei saa alluvaks määrata");
         } else {
 
             kust.vasak = kuhu;
-            if (kuhuVanem!=null && vasak)
+            if (kuhuVanem != null && vasak)
                 kuhuVanem.vasak = null;
             else if (kuhuVanem != null)
                 kuhuVanem.parem = null;
@@ -495,7 +506,7 @@ public class ElemendiEemaldamineBST {
             kahendpuuAla.getChildren().clear();
             looVisuaalnePuu(visuaalnePuu.juurtipp, 1, JUURE_X, JUURE_Y, true);
             metsaJuurtipud.remove(kuhu);
-            for (Tipp t : metsaJuurtipud){
+            for (Tipp t : metsaJuurtipud) {
                 if (t != visuaalnePuu.juurtipp) {
                     looVisuaalnePuu(t, t.tase, (int) t.visuaalneTipp.getCenterX(), (int) t.visuaalneTipp.getCenterY(), true);
                 }
@@ -504,31 +515,33 @@ public class ElemendiEemaldamineBST {
             aktiivsedTipud.clear();
         }
     }
-    private void lisaParemAlluv(){
+
+    private void lisaParemAlluv() {
         Tipp kust = null;
         Tipp kuhu = null;
 
         boolean vasak = false;
         Tipp kuhuVanem = null;
 
-        for (Tipp tipp : aktiivsedTipud){
-            if (tipp.visuaalneTipp.getFill()==Color.GREEN){
+        for (Tipp tipp : aktiivsedTipud) {
+            if (tipp.visuaalneTipp.getFill() == Color.GREEN) {
                 kust = tipp;
-            }else {
+            } else {
                 kuhu = tipp;
 
-                if (kuhu==visuaalnePuu.juurtipp){
+                if (kuhu == visuaalnePuu.juurtipp) {
+                    // TODO: Miks loetakse see veaks, aga teisi vigaseid alluva määramisi mitte?
                     vigu++;
-                    kuvaTeade("","Juurtippu ei saa alluvaks määrata");
+                    Popups.showError("Juurtippu ei saa alluvaks määrata");
                     vead.add("ALGORITMILINE VIGA: Juurtipp üritati alluvaks määrata");
                     return;
                 }
-                for (Tipp juur : metsaJuurtipud){
+                for (Tipp juur : metsaJuurtipud) {
                     kuhuVanem = visuaalnePuu.getVanemKahendpuu(juur, tipp);
                     if (kuhuVanem != null)
                         break;
                 }
-                if (kuhuVanem==null)
+                if (kuhuVanem == null)
                     kuhuVanem = visuaalnePuu.getVanemKahendpuu(visuaalnePuu.juurtipp, tipp);
                 else {
                     if (kuhu == kuhuVanem.vasak)
@@ -536,18 +549,18 @@ public class ElemendiEemaldamineBST {
                 }
             }
         }
-        if(visuaalnePuu.kasTippOnSamasHarus(kuhu, kust)){
-            kuvaTeade("","Tipu ülemat tippu ei saa alluvaks määrata");
+        if (visuaalnePuu.kasTippOnSamasHarus(kuhu, kust)) {
+            Popups.showInfo("Tipu ülemat tippu ei saa alluvaks määrata");
         } else if (kust.parem != null) {
-            kuvaTeade("", "Tipul on parem alluv juba olemas");
+            Popups.showInfo("Tipul on parem alluv juba olemas");
         } else if (kuhu == visuaalnePuu.juurtipp) {
+            // TODO: Miks loetakse see veaks, aga teisi vigaseid alluva määramisi mitte?
             vigu++;
             vead.add("ALGORITMILINE VIGA: Juurtipp üritati alluvaks määrata");
-            kuvaTeade("","Juurtippu ei saa alluvaks määrata");
-        }
-        else {
+            Popups.showError("Juurtippu ei saa alluvaks määrata");
+        } else {
             kust.parem = kuhu;
-            if (kuhuVanem!=null && vasak)
+            if (kuhuVanem != null && vasak)
                 kuhuVanem.vasak = null;
             else if (kuhuVanem != null)
                 kuhuVanem.parem = null;
@@ -556,7 +569,7 @@ public class ElemendiEemaldamineBST {
             looVisuaalnePuu(visuaalnePuu.juurtipp, 1, JUURE_X, JUURE_Y, true);
             metsaJuurtipud.remove(kuhu);
 
-            for (Tipp t : metsaJuurtipud){
+            for (Tipp t : metsaJuurtipud) {
                 if (t != visuaalnePuu.juurtipp) {
                     looVisuaalnePuu(t, t.tase, (int) t.visuaalneTipp.getCenterX(), (int) t.visuaalneTipp.getCenterY(), true);
                 }
@@ -565,18 +578,19 @@ public class ElemendiEemaldamineBST {
             aktiivsedTipud.clear();
         }
     }
-    private void uuendaNooli(){
+
+    private void uuendaNooli() {
         kahendpuuAla.getChildren().removeIf(e -> e instanceof Arrow);
         List<Arrow> nooled = new ArrayList<>();
         for (VisuaalneTipp vt : visuaalsedTipud) {
-            if (vt.tipp.parem != null && vt.tipp.parem.visuaalneTipp.tipp!=null ) {//&& visuaalsedTipud.contains(vt.tipp.parem.visuaalneTipp)
+            if (vt.tipp.parem != null && vt.tipp.parem.visuaalneTipp.tipp != null) {//&& visuaalsedTipud.contains(vt.tipp.parem.visuaalneTipp)
                 Arrow nool = new Arrow(
                         vt.getCenterX(), vt.getCenterY(),
                         vt.tipp.parem.visuaalneTipp.getCenterX(), vt.tipp.parem.visuaalneTipp.getCenterY()
                 );
                 nooled.add(nool);
             }
-            if (vt.tipp.vasak != null && vt.tipp.vasak.visuaalneTipp!=null && visuaalsedTipud.contains(vt.tipp.vasak.visuaalneTipp)){
+            if (vt.tipp.vasak != null && vt.tipp.vasak.visuaalneTipp != null && visuaalsedTipud.contains(vt.tipp.vasak.visuaalneTipp)) {
                 Arrow nool = new Arrow(
                         vt.getCenterX(), vt.getCenterY(),
                         vt.tipp.vasak.visuaalneTipp.getCenterX(), vt.tipp.vasak.visuaalneTipp.getCenterY()
@@ -587,32 +601,33 @@ public class ElemendiEemaldamineBST {
         }
         kahendpuuAla.getChildren().addAll(nooled);
     }
-    public void lukustaPuuOlek(){
-        if (metsaJuurtipud.size()>1){
+
+    public void lukustaPuuOlek() {
+        if (metsaJuurtipud.size() > 1) {
             vigu++;
             vead.add("VIGA: eemaldamist kontrolliti kui ekraanil oli mitu puud");
-            kuvaTeade("","Ei saa olla mitu puud");
+            Popups.showError("Ei saa olla mitu puud");
             return;
         }
-        if(visuaalnePuu.kasOnKahendotsimispuu(visuaalnePuu.juurtipp, Integer.MIN_VALUE, Integer.MAX_VALUE, true)
-                && puuElementideArv-1 == visuaalnePuu.puuElementideArv(visuaalnePuu.juurtipp)) {
-            if(kasPuudOnSamad(puu.juurtipp, visuaalnePuu.juurtipp)){
+        if (visuaalnePuu.kasOnKahendotsimispuu(visuaalnePuu.juurtipp, Integer.MIN_VALUE, Integer.MAX_VALUE, true)
+                && puuElementideArv - 1 == visuaalnePuu.puuElementideArv(visuaalnePuu.juurtipp)) {
+            if (kasPuudOnSamad(puu.juurtipp, visuaalnePuu.juurtipp)) {
                 vead.add(hetkelEemaldatav + " eemaldati korrektselt");
-                kuvaTeade("","Korrektne eemaldus!");
-            }else {
+                Popups.showInfo("Korrektne eemaldus!");
+            } else {
                 vigu++;
                 vead.add("VIGA: " + hetkelEemaldatav + " eemaldati ebakorrektselt, säilis kahendotsimispuu");
-                kuvaTeade("","Ebakorrektne eemaldus, kuid on säilitatud kahendotsimispuu");
+                Popups.showError("Ebakorrektne eemaldus, kuid on säilitatud kahendotsimispuu");
 
                 puu = new Kahendotsimispuu();
                 puudSamaks(puu, visuaalnePuu.juurtipp);
 
             }
             järgmineEemaldatav();
-        }else {
+        } else {
             vigu++;
             vead.add("VIGA: " + hetkelEemaldatav + " eemaldati ebakorrektselt, kahendotsimispuu struktuur kaotati");
-            kuvaTeade("","Ebakorrektne eemaldus ja puu ei ole enam kahendotsimispuu!");
+            Popups.showError("Ebakorrektne eemaldus ja puu ei ole enam kahendotsimispuu!");
 
             visuaalnePuu = new Kahendotsimispuu();
             puudSamaks(visuaalnePuu, eelnevaSeisugaPuu.juurtipp);
@@ -627,32 +642,25 @@ public class ElemendiEemaldamineBST {
         //laeEelnevPuu.setVisible(false);
         lukustaPuu.setVisible(false);
     }
-    private void puudSamaks(Kahendotsimispuu p, Tipp vTipp){
-        if(vTipp==null)
+
+    private void puudSamaks(Kahendotsimispuu p, Tipp vTipp) {
+        if (vTipp == null)
             return;
         p.lisa(new Tipp(vTipp.väärtus), false);
         puudSamaks(p, vTipp.vasak);
         puudSamaks(p, vTipp.parem);
 
     }
-    private boolean kasPuudOnSamad(Tipp pJuur, Tipp vJuur){
-        if (pJuur==null && vJuur==null)
+
+    private boolean kasPuudOnSamad(Tipp pJuur, Tipp vJuur) {
+        if (pJuur == null && vJuur == null)
             return true;
-        if (pJuur==null || vJuur == null)
+        if (pJuur == null || vJuur == null)
             return false;
 
-        if (pJuur.väärtus==vJuur.väärtus) {
+        if (pJuur.väärtus == vJuur.väärtus) {
             return kasPuudOnSamad(pJuur.vasak, vJuur.vasak) && kasPuudOnSamad(pJuur.parem, vJuur.parem);
-        }
-        else
+        } else
             return false;
-    }
-    private void kuvaTeade(String pealkiri, String sisu) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.initOwner(kahendpuuAla.getScene().getWindow());
-        alert.setTitle("Teavitus");
-        alert.setHeaderText(pealkiri);
-        alert.setContentText(sisu);
-        alert.showAndWait();
     }
 }

@@ -7,10 +7,11 @@ import ee.ut.labimangija.graphgrader.Util.GraafiValija;
 import ee.ut.labimangija.graphgrader.Util.KaareKaaluKuvaja;
 import ee.ut.labimangija.graphgrader.Util.KaaluSisendiDialoog;
 import ee.ut.labimangija.graphgrader.Util.Logija;
-import ee.ut.labimangija.graphgrader.Util.Teavitaja;
+import ee.ut.labimangija.ui.Popups;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -137,41 +138,38 @@ public class BFKontroller {
                             Integer.parseInt(sisend.get()));
                     sammud.add(samm + "\t: Küsisin kaalu tipu " + k.lopp.tähis + " kohta. VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
-                    Teavitaja.teavita(kontrolliTulemus, "Viga");
+                    Popups.showError(kontrolliTulemus);
                     sisend = KaaluSisendiDialoog.kuva();
                     continue;
                 }
                 sammud.add(samm++ + "\t: Küsisin kaalu tipu " + k.lopp.tähis + " kohta. KORRAS");
                 korras = true;
             } catch (NumberFormatException exception) {
-                Teavitaja.teavita("Sisesta number", "Info");
+                Popups.showInfo("Sisesta number");
                 sisend = KaaluSisendiDialoog.kuva();
             }
         }
     }
 
     public boolean kysiSisendit() {
-        List<String> pos = List.of("jah", "ja", "j", "1"), neg = List.of("ei", "e", "0");
-        boolean korras = false;
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Bellman-Ford");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Kas lõpetada töö?\n\nVõimalikud vastused: jah, ja, j, 1, ei, e, 0");
-        Optional<String> sisend = dialog.showAndWait();
-        boolean tulemus = false;
-        while (!korras) {
-            while (sisend.isEmpty())
-                sisend = dialog.showAndWait();
-            String sisendiSisu = sisend.get().toLowerCase();
-            if (pos.contains(sisendiSisu) || neg.contains(sisendiSisu)) {
-                korras = true;
-                tulemus = pos.contains(sisendiSisu);
-            } else {
-                Teavitaja.teavita("Sisesta 'jah', 'ja', 'j', '1' või 'ei', 'e', '0'", "Info");
-                sisend = Optional.empty();
+        Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
+        dialog.setTitle("Sisend");
+        dialog.setHeaderText("Kas lõpetada töö?");
+
+        ButtonType jah = new ButtonType("Jah");
+        ButtonType ei = new ButtonType("Ei");
+        dialog.getButtonTypes().setAll(jah, ei);
+
+        while (true) {
+            Optional<ButtonType> valik = dialog.showAndWait();
+            if (valik.isPresent()) {
+                if (valik.get() == jah)
+                    return true;
+                if (valik.get() == ei)
+                    return false;
             }
+            Popups.showInfo("Vali palun 'Jah' või 'Ei'.");
         }
-        return tulemus;
     }
 
     public void uuenda() {
@@ -210,15 +208,14 @@ public class BFKontroller {
                 vead.add(samm++ + "\t: Ootasin " + vahetus + " aga sain " + kasutaja);
             }
             while (vahetus != kasutaja) {
-                Teavitaja.teavita("Vale vastus", "Viga");
+                Popups.showError("Vale vastus");
                 sammud.add(samm + "\t: Küsin lõpetamise kohta. VIGA");
                 vead.add(samm++ + "\t: Ootasin " + vahetus + " aga sain " + kasutaja);
                 kasutaja = !kysiSisendit();
             }
             if (!vahetus) {
                 Logija.logi(vead, g, sammud, "BF", true, false);
-                Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()),
-                        "Info");
+                Popups.showInfo("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()));
                 laeNupp.setVisible(true);
                 andmestruktuur.setDisable(true);
                 return;

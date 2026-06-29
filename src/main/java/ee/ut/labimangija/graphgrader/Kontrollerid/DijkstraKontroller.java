@@ -7,8 +7,8 @@ import ee.ut.labimangija.graphgrader.Util.GraafiValija;
 import ee.ut.labimangija.graphgrader.Util.KaareKaaluKuvaja;
 import ee.ut.labimangija.graphgrader.Util.KaaluSisendiDialoog;
 import ee.ut.labimangija.graphgrader.Util.Logija;
-import ee.ut.labimangija.graphgrader.Util.Teavitaja;
 import ee.ut.labimangija.graphgrader.Util.TippudeKuhi;
+import ee.ut.labimangija.ui.Popups;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -93,14 +93,14 @@ public class DijkstraKontroller {
                     String kontrolliTulemus = "Tipu %s kaal peaks olema %d aga on %d".formatted(k.lopp.tähis, oodatud, Integer.parseInt(sisend.get()));
                     sammud.add(samm + "\t: Küsisin kaalu tipu " + k.lopp.tähis + " kohta. VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
-                    Teavitaja.teavita(kontrolliTulemus, "Viga");
+                    Popups.showError(kontrolliTulemus);
                     sisend = KaaluSisendiDialoog.kuva(lisainfo);
                     continue;
                 }
                 sammud.add(samm++ + "\t: Küsisin kaalu tipu " + k.lopp.tähis + " kohta. KORRAS");
                 korras = true;
             } catch (NumberFormatException exception) {
-                Teavitaja.teavita("Sisesta number", "Info");
+                Popups.showInfo("Sisesta number");
                 sisend = KaaluSisendiDialoog.kuva(lisainfo);
             }
         }
@@ -152,7 +152,7 @@ public class DijkstraKontroller {
                 }
                 sammud.add(samm + "\t: Kontrollin tippu " + tipp.tipp.tähis + ". VIGA");
                 vead.add(samm++ + "\t: " + kontrolliTulemus);
-                Teavitaja.teavita(kontrolliTulemus, "Viga");
+                Popups.showError(kontrolliTulemus);
             } else {
                 Tipp praegune = leiaPraegune();
                 if (praegune == null) return;
@@ -218,7 +218,7 @@ public class DijkstraKontroller {
         if (kuhi.onTyhi()) {
             if (toodeldud.size() == g.tipud.size()) {
                 Logija.logi(vead, g, sammud, "Dijkstra", true, false);
-                Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi kirjutatud faili \"out.txt\"".formatted(vead.size()), "Info");
+                Popups.showInfo("Läbimäng tehtud!\nKokku %d viga.\nLogi kirjutatud faili \"out.txt\"".formatted(vead.size()));
                 laeNupp.setVisible(true);
             }
             andmestruktuuriNupp.setDisable(true);

@@ -1,6 +1,7 @@
 package ee.ut.labimangija.graphgrader.Util;
 
 import ee.ut.labimangija.common.AppPaths;
+import ee.ut.labimangija.ui.Popups;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
@@ -59,7 +60,7 @@ public class GraafiGenereerija {
             Files.write(fail, sisu);
             return fail.toAbsolutePath().toString();
         } catch (IOException e) {
-            Teavitaja.teavita("Genereerimine ebaõnnestus: " + e.getMessage(), "Viga");
+            Popups.showError("Genereerimine ebaõnnestus: " + e.getMessage());
             return null;
         }
     }
@@ -156,7 +157,7 @@ public class GraafiGenereerija {
             }
             return new Parameetrid(n, m, min, max);
         } catch (NumberFormatException e) {
-            Teavitaja.teavita("Parameetrid peavad olema täisarvud.", "Viga");
+            Popups.showError("Parameetrid peavad olema täisarvud.");
             return null;
         }
     }
@@ -170,11 +171,11 @@ public class GraafiGenereerija {
 
     private static List<String> looSisu(Tyyp tyyp, Parameetrid p) {
         if (p.n < 2) {
-            Teavitaja.teavita("Tippude arv peab olema >= 2", "Viga");
+            Popups.showError("Tippude arv peab olema >= 2");
             return null;
         }
         if ((tyyp == Tyyp.SUUNATUD_KAALUTUD || tyyp == Tyyp.SIDUS_KAALUTUD || tyyp == Tyyp.EELDUS) && p.min > p.max) {
-            Teavitaja.teavita("Miinimum ei tohi olla suurem kui maksimum.", "Viga");
+            Popups.showError("Miinimum ei tohi olla suurem kui maksimum.");
             return null;
         }
 
@@ -199,7 +200,7 @@ public class GraafiGenereerija {
         int minM = n - 1;
         int maxM = n * (n - 1);
         if (m < minM || m > maxM) {
-            Teavitaja.teavita("Kaarte arv peab olema vahemikus " + minM + ".." + maxM, "Viga");
+            Popups.showError("Kaarte arv peab olema vahemikus " + minM + ".." + maxM);
             return null;
         }
 
@@ -232,7 +233,7 @@ public class GraafiGenereerija {
     // https://thesis.cs.ut.ee/eefc18a7-fc02-4ec1-9c63-1765db239ef7
     private static List<int[]> genereeriKahnProgramm(int n, int m) {
         if (m > n * (n - 1) / 2 || m < n - 1) {
-            Teavitaja.teavita("Kaarte arv pole sobiv.", "Viga");
+            Popups.showError("Kaarte arv pole sobiv.");
             return null;
         }
 
@@ -281,11 +282,11 @@ public class GraafiGenereerija {
     // https://thesis.cs.ut.ee/eefc18a7-fc02-4ec1-9c63-1765db239ef7
     private static List<int[]> genereeriDijkstraProgramm(int n, int m, int p) {
         if (m > n * (n - 1) || m < n - 1) {
-            Teavitaja.teavita("Kaarte arv pole sobiv.", "Viga");
+            Popups.showError("Kaarte arv pole sobiv.");
             return null;
         }
         if (p > n * (n - 1) / 2 - n + 1 || p > m - n + 1 || p < 0) {
-            Teavitaja.teavita("Paranduste arv pole sobiv.", "Viga");
+            Popups.showError("Paranduste arv pole sobiv.");
             return null;
         }
 
@@ -385,11 +386,11 @@ public class GraafiGenereerija {
     private static List<int[]> genereeriBellmanFordProgramm(int n, int m, int l) {
         
         if (m > n * (n - 1) || m < n - 1) {
-            Teavitaja.teavita("Kaarte arv pole sobiv.", "Viga");
+            Popups.showError("Kaarte arv pole sobiv.");
             return null;
         }
         if (l < 1 || l > n - 1) {
-            Teavitaja.teavita("Kauguste puu sügavus pole sobiv.", "Viga");
+            Popups.showError("Kauguste puu sügavus pole sobiv.");
             return null;
         }
 
@@ -448,7 +449,7 @@ public class GraafiGenereerija {
     // https://thesis.cs.ut.ee/eefc18a7-fc02-4ec1-9c63-1765db239ef7
     private static int[][] genereeriFwProgramm(int n, int m, int p) {
         if (m > n * (n - 1)) {
-            Teavitaja.teavita("Kaarte arv pole sobiv.", "Viga");
+            Popups.showError("Kaarte arv pole sobiv.");
             return null;
         }
 
@@ -527,7 +528,7 @@ public class GraafiGenereerija {
         int minM = n - 1;
         int maxM = dag ? n * (n - 1) / 2 : n * (n - 1);
         if (m < minM || m > maxM) {
-            Teavitaja.teavita("Kaarte arv peab olema vahemikus " + minM + ".." + maxM, "Viga");
+            Popups.showError("Kaarte arv peab olema vahemikus " + minM + ".." + maxM);
             return null;
         }
 
@@ -557,7 +558,7 @@ public class GraafiGenereerija {
         int minM = n - 1;
         int maxM = n * (n - 1) / 2;
         if (m < minM || m > maxM) {
-            Teavitaja.teavita("Kaarte arv peab olema vahemikus " + minM + ".." + maxM, "Viga");
+            Popups.showError("Kaarte arv peab olema vahemikus " + minM + ".." + maxM);
             return null;
         }
 
@@ -599,7 +600,7 @@ public class GraafiGenereerija {
         int minM = n - 1;
         int maxM = n * (n - 1) / 2;
         if (m < minM || m > maxM) {
-            Teavitaja.teavita("Kaarte arv peab olema vahemikus " + minM + ".." + maxM, "Viga");
+            Popups.showError("Kaarte arv peab olema vahemikus " + minM + ".." + maxM);
             return null;
         }
 

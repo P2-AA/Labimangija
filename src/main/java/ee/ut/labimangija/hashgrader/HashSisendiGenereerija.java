@@ -1,6 +1,7 @@
 package ee.ut.labimangija.hashgrader;
 
 import ee.ut.labimangija.common.AppPaths;
+import ee.ut.labimangija.ui.Popups;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -11,18 +12,8 @@ import javafx.scene.layout.Priority;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -62,7 +53,7 @@ public class HashSisendiGenereerija {
             Files.writeString(fail, sisu + System.lineSeparator(), StandardCharsets.UTF_8);
             return fail.toAbsolutePath().toString();
         } catch (Exception e) {
-            HashSisendiValija.naitaViga("Genereerimine ebaõnnestus: " + e.getMessage());
+            Popups.showError("Genereerimine ebaõnnestus: " + e.getMessage());
             return null;
         }
     }
@@ -133,7 +124,7 @@ public class HashSisendiGenereerija {
                         Integer.parseInt(emptyBuckets.getText().trim()),
                         Integer.parseInt(longestBranch.getText().trim()));
             } catch (NumberFormatException e) {
-                HashSisendiValija.naitaViga("Kõik parameetrid peavad olema täisarvud.");
+                Popups.showError("Kõik parameetrid peavad olema täisarvud.");
                 return null;
             }
         });
@@ -144,7 +135,7 @@ public class HashSisendiGenereerija {
         }
         String viga = valideeri(tyyp, tulemus.get());
         if (viga != null) {
-            HashSisendiValija.naitaViga(viga);
+            Popups.showError(viga);
             return null;
         }
         return tulemus.get();
@@ -224,18 +215,19 @@ public class HashSisendiGenereerija {
 
     private static List<Element> paigutaElemendid(List<Integer> vaartused, int base) {
         List<Element> elemendid = new ArrayList<>();
-        Set<Integer> vabad = IntStream.range(0, base).boxed().collect(Collectors.toCollection(HashSet::new));
+        boolean[] täidetud = new boolean[base];
         for (int vaartus : vaartused) {
             int modulus = Math.floorMod(vaartus, base);
             int position = modulus;
             int shift = 0;
-            while (!vabad.remove(position)) {
+            while (täidetud[position]) {
                 position++;
                 if (position == base) {
                     position = 0;
                 }
                 shift++;
             }
+            täidetud[position] = true;
             elemendid.add(new Element(vaartus, modulus, position, shift));
         }
         return elemendid;

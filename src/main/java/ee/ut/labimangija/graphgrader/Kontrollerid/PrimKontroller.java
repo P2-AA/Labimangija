@@ -7,7 +7,7 @@ import ee.ut.labimangija.graphgrader.Util.GraafiValija;
 import ee.ut.labimangija.graphgrader.Util.KaareKaaluKuvaja;
 import ee.ut.labimangija.graphgrader.Util.KaarteKuhi;
 import ee.ut.labimangija.graphgrader.Util.Logija;
-import ee.ut.labimangija.graphgrader.Util.Teavitaja;
+import ee.ut.labimangija.ui.Popups;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -129,7 +129,7 @@ public class PrimKontroller {
                 }
                 sammud.add(samm + "\t: Kontrollin tippu " + tipp.tipp.tähis + ". VIGA");
                 vead.add(samm++ + "\t: " + kontrolliTulemus);
-                Teavitaja.teavita(kontrolliTulemus, "Viga");
+                Popups.showError(kontrolliTulemus);
             } else {
                 Tipp praegune = leiaPraegune();
                 if (praegune == null) return;
@@ -139,14 +139,14 @@ public class PrimKontroller {
                 if (esimene == null || teine == null) {
                     sammud.add(samm + "\t: Lisan serva " + praegune.tähis + "-" + tipp.tipp.tähis + " järjekorda. VIGA");
                     vead.add(samm++ + "\t: Tipp " + tipp.tipp.tähis + " ei ole praeguse tipu " + praegune.tähis + " järglane.");
-                    Teavitaja.teavita("Valitud tipp ei ole aktiivse tipu järglane.", "Viga");
+                    Popups.showError("Valitud tipp ei ole aktiivse tipu järglane.");
                     return;
                 }
                 if (tipp.tipp.seis == TipuSeis.ANDMESTRUKTUURIS || tipp.tipp.seis == TipuSeis.AVASTAMATA) {
                     if (kuhi.sisaldab(esimene) || kuhi.sisaldab(teine)) {
                         sammud.add(samm + "\t: Lisan serva " + esimene + " järjekorda. VIGA");
                         vead.add(samm++ + "\t: Serv on järjekorras juba olemas.");
-                        Teavitaja.teavita("Serva topelt lisamine", "Viga");
+                        Popups.showError("Serva topelt lisamine");
                         return;
                     }
                     sammud.add(samm++ + "\t: Lisan serva " + esimene + " järjekorda. KORRAS");
@@ -160,7 +160,7 @@ public class PrimKontroller {
                 } else if (tipp.tipp.seis == TipuSeis.TÖÖDELDUD) {
                     sammud.add(samm + "\t: Lisan serva " + esimene + " järjekorda. VIGA");
                     vead.add(samm++ + "\t: Serva lõpptipp " + tipp.tipp.tähis + " on juba töödeldud.");
-                    Teavitaja.teavita("Serva lõpptipp on juba töödeldud.", "Viga");
+                    Popups.showError("Serva lõpptipp on juba töödeldud.");
                 }
             }
         });
@@ -203,7 +203,7 @@ public class PrimKontroller {
         if (kuhi.onTyhi()) {
             if (toodeldud.size() == g.tipud.size()) {
                 Logija.logi(vead, g, sammud, "Prim", true, false);
-                Teavitaja.teavita("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()), "Info");
+                Popups.showInfo("Läbimäng tehtud!\nKokku %d viga.\nLogi faili kirjutatud.".formatted(vead.size()));
                 laeNupp.setVisible(true);
             }
             andmestruktuur.setDisable(true);

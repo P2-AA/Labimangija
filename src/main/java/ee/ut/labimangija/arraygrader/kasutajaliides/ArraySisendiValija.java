@@ -1,12 +1,9 @@
 package ee.ut.labimangija.arraygrader.kasutajaliides;
 
 import ee.ut.labimangija.common.AppPaths;
+import ee.ut.labimangija.ui.Popups;
 import ee.ut.labimangija.ui.SisendiAllikaDialoog;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.stage.FileChooser;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -43,17 +40,17 @@ public class ArraySisendiValija {
                     .filter(rida -> !rida.isEmpty())
                     .toList();
             if (read.isEmpty()) {
-                naitaViga("Sisendfail on tühi.");
+                Popups.showError("Sisendfail on tühi.");
                 return null;
             }
             int[] massiiv = parsiMassiiv(read.get(0));
             if (massiiv.length < 5) {
-                naitaViga("Sisendfailis peab olema vähemalt viis arvu.");
+                Popups.showError("Sisendfailis peab olema vähemalt viis arvu.");
                 return null;
             }
             return new Sisend(massiiv, "Fail: " + fail.toAbsolutePath());
         } catch (IOException e) {
-            naitaViga("Sisendfaili lugemine ebaõnnestus: " + e.getMessage());
+            Popups.showError("Sisendfaili lugemine ebaõnnestus: " + e.getMessage());
             return null;
         }
     }
@@ -66,7 +63,4 @@ public class ArraySisendiValija {
                 .toArray();
     }
 
-    private static void naitaViga(String teade) {
-        new Alert(Alert.AlertType.ERROR, teade, ButtonType.OK).showAndWait();
-    }
 }

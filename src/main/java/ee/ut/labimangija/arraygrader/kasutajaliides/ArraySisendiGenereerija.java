@@ -1,7 +1,7 @@
 package ee.ut.labimangija.arraygrader.kasutajaliides;
 
 import ee.ut.labimangija.common.AppPaths;
-import javafx.scene.control.Alert;
+import ee.ut.labimangija.ui.Popups;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -12,8 +12,6 @@ import javafx.scene.layout.Priority;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
@@ -42,7 +40,7 @@ public class ArraySisendiGenereerija {
             Files.writeString(fail, Arrays.toString(massiiv), StandardCharsets.UTF_8);
             return new ArraySisendiValija.Sisend(massiiv, "Genereeritud fail: " + fail.toAbsolutePath());
         } catch (Exception e) {
-            naitaViga("Genereerimine ebaõnnestus: " + e.getMessage());
+            Popups.showError("Genereerimine ebaõnnestus: " + e.getMessage());
             return null;
         }
     }
@@ -95,7 +93,7 @@ public class ArraySisendiGenereerija {
                         Integer.parseInt(raskus.getText().trim())
                 );
             } catch (NumberFormatException e) {
-                naitaViga("Kõik parameetrid peavad olema täisarvud.");
+                Popups.showError("Kõik parameetrid peavad olema täisarvud.");
                 return null;
             }
         });
@@ -108,7 +106,7 @@ public class ArraySisendiGenereerija {
         Parameetrid parameetrid = tulemus.get();
         String viga = valideeri(algoritm, parameetrid);
         if (viga != null) {
-            naitaViga(viga);
+            Popups.showError(viga);
             return null;
         }
         return parameetrid;
@@ -284,8 +282,5 @@ public class ArraySisendiGenereerija {
         massiiv[j] = ajutine;
     }
 
-    private static void naitaViga(String teade) {
-        new Alert(Alert.AlertType.ERROR, teade, ButtonType.OK).showAndWait();
-    }
 }
 

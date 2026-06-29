@@ -1,7 +1,7 @@
 package ee.ut.labimangija.arraygrader.kasutajaliides;
 
 import ee.ut.labimangija.common.Juhendid;
-import ee.ut.labimangija.graphgrader.Util.Teavitaja;
+import ee.ut.labimangija.ui.Popups;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -78,7 +78,7 @@ public class ArrayGraderController {
 
     @FXML
     private void handleShowGuide() {
-        Teavitaja.teavita(Juhendid.massiiv(getSelectedAlgorithmKey()), "Juhend");
+        Popups.showInstructions(Juhendid.massiiv(getSelectedAlgorithmKey()));
     }
 
     @FXML
