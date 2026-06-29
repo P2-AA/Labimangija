@@ -32,9 +32,6 @@ import java.util.*;
 public class GraafiGenereerija {
 
     public enum Tyyp {
-        SUUNATUD,
-        SUUNATUD_DAG,
-        SUUNATUD_KAALUTUD,
         SIDUS_KAALUTUD,
         EELDUS,
         LABIMINE,
@@ -67,9 +64,8 @@ public class GraafiGenereerija {
 
     private static Parameetrid vaikeParameetrid(Tyyp tyyp) {
         return switch (tyyp) {
-            case SUUNATUD, LABIMINE -> new Parameetrid(10, 20, 1, 1);
-            case SUUNATUD_DAG, KAHN -> new Parameetrid(10, 22, 1, 1);
-            case SUUNATUD_KAALUTUD -> new Parameetrid(10, 25, 1, 15);
+            case LABIMINE -> new Parameetrid(10, 20, 1, 1);
+            case KAHN -> new Parameetrid(10, 22, 1, 1);
             case SIDUS_KAALUTUD -> new Parameetrid(10, 15, 1, 15);
             case EELDUS -> new Parameetrid(10, 20, 1, 9);
             case DIJKSTRA -> new Parameetrid(10, 25, 0, 0);
@@ -164,7 +160,7 @@ public class GraafiGenereerija {
 
     private static boolean kasLisaparameetrid(Tyyp tyyp) {
         return switch (tyyp) {
-            case SUUNATUD_KAALUTUD, SIDUS_KAALUTUD, EELDUS, DIJKSTRA, BELLMAN_FORD, FLOYD_WARSHALL -> true;
+            case SIDUS_KAALUTUD, EELDUS, DIJKSTRA, BELLMAN_FORD, FLOYD_WARSHALL -> true;
             default -> false;
         };
     }
@@ -174,15 +170,12 @@ public class GraafiGenereerija {
             Popups.showError("Tippude arv peab olema >= 2");
             return null;
         }
-        if ((tyyp == Tyyp.SUUNATUD_KAALUTUD || tyyp == Tyyp.SIDUS_KAALUTUD || tyyp == Tyyp.EELDUS) && p.min > p.max) {
+        if ((tyyp == Tyyp.SIDUS_KAALUTUD || tyyp == Tyyp.EELDUS) && p.min > p.max) {
             Popups.showError("Miinimum ei tohi olla suurem kui maksimum.");
             return null;
         }
 
         return switch (tyyp) {
-            case SUUNATUD -> genereeriSuunatud(p.n, p.m, false, false, 1, 1);
-            case SUUNATUD_DAG -> genereeriSuunatud(p.n, p.m, true, false, 1, 1);
-            case SUUNATUD_KAALUTUD -> genereeriSuunatud(p.n, p.m, false, true, p.min, p.max);
             case SIDUS_KAALUTUD -> genereeriSidusKaalutud(p.n, p.m, p.min, p.max);
             case EELDUS -> genereeriEeldus(p.n, p.m, p.min, p.max);
             case LABIMINE -> genereeriLabimiseGraaf(p.n, p.m);
@@ -519,36 +512,6 @@ public class GraafiGenereerija {
             for (int i = 0; i < n; i++) System.arraycopy(e2[i], 0, e[i], 0, n);
         }
         return e;
-    }
-
-    // Meetodi koostamisel kasutati ChatGPT mudeli 5.5 abi.
-    // Tehisaru pakkus esialgse lahendusidee ja loogika, mida autor kohandas,
-    // vastavalt rakenduse nõuetele.
-    private static List<String> genereeriSuunatud(int n, int m, boolean dag, boolean kaalutud, int minKaal, int maxKaal) {
-        int minM = n - 1;
-        int maxM = dag ? n * (n - 1) / 2 : n * (n - 1);
-        if (m < minM || m > maxM) {
-            Popups.showError("Kaarte arv peab olema vahemikus " + minM + ".." + maxM);
-            return null;
-        }
-
-        Random r = new Random();
-        boolean[][] olemas = new boolean[n][n];
-        List<int[]> kaared = new ArrayList<>();
-        for (int i = 1; i < n; i++) {
-            if (kaalutud) lisaKaar(kaared, olemas, r.nextInt(i), i, r.nextInt(maxKaal - minKaal + 1) + minKaal);
-            else lisaKaar(kaared, olemas, r.nextInt(i), i);
-        }
-
-        List<int[]> kandidaadid = dag ? koikDagKaared(n) : koikSuunatudKaared(n);
-        eemaldaOlemasolevad(kandidaadid, olemas, false);
-        Collections.shuffle(kandidaadid, r);
-        while (kaared.size() < m) {
-            int[] kaar = kandidaadid.remove(kandidaadid.size() - 1);
-            if (kaalutud) lisaKaar(kaared, olemas, kaar[0], kaar[1], r.nextInt(maxKaal - minKaal + 1) + minKaal);
-            else lisaKaar(kaared, olemas, kaar[0], kaar[1]);
-        }
-        return kaalutud ? vormindaKaalugaGraaf(n, kaared) : vormindaKaalutaGraaf(n, kaared);
     }
 
     // Meetodi koostamisel kasutati ChatGPT mudeli 5.5 abi.
