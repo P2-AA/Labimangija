@@ -41,7 +41,8 @@ public class GraafiGenereerija {
         FLOYD_WARSHALL
     }
 
-    private record Parameetrid(int n, int m, int min, int max) {}
+    private record Parameetrid(int n, int m, int min, int max) {
+    }
 
     public static String genereeriFail(Tyyp tyyp) {
         Parameetrid vaike = vaikeParameetrid(tyyp);
@@ -270,7 +271,7 @@ public class GraafiGenereerija {
         }
         return e;
     }
-    
+
     // Loogika Uku Hannes Arismaa programmist, meetodist Dijkstra(int n, int m, int p).
     // https://thesis.cs.ut.ee/eefc18a7-fc02-4ec1-9c63-1765db239ef7
     private static List<int[]> genereeriDijkstraProgramm(int n, int m, int p) {
@@ -373,11 +374,11 @@ public class GraafiGenereerija {
         e.addAll(es);
         return e;
     }
-    
+
     // Loogika võetud Uku Hannes Arismaa programmist, meetodist BFntsüklita(int n, int m, int l).
     // https://thesis.cs.ut.ee/eefc18a7-fc02-4ec1-9c63-1765db239ef7
     private static List<int[]> genereeriBellmanFordProgramm(int n, int m, int l) {
-        
+
         if (m > n * (n - 1) || m < n - 1) {
             Popups.showError("Kaarte arv pole sobiv.");
             return null;
@@ -557,9 +558,6 @@ public class GraafiGenereerija {
     // Tehisaru pakkus esialgse lahendusidee ja loogika, mida autor kohandas,
     // vastavalt rakenduse nõuetele.
     private static List<String> genereeriEeldus(int n, int m, int minAeg, int maxAeg) {
-        // TODO: See meetod genereerib mõnikord tsüklitega graafi.
-        //  See tuleks ilmselt asendada Arismaa Kahni generaatoril põhineva meetodiga.
-
         int minM = n - 1;
         int maxM = n * (n - 1) / 2;
         if (m < minM || m > maxM) {
@@ -567,32 +565,13 @@ public class GraafiGenereerija {
             return null;
         }
 
+        List<int[]> kaared = genereeriKahnProgramm(n, m);
+        if (kaared == null) return null;
+
         Random r = new Random();
-        boolean[][] olemas = new boolean[n][n];
-        List<int[]> kaared = new ArrayList<>();
-
-        List<Integer> jarjekord = new ArrayList<>();
-        for (int i = 1; i < n; i++) {
-            jarjekord.add(i);
-        }
-        Collections.shuffle(jarjekord, r);
-
-        List<Integer> eelased = new ArrayList<>();
-        eelased.add(0);
-        for (int tipp : jarjekord) {
-            int eellane = eelased.get(r.nextInt(eelased.size()));
-            lisaKaar(kaared, olemas, eellane, tipp);
-            eelased.add(tipp);
-        }
-
-        List<int[]> kandidaadid = koikDagKaared(n);
-        eemaldaOlemasolevad(kandidaadid, olemas, false);
-        Collections.shuffle(kandidaadid, r);
-        while (kaared.size() < m) lisaKaar(kaared, olemas, kandidaadid.remove(kandidaadid.size() - 1));
-
         int[] teisendus = looTeisendus(n, r);
         StringBuilder algus = new StringBuilder("p edge ").append(n).append(" ").append(m);
-        for (int i = 0; i < n; i++) algus.append(" ").append(r.nextInt(maxAeg - minAeg + 1) + minAeg);
+        for (int i = 0; i < n; i++) algus.append(" ").append(r.nextInt(minAeg, maxAeg + 1));
 
         List<String> read = new ArrayList<>();
         read.add(algus.toString());
@@ -600,7 +579,7 @@ public class GraafiGenereerija {
         return read;
     }
 
-    
+
     // Teisendusloogika võetud Uku Hannes Arismaa programmist, meetoditest prindig(...).
     // https://thesis.cs.ut.ee/eefc18a7-fc02-4ec1-9c63-1765db239ef7
     private static List<String> vormindaKaalutaGraaf(int n, List<int[]> kaared) {
@@ -701,7 +680,8 @@ public class GraafiGenereerija {
         private final ArrayList<Integer> votmed = new ArrayList<>();
         private final ArrayList<ArrayList<Integer>> vaartused = new ArrayList<>();
 
-        HashMapIntList(int ignored) {}
+        HashMapIntList(int ignored) {
+        }
 
         void ensure(int voti) {
             if (!votmed.contains(voti)) {
