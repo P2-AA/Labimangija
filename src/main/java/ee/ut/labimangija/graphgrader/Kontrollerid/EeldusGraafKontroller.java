@@ -348,8 +348,7 @@ public class EeldusGraafKontroller {
             String sisendiSisu = sisend.get();
             try {
                 if (Integer.parseInt(sisendiSisu) != oodatud) {
-                    String kontrolliTulemus = "Tipu %s %s peaks olema %d aga on %d".formatted(t.tähis, mida, oodatud,
-                            Integer.parseInt(sisend.get()));
+                    String kontrolliTulemus = "Tipu %s %s on vale".formatted(t.tähis, mida);
                     sammud.add(samm + "\t: Küsin tipu " + t.tähis + " " + mida + ". VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
                     Popups.showError(kontrolliTulemus);

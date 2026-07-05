@@ -30,7 +30,7 @@ public class DijkstraKontroller {
 
     public TippudeKuhi kuhi = new TippudeKuhi();
     public List<Tipp> toodeldud = new ArrayList<>();
-    public List<String> vead = new ArrayList<>(),sammud = new ArrayList<>();
+    public List<String> vead = new ArrayList<>(), sammud = new ArrayList<>();
     public int samm = 1;
 
     public Pane graafiElement;
@@ -90,7 +90,7 @@ public class DijkstraKontroller {
             String sisendiSisu = sisend.get();
             try {
                 if (Integer.parseInt(sisendiSisu) != oodatud) {
-                    String kontrolliTulemus = "Tipu %s kaal peaks olema %d aga on %d".formatted(k.lopp.tähis, oodatud, Integer.parseInt(sisend.get()));
+                    String kontrolliTulemus = "Tipu %s kaal on vale".formatted(k.lopp.tähis);
                     sammud.add(samm + "\t: Küsisin kaalu tipu " + k.lopp.tähis + " kohta. VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
                     Popups.showError(kontrolliTulemus);
@@ -163,8 +163,7 @@ public class DijkstraKontroller {
                     tipp.tipp.kaal = kaal;
                     kuhi.lisa(tipp.tipp);
                     tipp.tipp.setAndmestruktuuris();
-                }
-                else if (k.lopp.seis == TipuSeis.ANDMESTRUKTUURIS) { // Mingi tipp teist korda, potentsiaalne kuhjaparandus
+                } else if (k.lopp.seis == TipuSeis.ANDMESTRUKTUURIS) { // Mingi tipp teist korda, potentsiaalne kuhjaparandus
                     // Kaks juhtu, kui praegune kaal on vaiksem kui uus --> ei tee midagi
                     if (k.lopp.kaal < k.algus.kaal + k.kaal) { // sellisel juhul ootame sisendiks vana kaalu
                         Integer kaal = kysiSisendit(k, k.lopp.kaal);

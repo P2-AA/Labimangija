@@ -112,7 +112,8 @@ public class FWKontroller {
             Text t1 = new Text(g.tipud.get(i).tähis + "\t");
             t1.setFont(new Font(14));
             StackPane p1 = new StackPane(t1);
-            if (i == fikseeritud) p1.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+            if (i == fikseeritud)
+                p1.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
             tabel.add(p1, i + 1, 0);
         }
 
@@ -120,7 +121,8 @@ public class FWKontroller {
             Text t1 = new Text(g.tipud.get(i).tähis + "\t");
             t1.setFont(new Font(14));
             StackPane p1 = new StackPane(t1);
-            if (i == fikseeritud) p1.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+            if (i == fikseeritud)
+                p1.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
             tabel.add(p1, 0, i + 1);
             for (int i1 = 0; i1 < seis.length; i1++) {
                 Button b3 = new Button(seis[i][i1] + "\t");
@@ -130,7 +132,8 @@ public class FWKontroller {
                     b3.addEventFilter(MouseEvent.MOUSE_CLICKED, MouseEvent::consume);
                     b3.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
                 }
-                if (i1 == fikseeritud || i == fikseeritud) b3.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                if (i1 == fikseeritud || i == fikseeritud)
+                    b3.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                 tabel.add(b3, i1 + 1, i + 1);
             }
         }
@@ -143,8 +146,8 @@ public class FWKontroller {
             g.tipud.get(i).tippGraafil.setFill(Color.YELLOW);
             g.tipud.get(j).tippGraafil.setFill(Color.ORANGE);
             int otse = seis[i][j], oodatud;
-            if (seis[i][fikseeritud] != -1 && seis[fikseeritud][j] != - 1 &&
-               (seis[i][fikseeritud] + seis[fikseeritud][j] < otse || otse == -1))
+            if (seis[i][fikseeritud] != -1 && seis[fikseeritud][j] != -1 &&
+                    (seis[i][fikseeritud] + seis[fikseeritud][j] < otse || otse == -1))
                 oodatud = seis[i][fikseeritud] + seis[fikseeritud][j];
             else oodatud = otse;
             Integer kaal = kysiSisendit(g.tipud.get(j), oodatud);
@@ -171,7 +174,7 @@ public class FWKontroller {
             String sisendiSisu = sisend.get();
             try {
                 if (Integer.parseInt(sisendiSisu) != oodatud) {
-                    String kontrolliTulemus = "Tipu %s kaal peaks olema %d aga on %d".formatted(t.tähis, oodatud, Integer.parseInt(sisend.get()));
+                    String kontrolliTulemus = "Tipu %s kaal on vale".formatted(t.tähis);
                     sammud.add(samm + "\t: Küsin tipu " + t.tähis + " kaalu. VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
                     Popups.showError(kontrolliTulemus);
@@ -247,7 +250,7 @@ public class FWKontroller {
 
     public String kontrolli(TippGraafil t) {
         if (t.tipp.seis != TipuSeis.PRAEGUNE) return "Ei ole praegu töödeldav tipp";
-        if (tehtud != (g.tipud.size() - 2)*(g.tipud.size() - 1))
+        if (tehtud != (g.tipud.size() - 2) * (g.tipud.size() - 1))
             return "Midagi on puudu";
 
         tehtud = 0;

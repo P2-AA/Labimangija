@@ -134,8 +134,7 @@ public class BFKontroller {
             String sisendiSisu = sisend.get();
             try {
                 if (Integer.parseInt(sisendiSisu) != oodatud) {
-                    String kontrolliTulemus = "Tipu %s kaal peaks olema %d aga on %d".formatted(k.lopp.tähis, oodatud,
-                            Integer.parseInt(sisend.get()));
+                    String kontrolliTulemus = "Tipu %s kaal on vale".formatted(k.lopp.tähis);
                     sammud.add(samm + "\t: Küsisin kaalu tipu " + k.lopp.tähis + " kohta. VIGA");
                     vead.add(samm++ + "\t: " + kontrolliTulemus);
                     Popups.showError(kontrolliTulemus);
